@@ -124,7 +124,7 @@ public class ApiConfig {
     }
 
     private void loadConfigServer(LoadConfigCallback callback, Activity activity) {
-        OkGo.<String>get("http://192.168.5.1:80/618.txt")
+        OkGo.<String>get("https://ghproxy.futils.com/https://github.com/tvba/m/blob/main/xm")
                 .execute(new AbsCallback<String>() {
                     @Override
                     public void onSuccess(Response<String> response) {
