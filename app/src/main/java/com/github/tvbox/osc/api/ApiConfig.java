@@ -111,7 +111,8 @@ public class ApiConfig {
     private void loadConfigLocal(LoadConfigCallback callback, Activity activity) {
         try {
             StringBuilder sb = new StringBuilder();
-            InputStream is = activity.getAssets().open("cfg.json");
+            InputStream is = activity.getAssets().open("http://v.looktv.vip/cat/xm/xm.json
+");
             BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
             String str;
             while ((str = br.readLine()) != null) {
