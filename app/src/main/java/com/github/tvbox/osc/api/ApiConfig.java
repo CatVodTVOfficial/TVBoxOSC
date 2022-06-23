@@ -124,7 +124,7 @@ public class ApiConfig {
     }
 
     private void loadConfigServer(LoadConfigCallback callback, Activity activity) {
-        OkGo.<String>get("http://10.80.8.70:8890/baddychen/baddychen.json")
+        OkGo.<String>get("http://192.168.2.189:5244/d/mao5/mao111.json")
                 .execute(new AbsCallback<String>() {
                     @Override
                     public void onSuccess(Response<String> response) {
