@@ -3,15 +3,15 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:focusable="true"
-    android:layout_marginBottom="13pt"
+    android:layout_marginBottom="13mm"
     android:focusableInTouchMode="true">
 
     <TextView
         android:id="@+id/keyName"
-        android:layout_width="48pt"
-        android:layout_height="35pt"
+        android:layout_width="48mm"
+        android:layout_height="35mm"
         android:background="@drawable/keyboard_focus"
         android:gravity="center"
         android:textColor="@android:color/white"
-        android:textSize="22pt" />
+        android:textSize="22mm" />
 </FrameLayout>

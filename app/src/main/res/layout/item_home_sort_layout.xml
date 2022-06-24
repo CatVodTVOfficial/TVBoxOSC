@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="45pt"
+    android:layout_height="45mm"
     android:background="@drawable/home_sort_focus"
     android:focusable="true"
     android:focusableInTouchMode="true">
@@ -12,8 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
-        android:paddingLeft="20pt"
-        android:paddingRight="20pt"
+        android:paddingLeft="20mm"
+        android:paddingRight="20mm"
         android:textColor="@color/color_BBFFFFFF"
-        android:textSize="30pt" />
+        android:textSize="30mm" />
 </FrameLayout>

@@ -9,8 +9,8 @@
         android:layout_height="match_parent"
         android:clipChildren="false"
         android:clipToPadding="false"
-        android:paddingLeft="30pt"
-        android:paddingTop="20pt"
-        android:paddingRight="30pt"
-        android:paddingBottom="20pt" />
+        android:paddingLeft="30mm"
+        android:paddingTop="20mm"
+        android:paddingRight="30mm"
+        android:paddingBottom="20mm" />
 </FrameLayout>

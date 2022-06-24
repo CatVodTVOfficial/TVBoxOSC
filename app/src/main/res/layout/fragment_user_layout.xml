@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false"
-    android:clipToPadding="false"
-    android:padding="30pt">
+    android:clipToPadding="false">
 
     <!--
     icon
@@ -24,144 +23,143 @@
     <LinearLayout
         android:id="@+id/tvUserHome"
         android:layout_width="wrap_content"
-        android:layout_height="500pt"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="-10dp"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:focusable="false"
         android:focusableInTouchMode="false"
-        android:orientation="horizontal"
-        android:paddingTop="20pt"
-        android:paddingBottom="20pt">
+        android:orientation="horizontal">
 
         <FrameLayout
-            android:layout_width="280pt"
-            android:layout_height="match_parent"
+            android:id="@+id/tvHistory"
+            android:layout_width="@dimen/vs_240"
+            android:layout_height="@dimen/vs_320"
             android:layout_gravity="center"
-            android:layout_margin="10pt"
+            android:layout_margin="@dimen/vs_10"
+            android:background="@drawable/user_focus"
             android:clipChildren="false"
             android:clipToPadding="false"
-            android:focusable="false"
-            android:focusableInTouchMode="false">
+            android:focusable="true"
+            android:focusableInTouchMode="true">
 
             <TextView
-                android:id="@+id/tvHistory"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/user_focus"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginBottom="@dimen/vs_20"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 android:gravity="center"
-                android:paddingTop="350pt"
                 android:text="历史记录"
                 android:textColor="@color/color_CCFFFFFF"
-                android:textSize="36pt" />
+                android:textSize="@dimen/ts_30" />
 
             <ImageView
-                android:layout_width="160pt"
-                android:layout_height="160pt"
+                android:layout_width="@dimen/vs_130"
+                android:layout_height="@dimen/vs_130"
                 android:layout_gravity="center"
-                android:layout_marginBottom="20pt"
+                android:layout_marginBottom="@dimen/vs_30"
                 android:alpha="0.75"
                 android:src="@drawable/ic_history" />
         </FrameLayout>
 
         <FrameLayout
-            android:layout_width="280pt"
-            android:layout_height="match_parent"
+            android:id="@+id/tvLive"
+            android:layout_width="@dimen/vs_240"
+            android:layout_height="@dimen/vs_320"
             android:layout_gravity="center"
-            android:layout_margin="10pt"
+            android:layout_margin="@dimen/vs_10"
+            android:background="@drawable/user_focus"
             android:clipChildren="false"
             android:clipToPadding="false"
-            android:focusable="false"
-            android:focusableInTouchMode="false">
+            android:focusable="true"
+            android:focusableInTouchMode="true">
 
             <TextView
-                android:id="@+id/tvLive"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:background="@drawable/user_focus"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginBottom="@dimen/vs_20"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 android:gravity="center"
-                android:paddingTop="350pt"
                 android:text="直播"
                 android:textColor="@color/color_CCFFFFFF"
-                android:textSize="36pt" />
+                android:textSize="@dimen/ts_30" />
 
             <ImageView
-                android:layout_width="160pt"
-                android:layout_height="160pt"
+                android:layout_width="@dimen/vs_130"
+                android:layout_height="@dimen/vs_130"
                 android:layout_gravity="center"
-                android:layout_marginBottom="20pt"
+                android:layout_marginBottom="@dimen/vs_30"
                 android:alpha="0.75"
                 android:src="@drawable/ic_tv" />
         </FrameLayout>
 
         <FrameLayout
-            android:layout_width="280pt"
-            android:layout_height="match_parent"
+            android:id="@+id/tvSearch"
+            android:layout_width="@dimen/vs_240"
+            android:layout_height="@dimen/vs_320"
             android:layout_gravity="center"
-            android:layout_margin="10pt"
+            android:layout_margin="@dimen/vs_10"
+            android:background="@drawable/user_focus"
             android:clipChildren="false"
             android:clipToPadding="false"
-            android:focusable="false"
-            android:focusableInTouchMode="false">
+            android:focusable="true"
+            android:focusableInTouchMode="true">
 
             <TextView
-                android:id="@+id/tvSearch"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:background="@drawable/user_focus"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginBottom="@dimen/vs_20"
+
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 android:gravity="center"
-                android:paddingTop="350pt"
                 android:text="搜索"
                 android:textColor="@color/color_CCFFFFFF"
-                android:textSize="36pt" />
+                android:textSize="@dimen/ts_30" />
 
             <ImageView
-                android:layout_width="150pt"
-                android:layout_height="150pt"
+                android:layout_width="@dimen/vs_130"
+                android:layout_height="@dimen/vs_130"
                 android:layout_gravity="center"
-                android:layout_marginBottom="20pt"
+                android:layout_marginBottom="@dimen/vs_30"
                 android:alpha="0.75"
                 android:src="@drawable/ic_search1" />
         </FrameLayout>
 
         <FrameLayout
-            android:layout_width="280pt"
-            android:layout_height="match_parent"
+            android:id="@+id/tvSetting"
+            android:layout_width="@dimen/vs_240"
+            android:layout_height="@dimen/vs_320"
             android:layout_gravity="center"
-            android:layout_margin="10pt"
+            android:layout_margin="@dimen/vs_10"
+            android:background="@drawable/user_focus"
             android:clipChildren="false"
             android:clipToPadding="false"
-            android:focusable="false"
-            android:focusableInTouchMode="false">
+            android:focusable="true"
+            android:focusableInTouchMode="true">
 
             <TextView
-                android:id="@+id/tvSetting"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:background="@drawable/user_focus"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginBottom="@dimen/vs_20"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 android:gravity="center"
-                android:paddingTop="350pt"
                 android:text="设置"
                 android:textColor="@color/color_CCFFFFFF"
-                android:textSize="36pt" />
+                android:textSize="@dimen/ts_30" />
 
             <ImageView
-                android:layout_width="150pt"
-                android:layout_height="150pt"
+                android:layout_width="@dimen/vs_130"
+                android:layout_height="@dimen/vs_130"
                 android:layout_gravity="center"
-                android:layout_marginBottom="20pt"
+                android:layout_marginBottom="@dimen/vs_30"
                 android:alpha="0.75"
                 android:src="@drawable/ic_setting" />
         </FrameLayout>

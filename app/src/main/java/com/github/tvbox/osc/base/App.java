@@ -41,7 +41,7 @@ public class App extends MultiDexApplication {
         AutoSizeConfig.getInstance().getUnitsManager()
                 .setSupportDP(false)
                 .setSupportSP(false)
-                .setSupportSubunits(Subunits.PT);
+                .setSupportSubunits(Subunits.MM);
         PlayerHelper.init();
     }
 

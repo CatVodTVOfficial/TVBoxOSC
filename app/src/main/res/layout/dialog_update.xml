@@ -5,15 +5,15 @@
     android:layout_gravity="center"
     android:background="@drawable/model_dialog_bg"
     android:orientation="vertical"
-    android:padding="30pt">
+    android:padding="30mm">
 
     <TextView
         android:id="@+id/updateInfo"
-        android:layout_width="240pt"
-        android:layout_height="100pt"
+        android:layout_width="240mm"
+        android:layout_height="100mm"
         android:gravity="center"
         android:lineSpacingMultiplier="1.2"
         android:textColor="@android:color/white"
-        android:textSize="18pt" />
+        android:textSize="18mm" />
 
 </LinearLayout>

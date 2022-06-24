@@ -1,6 +1,6 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="180pt"
-    android:layout_height="30pt"
+    android:layout_width="180mm"
+    android:layout_height="30mm"
     android:background="@drawable/splash_focus"
     android:focusable="true"
     android:focusableInTouchMode="true">
@@ -10,20 +10,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="left|center_vertical"
-        android:paddingLeft="8pt"
+        android:paddingLeft="8mm"
         android:text="111"
         android:textColor="@android:color/black"
-        android:textSize="18pt" />
+        android:textSize="18mm" />
 
     <TextView
         android:id="@+id/tvSortSelect"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="right|center_vertical"
-        android:paddingRight="8pt"
+        android:paddingRight="8mm"
         android:text="☆"
         android:textColor="@color/color_6200EE"
-        android:textSize="18pt">
+        android:textSize="18mm">
 
     </TextView>
 </FrameLayout>

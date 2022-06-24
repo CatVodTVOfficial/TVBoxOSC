@@ -6,56 +6,56 @@
     android:orientation="horizontal">
 
     <LinearLayout
-        android:layout_width="428pt"
+        android:layout_width="428mm"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="60pt"
-            android:layout_marginTop="30pt"
+            android:layout_marginLeft="60mm"
+            android:layout_marginTop="30mm"
             android:drawableLeft="@drawable/search_line"
-            android:drawablePadding="10pt"
+            android:drawablePadding="10mm"
             android:gravity="center"
             android:text="搜索"
             android:textColor="@android:color/white"
-            android:textSize="24pt"
+            android:textSize="24mm"
             android:textStyle="bold" />
 
         <LinearLayout
-            android:layout_width="308pt"
+            android:layout_width="308mm"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="60pt"
-            android:layout_marginTop="20pt"
-            android:layout_marginRight="60pt"
+            android:layout_marginLeft="60mm"
+            android:layout_marginTop="20mm"
+            android:layout_marginRight="60mm"
             android:gravity="center_vertical"
             android:orientation="vertical">
 
             <EditText
                 android:id="@+id/etSearch"
                 android:layout_width="match_parent"
-                android:layout_height="50pt"
+                android:layout_height="50mm"
                 android:background="@drawable/search"
                 android:hint="请输入影片名称"
                 android:inputType="text"
                 android:maxLines="1"
-                android:paddingLeft="10pt"
-                android:paddingRight="10pt"
+                android:paddingLeft="10mm"
+                android:paddingRight="10mm"
                 android:textColor="@android:color/white"
                 android:textColorHint="#99FFFFFF"
-                android:textSize="20pt" />
+                android:textSize="20mm" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50pt"
-                android:layout_marginTop="20pt"
+                android:layout_height="50mm"
+                android:layout_marginTop="20mm"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/tvSearch"
-                    android:layout_width="0pt"
-                    android:layout_height="50pt"
+                    android:layout_width="0mm"
+                    android:layout_height="50mm"
                     android:layout_weight="1"
                     android:background="@drawable/search_focus"
                     android:focusable="true"
@@ -63,16 +63,16 @@
                     android:gravity="center"
                     android:text="搜索"
                     android:textColor="@android:color/white"
-                    android:textSize="20pt" />
+                    android:textSize="20mm" />
 
                 <Space
-                    android:layout_width="10pt"
+                    android:layout_width="10mm"
                     android:layout_height="wrap_content" />
 
                 <TextView
                     android:id="@+id/tvClear"
-                    android:layout_width="0pt"
-                    android:layout_height="50pt"
+                    android:layout_width="0mm"
+                    android:layout_height="50mm"
                     android:layout_weight="1"
                     android:background="@drawable/search_focus"
                     android:focusable="true"
@@ -80,56 +80,56 @@
                     android:gravity="center"
                     android:text="清空"
                     android:textColor="@android:color/white"
-                    android:textSize="20pt" />
+                    android:textSize="20mm" />
             </LinearLayout>
         </LinearLayout>
 
         <TextView
             android:id="@+id/tvAddress"
-            android:layout_width="300pt"
+            android:layout_width="300mm"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20pt"
+            android:layout_marginTop="20mm"
             android:gravity="center_horizontal"
             android:lineSpacingMultiplier="1.4"
             android:textColor="@android:color/white"
-            android:textSize="20pt" />
+            android:textSize="20mm" />
 
         <ImageView
             android:id="@+id/ivQRCode"
-            android:layout_width="300pt"
-            android:layout_height="300pt"
+            android:layout_width="300mm"
+            android:layout_height="300mm"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20pt" />
+            android:layout_marginTop="20mm" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/llLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="20pt"
-        android:layout_marginRight="60pt"
+        android:layout_marginLeft="20mm"
+        android:layout_marginRight="60mm"
         android:orientation="vertical"
-        android:paddingTop="30pt">
+        android:paddingTop="30mm">
 
         <TextView
             android:id="@+id/tvName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@android:color/white"
-            android:textSize="24pt" />
+            android:textSize="24mm" />
 
         <com.owen.tvrecyclerview.widget.TvRecyclerView
             android:id="@+id/mGridView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="10pt"
+            android:layout_marginTop="10mm"
             android:clipChildren="false"
             android:clipToPadding="false"
-            android:paddingBottom="30pt"
+            android:paddingBottom="30mm"
             android:visibility="invisible"
-            app:tv_horizontalSpacingWithMargins="5pt"
+            app:tv_horizontalSpacingWithMargins="5mm"
             app:tv_selectedItemIsCentered="true"
-            app:tv_verticalSpacingWithMargins="5pt" />
+            app:tv_verticalSpacingWithMargins="5mm" />
     </LinearLayout>
 </LinearLayout>

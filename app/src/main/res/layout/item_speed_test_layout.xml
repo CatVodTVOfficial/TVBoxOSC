@@ -9,28 +9,28 @@
     <TextView
         android:id="@+id/tvName"
         android:layout_width="wrap_content"
-        android:layout_height="40pt"
+        android:layout_height="40mm"
         android:layout_gravity="left|center_vertical"
         android:ellipsize="end"
         android:gravity="center_vertical"
-        android:paddingLeft="10pt"
-        android:paddingRight="10pt"
+        android:paddingLeft="10mm"
+        android:paddingRight="10mm"
         android:singleLine="true"
         android:text="11111"
         android:textColor="@android:color/white"
-        android:textSize="20pt" />
+        android:textSize="20mm" />
 
     <TextView
         android:id="@+id/tvSpeed"
         android:layout_width="wrap_content"
-        android:layout_height="40pt"
+        android:layout_height="40mm"
         android:layout_gravity="right|center_vertical"
         android:ellipsize="end"
         android:gravity="center_vertical"
-        android:paddingLeft="10pt"
-        android:paddingRight="10pt"
+        android:paddingLeft="10mm"
+        android:paddingRight="10mm"
         android:singleLine="true"
         android:text="11111"
         android:textColor="@android:color/white"
-        android:textSize="20pt" />
+        android:textSize="20mm" />
 </FrameLayout>

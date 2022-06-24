@@ -2,19 +2,19 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="10pt"
+    android:layout_marginBottom="10mm"
     android:background="@drawable/setting_sort_focus"
     android:focusable="true"
     android:focusableInTouchMode="true">
 
     <TextView
         android:id="@+id/tvName"
-        android:layout_width="170pt"
-        android:layout_height="40pt"
+        android:layout_width="170mm"
+        android:layout_height="40mm"
         android:gravity="center"
-        android:paddingLeft="5pt"
-        android:paddingRight="5pt"
+        android:paddingLeft="5mm"
+        android:paddingRight="5mm"
         android:singleLine="true"
         android:textColor="@color/color_CCFFFFFF"
-        android:textSize="24pt" />
+        android:textSize="24mm" />
 </FrameLayout>

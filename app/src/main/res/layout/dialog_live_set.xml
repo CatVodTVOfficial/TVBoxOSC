@@ -5,18 +5,18 @@
     android:layout_gravity="center"
     android:background="@drawable/model_dialog_bg"
     android:orientation="vertical"
-    android:padding="30pt">
+    android:padding="30mm">
 
     <TextView
         android:id="@+id/tvSrcDel"
-        android:layout_width="300pt"
-        android:layout_height="40pt"
+        android:layout_width="300mm"
+        android:layout_height="40mm"
         android:background="@drawable/splash_focus"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:gravity="center"
         android:text="删除直播源"
         android:textColor="@android:color/black"
-        android:textSize="18pt" />
+        android:textSize="18mm" />
 
 </LinearLayout>
