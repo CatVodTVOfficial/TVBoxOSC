@@ -7,21 +7,21 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10pt"
+        android:layout_marginTop="10mm"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="50pt"
-            android:layout_marginLeft="60pt"
+            android:layout_height="50mm"
+            android:layout_marginLeft="60mm"
             android:drawableLeft="@drawable/search_line"
-            android:drawablePadding="10pt"
+            android:drawablePadding="10mm"
             android:gravity="center"
             android:text="历史记录"
             android:textColor="@android:color/white"
-            android:textSize="24pt"
+            android:textSize="24mm"
             android:textStyle="bold" />
 
         <Space
@@ -32,42 +32,42 @@
         <TextView
             android:id="@+id/tvDelTip"
             android:layout_width="wrap_content"
-            android:layout_height="40pt"
+            android:layout_height="40mm"
             android:layout_gravity="center"
-            android:layout_marginRight="10pt"
+            android:layout_marginRight="10mm"
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:gravity="center"
             android:text="确定键删除当前选中记录"
             android:textColor="@android:color/white"
-            android:textSize="24pt"
+            android:textSize="24mm"
             android:visibility="gone" />
 
         <TextView
             android:id="@+id/tvDel"
-            android:layout_width="160pt"
-            android:layout_height="40pt"
+            android:layout_width="160mm"
+            android:layout_height="40mm"
             android:layout_gravity="center"
-            android:layout_marginRight="60pt"
+            android:layout_marginRight="60mm"
             android:background="@drawable/source_focus"
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:gravity="center"
             android:text="删除记录"
             android:textColor="@android:color/white"
-            android:textSize="24pt" />
+            android:textSize="24mm" />
     </LinearLayout>
 
     <com.owen.tvrecyclerview.widget.TvRecyclerView
         android:id="@+id/mGridView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="70pt"
-        android:paddingLeft="60pt"
-        android:paddingTop="30pt"
-        android:paddingRight="60pt"
-        android:paddingBottom="30pt"
-        app:tv_horizontalSpacingWithMargins="20pt"
+        android:layout_marginTop="70mm"
+        android:paddingLeft="60mm"
+        android:paddingTop="30mm"
+        android:paddingRight="60mm"
+        android:paddingBottom="30mm"
+        app:tv_horizontalSpacingWithMargins="20mm"
         app:tv_selectedItemIsCentered="true"
-        app:tv_verticalSpacingWithMargins="30pt" />
+        app:tv_verticalSpacingWithMargins="30mm" />
 </FrameLayout>

@@ -3,7 +3,9 @@ package com.github.tvbox.osc.base;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -21,6 +23,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import me.jessyan.autosize.AutoSizeCompat;
+
 /**
  * @author pj567
  * @date :2020/12/17
@@ -37,6 +41,14 @@ public abstract class BaseActivity extends AppCompatActivity {
         mContext = this;
         AppManager.getInstance().addActivity(this);
         init();
+    }
+
+    @Override
+    public Resources getResources() {
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            AutoSizeCompat.autoConvertDensityOfGlobal(super.getResources());
+        }
+        return super.getResources();
     }
 
     public boolean hasPermission(String permission) {

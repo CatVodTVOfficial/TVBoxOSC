@@ -9,20 +9,20 @@
         android:layout_gravity="center"
         android:background="@drawable/remote_dialog_bg"
         android:orientation="horizontal"
-        android:padding="30pt">
+        android:padding="30mm">
 
         <ImageView
             android:id="@+id/ivQRCode"
-            android:layout_width="200pt"
-            android:layout_height="200pt" />
+            android:layout_width="200mm"
+            android:layout_height="200mm" />
 
         <TextView
             android:id="@+id/tvAddress"
-            android:layout_width="260pt"
+            android:layout_width="260mm"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20pt"
+            android:layout_marginLeft="20mm"
             android:lineSpacingMultiplier="1.5"
             android:textColor="@android:color/white"
-            android:textSize="20pt" />
+            android:textSize="20mm" />
     </LinearLayout>
 </FrameLayout>

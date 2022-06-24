@@ -2,32 +2,32 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:layout_marginLeft="5pt"
+    android:layout_marginLeft="5mm"
     android:background="@drawable/source_flag_focus"
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
-    android:paddingLeft="10pt"
-    android:paddingRight="10pt">
+    android:paddingLeft="10mm"
+    android:paddingRight="10mm">
 
     <TextView
         android:id="@+id/tvSeriesFlag"
         android:layout_width="wrap_content"
-        android:layout_height="30pt"
+        android:layout_height="30mm"
         android:ellipsize="end"
         android:gravity="center"
-        android:paddingLeft="5pt"
-        android:paddingRight="5pt"
+        android:paddingLeft="5mm"
+        android:paddingRight="5mm"
         android:singleLine="true"
         android:text="11111111111"
         android:textColor="@android:color/white"
-        android:textSize="18pt" />
+        android:textSize="18mm" />
 
     <View
         android:id="@+id/tvSeriesFlagSelect"
         android:layout_width="match_parent"
-        android:layout_height="4pt"
-        android:layout_marginLeft="5pt"
-        android:layout_marginRight="5pt"
+        android:layout_height="4mm"
+        android:layout_marginLeft="5mm"
+        android:layout_marginRight="5mm"
         android:background="@drawable/source_flag_line" />
 </LinearLayout>

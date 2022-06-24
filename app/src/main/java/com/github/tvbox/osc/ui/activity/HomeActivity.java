@@ -30,6 +30,7 @@ import com.github.tvbox.osc.base.BaseActivity;
 import com.github.tvbox.osc.base.BaseLazyFragment;
 import com.github.tvbox.osc.bean.AbsSortXml;
 import com.github.tvbox.osc.bean.MovieSort;
+import com.github.tvbox.osc.event.RefreshEvent;
 import com.github.tvbox.osc.event.ServerEvent;
 import com.github.tvbox.osc.event.TopStateEvent;
 import com.github.tvbox.osc.server.ControlManager;
@@ -98,6 +99,7 @@ public class HomeActivity extends BaseActivity {
     @Override
     protected void init() {
         EventBus.getDefault().register(this);
+        ControlManager.get().startServer();
         initView();
         initViewModel();
         initData();
@@ -215,7 +217,6 @@ public class HomeActivity extends BaseActivity {
 
     private void initData() {
         if (dataInitOk && jarInitOk) {
-            ControlManager.get().startServer();
             showLoading();
             sourceViewModel.getSort(ApiConfig.get().getHomeSourceBean().getKey());
             if (hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
@@ -228,7 +229,6 @@ public class HomeActivity extends BaseActivity {
         showLoading();
         if (dataInitOk) {
             if (!ApiConfig.get().getSpider().isEmpty()) {
-
                 ApiConfig.get().loadJar(ApiConfig.get().getSpider(), new ApiConfig.LoadConfigCallback() {
                     @Override
                     public void success() {
@@ -396,6 +396,13 @@ public class HomeActivity extends BaseActivity {
     public void changeTop(TopStateEvent event) {
         if (event.type == TopStateEvent.TYPE_TOP) {
             changeTop(false);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void refresh(RefreshEvent event) {
+        if (event.type == RefreshEvent.TYPE_API_URL_CHANGE) {
+            Toast.makeText(mContext, "配置地址设置为" + (String) event.obj + ",重启应用生效!", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -4,68 +4,68 @@
     android:layout_height="wrap_content"
     android:background="@drawable/user_focus"
     android:focusable="true"
-    android:padding="1pt">
+    android:padding="1mm">
 
     <FrameLayout
-        android:layout_width="212pt"
-        android:layout_height="300pt">
+        android:layout_width="212mm"
+        android:layout_height="300mm">
 
         <ImageView
             android:id="@+id/ivThumb"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="1pt"
+            android:padding="1mm"
             android:scaleType="fitXY" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10pt"
-            android:layout_marginTop="10pt"
-            android:layout_marginRight="10pt"
+            android:layout_marginLeft="10mm"
+            android:layout_marginTop="10mm"
+            android:layout_marginRight="10mm"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tvYear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10pt"
+                android:layout_marginRight="10mm"
                 android:background="@drawable/year_shape"
                 android:ellipsize="end"
                 android:gravity="center"
-                android:paddingLeft="5pt"
-                android:paddingRight="5pt"
+                android:paddingLeft="5mm"
+                android:paddingRight="5mm"
                 android:singleLine="true"
                 android:textColor="@android:color/white"
-                android:textSize="16pt" />
+                android:textSize="16mm" />
 
             <TextView
                 android:id="@+id/tvArea"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10pt"
+                android:layout_marginRight="10mm"
                 android:background="@drawable/lang_shape"
                 android:ellipsize="end"
                 android:gravity="center"
-                android:paddingLeft="5pt"
-                android:paddingRight="5pt"
+                android:paddingLeft="5mm"
+                android:paddingRight="5mm"
                 android:singleLine="true"
                 android:textColor="@android:color/white"
-                android:textSize="16pt" />
+                android:textSize="16mm" />
 
             <TextView
                 android:id="@+id/tvLang"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10pt"
+                android:layout_marginRight="10mm"
                 android:background="@drawable/year_shape"
                 android:ellipsize="end"
                 android:gravity="center"
-                android:paddingLeft="5pt"
-                android:paddingRight="5pt"
+                android:paddingLeft="5mm"
+                android:paddingRight="5mm"
                 android:singleLine="true"
                 android:textColor="@android:color/white"
-                android:textSize="16pt" />
+                android:textSize="16mm" />
 
         </LinearLayout>
 
@@ -75,24 +75,24 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:orientation="vertical"
-            android:padding="1pt">
+            android:padding="1mm">
 
             <TextView
                 android:id="@+id/tvNote"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:layout_marginLeft="10pt"
-                android:layout_marginRight="10pt"
-                android:layout_marginBottom="10pt"
+                android:layout_marginLeft="10mm"
+                android:layout_marginRight="10mm"
+                android:layout_marginBottom="10mm"
                 android:background="@drawable/note_shape"
                 android:ellipsize="end"
                 android:gravity="center"
-                android:paddingLeft="5pt"
-                android:paddingRight="5pt"
+                android:paddingLeft="5mm"
+                android:paddingRight="5mm"
                 android:singleLine="true"
                 android:textColor="@android:color/white"
-                android:textSize="16pt" />
+                android:textSize="16mm" />
 
             <TextView
                 android:id="@+id/tvName"
@@ -101,10 +101,10 @@
                 android:background="@drawable/bottom_shape"
                 android:ellipsize="marquee"
                 android:marqueeRepeatLimit="marquee_forever"
-                android:padding="5pt"
+                android:padding="5mm"
                 android:singleLine="true"
                 android:textColor="@android:color/white"
-                android:textSize="20pt" />
+                android:textSize="20mm" />
 
             <TextView
                 android:id="@+id/tvActor"
@@ -113,10 +113,10 @@
                 android:background="@drawable/bottom_shape"
                 android:ellipsize="end"
                 android:gravity="top"
-                android:padding="5pt"
+                android:padding="5mm"
                 android:singleLine="true"
                 android:textColor="@android:color/white"
-                android:textSize="16pt"
+                android:textSize="16mm"
                 android:visibility="gone" />
         </LinearLayout>
     </FrameLayout>

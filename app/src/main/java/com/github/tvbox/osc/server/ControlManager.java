@@ -5,18 +5,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 
-import com.github.tvbox.osc.receiver.CustomWebReceiver;
-import com.github.tvbox.osc.receiver.ProjectionReceiver;
+import com.github.tvbox.osc.event.RefreshEvent;
 import com.github.tvbox.osc.receiver.SearchReceiver;
-import com.github.tvbox.osc.ui.activity.HomeActivity;
-import com.github.tvbox.osc.util.AppManager;
+import com.github.tvbox.osc.util.HawkConfig;
+import com.orhanobut.hawk.Hawk;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
-
-import static com.github.tvbox.osc.server.RequestProcess.KEY_ACTION_DOWN;
-import static com.github.tvbox.osc.server.RequestProcess.KEY_ACTION_PRESSED;
 
 /**
  * @author pj567
@@ -47,6 +44,10 @@ public class ControlManager {
         mContext = context;
     }
 
+    public String getAddress(boolean local) {
+        return local ? mServer.getLoadAddress() : mServer.getServerAddress();
+    }
+
     public void startServer() {
         if (mServer != null) {
             return;
@@ -54,21 +55,6 @@ public class ControlManager {
         do {
             mServer = new RemoteServer(RemoteServer.serverPort, mContext);
             mServer.setDataReceiver(new DataReceiver() {
-                @Override
-                public void onKeyEventReceived(String keyCode, final int keyAction) {
-                    if (keyCode != null) {
-                        final int kc = KeyEvent.keyCodeFromString(keyCode);
-                        if (kc != KeyEvent.KEYCODE_UNKNOWN) {
-                            switch (keyAction) {
-                                case KEY_ACTION_PRESSED:
-                                case KEY_ACTION_DOWN:
-                                    sendKeyCode(kc);
-                                    break;
-                            }
-                        }
-                    }
-                }
-
                 @Override
                 public void onTextReceived(String text) {
                     if (!TextUtils.isEmpty(text)) {
@@ -84,67 +70,9 @@ public class ControlManager {
                 }
 
                 @Override
-                public void onProjectionReceived(String text) {
-                    if (!TextUtils.isEmpty(text)) {
-                        Intent intent = new Intent();
-                        Bundle bundle = new Bundle();
-                        bundle.putString("html", text);
-                        intent.setAction(ProjectionReceiver.action);
-                        intent.setPackage(mContext.getPackageName());
-                        intent.setComponent(new ComponentName(mContext, ProjectionReceiver.class));
-                        intent.putExtras(bundle);
-                        mContext.sendBroadcast(intent);
-                    }
-                }
-
-                @Override
-                public void onSourceReceived(String name, String api, String play, String type) {
-                    if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(api)) {
-                        Intent intent = new Intent();
-                        Bundle bundle = new Bundle();
-                        bundle.putString("action", CustomWebReceiver.REFRESH_SOURCE);
-                        bundle.putString("name", name);
-                        bundle.putString("api", api);
-                        bundle.putString("play", play);
-                        bundle.putInt("type", Integer.parseInt(type));
-                        intent.setAction(CustomWebReceiver.action);
-                        intent.setPackage(mContext.getPackageName());
-                        intent.setComponent(new ComponentName(mContext, CustomWebReceiver.class));
-                        intent.putExtras(bundle);
-                        mContext.sendBroadcast(intent);
-                    }
-                }
-
-                @Override
-                public void onLiveReceived(String name, String url) {
-                    if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(url)) {
-                        Intent intent = new Intent();
-                        Bundle bundle = new Bundle();
-                        bundle.putString("action", CustomWebReceiver.REFRESH_LIVE);
-                        bundle.putString("name", name);
-                        bundle.putString("url", url);
-                        intent.setAction(CustomWebReceiver.action);
-                        intent.setPackage(mContext.getPackageName());
-                        intent.setComponent(new ComponentName(mContext, CustomWebReceiver.class));
-                        intent.putExtras(bundle);
-                        mContext.sendBroadcast(intent);
-                    }
-                }
-
-                @Override
-                public void onParseReceived(String name, String url) {
-                    if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(url)) {
-                        Intent intent = new Intent();
-                        Bundle bundle = new Bundle();
-                        bundle.putString("action", CustomWebReceiver.REFRESH_PARSE);
-                        bundle.putString("name", name);
-                        bundle.putString("url", url);
-                        intent.setAction(CustomWebReceiver.action);
-                        intent.setPackage(mContext.getPackageName());
-                        intent.setComponent(new ComponentName(mContext, CustomWebReceiver.class));
-                        intent.putExtras(bundle);
-                        mContext.sendBroadcast(intent);
-                    }
+                public void onApiReceived(String url) {
+                    Hawk.put(HawkConfig.API_URL, url);
+                    EventBus.getDefault().post(new RefreshEvent(RefreshEvent.TYPE_API_URL_CHANGE, url));
                 }
             });
             try {
@@ -155,15 +83,6 @@ public class ControlManager {
                 mServer.stop();
             }
         } while (RemoteServer.serverPort < 9999);
-    }
-
-    private void sendKeyCode(int keyCode) {
-        if (keyCode == KeyEvent.KEYCODE_HOME) {
-            //拦截HOME键
-            AppManager.getInstance().backActivity(HomeActivity.class);
-        } else {
-            ShellUtils.execCommand("input keyevent " + keyCode, false);
-        }
     }
 
     public void stopServer() {

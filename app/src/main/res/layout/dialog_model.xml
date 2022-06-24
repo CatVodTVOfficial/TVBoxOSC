@@ -5,53 +5,53 @@
     android:layout_gravity="center"
     android:background="@drawable/model_dialog_bg"
     android:orientation="vertical"
-    android:padding="30pt">
+    android:padding="30mm">
 
     <TextView
-        android:layout_width="300pt"
+        android:layout_width="300mm"
         android:layout_height="wrap_content"
         android:text="免责声明,打开青少年模式出现任何问题与作者无关,自行负责"
         android:gravity="center"
         android:lineSpacingMultiplier="1.2"
         android:textColor="@android:color/white"
-        android:textSize="18pt" />
+        android:textSize="18mm" />
 
     <EditText
         android:id="@+id/etPassword"
-        android:layout_width="300pt"
-        android:layout_height="40pt"
+        android:layout_width="300mm"
+        android:layout_height="40mm"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/password_shape"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:gravity="center_vertical"
         android:hint="请输入密码"
-        android:layout_marginTop="20pt"
+        android:layout_marginTop="20mm"
         android:inputType="textPassword"
         android:maxLines="1"
-        android:paddingLeft="10pt"
-        android:paddingRight="10pt"
+        android:paddingLeft="10mm"
+        android:paddingRight="10mm"
         android:textColor="@android:color/black"
-        android:textSize="20pt" />
+        android:textSize="20mm" />
 
     <LinearLayout
-        android:layout_width="300pt"
-        android:layout_height="40pt"
+        android:layout_width="300mm"
+        android:layout_height="40mm"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30pt"
+        android:layout_marginTop="30mm"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/tvConfirm"
-            android:layout_width="120pt"
-            android:layout_height="40pt"
+            android:layout_width="120mm"
+            android:layout_height="40mm"
             android:background="@drawable/splash_focus"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:gravity="center"
             android:text="确定"
             android:textColor="@android:color/black"
-            android:textSize="18pt" />
+            android:textSize="18mm" />
 
         <Space
             android:layout_width="0dp"
@@ -60,14 +60,14 @@
 
         <TextView
             android:id="@+id/tvCancel"
-            android:layout_width="120pt"
-            android:layout_height="40pt"
+            android:layout_width="120mm"
+            android:layout_height="40mm"
             android:background="@drawable/splash_focus"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:gravity="center"
             android:text="取消"
             android:textColor="@android:color/black"
-            android:textSize="18pt" />
+            android:textSize="18mm" />
     </LinearLayout>
 </LinearLayout>

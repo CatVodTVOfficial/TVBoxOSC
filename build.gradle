@@ -1,8 +1,9 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     repositories {
+        gradlePluginPortal()
         google()
-        jcenter()
+        mavenCentral()
         maven { url "https://jitpack.io" }
         maven { url 'https://download.01.org/crosswalk/releases/crosswalk/android/maven2' }
     }
@@ -16,8 +17,9 @@ buildscript {
 
 allprojects {
     repositories {
+        gradlePluginPortal()
         google()
-        jcenter()
+        mavenCentral()
         maven { url "https://jitpack.io" }
         maven { url 'https://download.01.org/crosswalk/releases/crosswalk/android/maven2' }
     }

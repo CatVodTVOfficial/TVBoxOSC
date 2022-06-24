@@ -133,10 +133,10 @@
         android:layout_height="wrap_content"
         android:background="@drawable/box_controller_top_bg"
         android:orientation="horizontal"
-        android:paddingLeft="12pt"
-        android:paddingTop="10pt"
-        android:paddingRight="12pt"
-        android:paddingBottom="10pt">
+        android:paddingLeft="12mm"
+        android:paddingTop="10mm"
+        android:paddingRight="12mm"
+        android:paddingBottom="10mm">
 
         <TextView
             android:id="@+id/tv_info_name"
@@ -145,7 +145,7 @@
             android:layout_gravity="left"
             android:text="http://"
             android:textColor="@android:color/white"
-            android:textSize="24pt" />
+            android:textSize="24mm" />
 
         <TextView
             android:id="@+id/tv_info_hint"
@@ -154,13 +154,13 @@
             android:layout_gravity="right"
             android:text="按上下键可以换集"
             android:textColor="@android:color/white"
-            android:textSize="24pt" />
+            android:textSize="24mm" />
     </FrameLayout>
 
     <LinearLayout
         android:id="@+id/tv_pause_container"
-        android:layout_width="320pt"
-        android:layout_height="240pt"
+        android:layout_width="320mm"
+        android:layout_height="240mm"
         android:layout_gravity="center"
         android:background="@drawable/model_dialog_bg"
         android:focusable="false"
@@ -171,8 +171,8 @@
         tools:visibility="visible">
 
         <ImageView
-            android:layout_width="120pt"
-            android:layout_height="120pt"
+            android:layout_width="120mm"
+            android:layout_height="120mm"
             android:layout_gravity="center"
             android:focusable="false"
             android:focusableInTouchMode="false"
@@ -183,18 +183,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="20pt"
+            android:layout_marginTop="20mm"
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:textColor="@android:color/white"
-            android:textSize="30pt"
+            android:textSize="30mm"
             tools:text="100" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/tv_progress_container"
-        android:layout_width="320pt"
-        android:layout_height="240pt"
+        android:layout_width="320mm"
+        android:layout_height="240mm"
         android:layout_gravity="center"
         android:background="@drawable/model_dialog_bg"
         android:focusable="false"
@@ -206,8 +206,8 @@
 
         <ImageView
             android:id="@+id/tv_progress_icon"
-            android:layout_width="120pt"
-            android:layout_height="120pt"
+            android:layout_width="120mm"
+            android:layout_height="120mm"
             android:focusable="false"
             android:focusableInTouchMode="false"
             tools:src="@drawable/ic_back" />
@@ -217,11 +217,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="20pt"
+            android:layout_marginTop="20mm"
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:textColor="@android:color/white"
-            android:textSize="30pt"
+            android:textSize="30mm"
             tools:text="100" />
 
     </LinearLayout>
@@ -229,7 +229,7 @@
     <LinearLayout
         android:id="@+id/tv_bottom_container"
         android:layout_width="match_parent"
-        android:layout_height="80pt"
+        android:layout_height="80mm"
         android:layout_gravity="bottom"
         android:background="@drawable/play_bottom_shape"
         android:orientation="horizontal"
@@ -238,77 +238,77 @@
 
         <TextView
             android:id="@+id/tv_play_next"
-            android:layout_width="100pt"
-            android:layout_height="40pt"
+            android:layout_width="100mm"
+            android:layout_height="40mm"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10pt"
-            android:layout_marginRight="6pt"
+            android:layout_marginLeft="10mm"
+            android:layout_marginRight="6mm"
             android:background="@drawable/source_focus"
             android:ellipsize="end"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:gravity="center"
-            android:paddingLeft="5pt"
-            android:paddingRight="5pt"
+            android:paddingLeft="5mm"
+            android:paddingRight="5mm"
             android:singleLine="true"
             android:text="下一集"
             android:textColor="@android:color/white"
-            android:textSize="22pt" />
+            android:textSize="22mm" />
 
         <TextView
             android:id="@+id/tv_play_pre"
-            android:layout_width="100pt"
-            android:layout_height="40pt"
+            android:layout_width="100mm"
+            android:layout_height="40mm"
             android:layout_gravity="center_vertical"
-            android:layout_marginRight="6pt"
+            android:layout_marginRight="6mm"
             android:background="@drawable/source_focus"
             android:ellipsize="end"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:gravity="center"
-            android:paddingLeft="5pt"
-            android:paddingRight="5pt"
+            android:paddingLeft="5mm"
+            android:paddingRight="5mm"
             android:singleLine="true"
             android:text="上一集"
             android:textColor="@android:color/white"
-            android:textSize="22pt" />
+            android:textSize="22mm" />
 
 
         <TextView
             android:id="@+id/tv_video_speed"
-            android:layout_width="100pt"
-            android:layout_height="40pt"
+            android:layout_width="100mm"
+            android:layout_height="40mm"
             android:layout_gravity="center_vertical"
-            android:layout_marginRight="6pt"
+            android:layout_marginRight="6mm"
             android:background="@drawable/source_focus"
             android:ellipsize="end"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:gravity="center"
-            android:paddingLeft="5pt"
-            android:paddingRight="5pt"
+            android:paddingLeft="5mm"
+            android:paddingRight="5mm"
             android:singleLine="true"
             android:text="x1"
             android:textColor="@android:color/white"
-            android:textSize="22pt" />
+            android:textSize="22mm" />
 
         <TextView
             android:id="@+id/tv_video_size"
-            android:layout_width="100pt"
-            android:layout_height="40pt"
+            android:layout_width="100mm"
+            android:layout_height="40mm"
             android:layout_gravity="center_vertical"
-            android:layout_marginRight="6pt"
+            android:layout_marginRight="6mm"
             android:background="@drawable/source_focus"
             android:ellipsize="end"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:gravity="center"
-            android:paddingLeft="5pt"
-            android:paddingRight="5pt"
+            android:paddingLeft="5mm"
+            android:paddingRight="5mm"
             android:singleLine="true"
             android:text="16:9"
             android:textColor="@android:color/white"
-            android:textSize="22pt" />
+            android:textSize="22mm" />
 
     </LinearLayout>
 </FrameLayout>

@@ -2,20 +2,20 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="5pt"
+    android:layout_margin="5mm"
     android:background="@drawable/series_focus"
     android:focusable="true"
     android:focusableInTouchMode="true">
 
     <TextView
         android:id="@+id/tvSeries"
-        android:layout_width="183pt"
-        android:layout_height="50pt"
+        android:layout_width="183mm"
+        android:layout_height="50mm"
         android:ellipsize="end"
         android:gravity="center"
-        android:paddingLeft="5pt"
-        android:paddingRight="5pt"
+        android:paddingLeft="5mm"
+        android:paddingRight="5mm"
         android:singleLine="true"
         android:textColor="@android:color/white"
-        android:textSize="16pt" />
+        android:textSize="16mm" />
 </FrameLayout>

@@ -1,7 +1,5 @@
 package com.github.tvbox.osc.server;
 
-import com.github.tvbox.osc.util.LOG;
-
 import java.util.Map;
 
 import fi.iki.elonen.NanoHTTPD;
@@ -23,12 +21,7 @@ public class InputRequestProcess implements RequestProcess {
     public boolean isRequest(NanoHTTPD.IHTTPSession session, String fileName) {
         if (session.getMethod() == NanoHTTPD.Method.POST) {
             switch (fileName) {
-                case "/projection":
-                case "/text":
-                case "/key":
-                case "/keyDown":
-                case "/keyUp":
-                case "/custom":
+                case "/action":
                     return true;
             }
         }
@@ -39,45 +32,22 @@ public class InputRequestProcess implements RequestProcess {
     public NanoHTTPD.Response doResponse(NanoHTTPD.IHTTPSession session, String fileName, Map<String, String> params, Map<String, String> files) {
         DataReceiver mDataReceiver = remoteServer.getDataReceiver();
         switch (fileName) {
-            case "/projection":
-                LOG.e("------");
-                if (params.get("text") != null && mDataReceiver != null) {
-                    LOG.e("+++++");
-                    mDataReceiver.onProjectionReceived(params.get("text"));
-                }
-                return RemoteServer.createPlainTextResponse(NanoHTTPD.Response.Status.OK, "ok");
-            case "/text":
-                if (params.get("text") != null && mDataReceiver != null) {
-                    mDataReceiver.onTextReceived(params.get("text"));
-                }
-                return RemoteServer.createPlainTextResponse(NanoHTTPD.Response.Status.OK, "ok");
-            case "/key":
-                if (params.get("code") != null && mDataReceiver != null) {
-                    mDataReceiver.onKeyEventReceived(params.get("code"), KEY_ACTION_PRESSED);
-                }
-                return RemoteServer.createPlainTextResponse(NanoHTTPD.Response.Status.OK, "ok");
-            case "/keyUp":
-                if (params.get("code") != null && mDataReceiver != null) {
-                    mDataReceiver.onKeyEventReceived(params.get("code"), KEY_ACTION_UP);
-                }
-                return RemoteServer.createPlainTextResponse(NanoHTTPD.Response.Status.OK, "ok");
-            case "/keyDown":
-                if (params.get("code") != null && mDataReceiver != null) {
-                    mDataReceiver.onKeyEventReceived(params.get("code"), KEY_ACTION_DOWN);
-                }
-                return RemoteServer.createPlainTextResponse(NanoHTTPD.Response.Status.OK, "ok");
-            case "/custom":
-                if (params.get("action") != null && mDataReceiver != null) {
-                    String action = params.get("action");
-                    if ("source".equals(action)) {
-                        if (params.get("name") != null && params.get("api") != null && params.get("play") != null && params.get("type") != null)
-                            mDataReceiver.onSourceReceived(params.get("name"), params.get("api"), params.get("play"), params.get("type"));
-                    }else if ("parse".equals(action)) {
-                        if (params.get("name") != null && params.get("url") != null)
-                            mDataReceiver.onParseReceived(params.get("name"), params.get("url"));
-                    }else if ("live".equals(action)) {
-                        if (params.get("name") != null && params.get("url") != null)
-                            mDataReceiver.onLiveReceived(params.get("name"), params.get("url"));
+            case "/action":
+                if (params.get("do") != null && mDataReceiver != null) {
+                    String action = params.get("do");
+
+                    switch (action) {
+                        case "search": {
+                            mDataReceiver.onTextReceived(params.get("word").trim());
+                            break;
+                        }
+                        case "api": {
+                            mDataReceiver.onApiReceived(params.get("url").trim());
+                            break;
+                        }
+                        case "push": {
+                            // 暂未实现
+                        }
                     }
                 }
                 return RemoteServer.createPlainTextResponse(NanoHTTPD.Response.Status.OK, "ok");
