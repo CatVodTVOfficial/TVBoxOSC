@@ -1,7 +1,9 @@
 package com.github.tvbox.osc.api;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Base64;
 
 import com.github.catvod.crawler.JarLoader;
 import com.github.catvod.crawler.Spider;
@@ -11,6 +13,7 @@ import com.github.tvbox.osc.bean.ParseBean;
 import com.github.tvbox.osc.bean.SourceBean;
 import com.github.tvbox.osc.cache.RoomDataManger;
 import com.github.tvbox.osc.cache.SourceState;
+import com.github.tvbox.osc.server.ControlManager;
 import com.github.tvbox.osc.util.AdBlocker;
 import com.github.tvbox.osc.util.DefaultConfig;
 import com.github.tvbox.osc.util.HawkConfig;
@@ -24,9 +27,6 @@ import com.orhanobut.hawk.Hawk;
 
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -108,31 +108,18 @@ public class ApiConfig {
         });
     }
 
-    private void loadConfigLocal(LoadConfigCallback callback, Activity activity) {
-        try {
-            StringBuilder sb = new StringBuilder();
-            InputStream is = activity.getAssets().open("cfg.json");
-            BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-            String str;
-            while ((str = br.readLine()) != null) {
-                sb.append(str);
-            }
-            br.close();
-            parseJson(sb.toString());
-            callback.success();
-        } catch (Throwable e) {
-            e.printStackTrace();
-            callback.error("加载配置失败");
-        }
- }
-
     private void loadConfigServer(LoadConfigCallback callback, Activity activity) {
-        OkGo.<String>get(Hawk.get(HawkConfig.API_URL, ""))
+        String apiUrl = Hawk.get(HawkConfig.API_URL, "");
+        String apiFix = apiUrl;
+        if (apiUrl.startsWith("clan://")) {
+            apiFix = clanToAddress(apiUrl);
+        }
+        OkGo.<String>get(apiFix)
                 .execute(new AbsCallback<String>() {
                     @Override
                     public void onSuccess(Response<String> response) {
                         try {
-                            parseJson(response.body());
+                            parseJson(apiUrl, response.body());
                             callback.success();
                         } catch (Throwable th) {
                             th.printStackTrace();
@@ -153,12 +140,15 @@ public class ApiConfig {
                         } else {
                             result = response.body().string();
                         }
+                        if (apiUrl.startsWith("clan")) {
+                            result = clanContentFix(clanToAddress(apiUrl), result);
+                        }
                         return result;
                     }
                 });
     }
 
-    private void parseJson(String jsonStr) {
+    private void parseJson(String apiUrl, String jsonStr) {
         JsonObject infoJson = new Gson().fromJson(jsonStr, JsonObject.class);
         // spider
         spider = DefaultConfig.safeJsonString(infoJson, "spider", "");
@@ -223,7 +213,24 @@ public class ApiConfig {
                     JsonObject obj = (JsonObject) optChl;
                     LiveChannel lc = new LiveChannel();
                     lc.setName(obj.get("name").getAsString().trim());
-                    lc.setUrls(DefaultConfig.safeJsonStringList(obj, "urls"));
+                    ArrayList<String> urls = DefaultConfig.safeJsonStringList(obj, "urls");
+                    if (urls.size() > 0) {
+                        String url = urls.get(0);
+                        if (url.startsWith("proxy://")) {
+                            String fix = url.replace("proxy://", "http://0.0.0.0/?");
+                            String extUrl = Uri.parse(fix).getQueryParameter("ext");
+                            if (extUrl != null && !extUrl.isEmpty()) {
+                                String extUrlFix = new String(Base64.decode(extUrl, Base64.DEFAULT | Base64.URL_SAFE | Base64.NO_WRAP), "UTF-8");
+                                if (extUrlFix.startsWith("clan://")) {
+                                    extUrlFix = clanContentFix(clanToAddress(apiUrl), extUrlFix);
+                                    extUrlFix = Base64.encodeToString(extUrlFix.getBytes("UTF-8"), Base64.DEFAULT | Base64.URL_SAFE | Base64.NO_WRAP);
+                                    fix = url.replace(extUrl, extUrlFix);
+                                    urls.set(0, fix);
+                                }
+                            }
+                        }
+                    }
+                    lc.setUrls(urls);
                     // 暂时不考虑分组问题
                     lc.setChannelNum(lcIdx++);
                     channelList.add(lc);
@@ -359,5 +366,20 @@ public class ApiConfig {
                 return code;
         }
         return ijkCodes.get(0);
+    }
+
+    String clanToAddress(String lanLink) {
+        if (lanLink.startsWith("clan://localhost/")) {
+            return lanLink.replace("clan://localhost/", ControlManager.get().getAddress(true) + "file/");
+        } else {
+            String link = lanLink.substring(7);
+            int end = link.indexOf('/');
+            return "http://" + link.substring(0, end) + "/file/" + link.substring(end + 1);
+        }
+    }
+
+    String clanContentFix(String lanLink, String content) {
+        String fix = lanLink.substring(0, lanLink.indexOf("/file/") + 6);
+        return content.replace("clan://", fix);
     }
 }
