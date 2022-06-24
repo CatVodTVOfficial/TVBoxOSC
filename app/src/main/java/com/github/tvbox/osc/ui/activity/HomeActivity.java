@@ -8,6 +8,8 @@ import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.View;
@@ -93,12 +95,20 @@ public class HomeActivity extends BaseActivity {
         return R.layout.activity_home;
     }
 
+    boolean useCacheConfig = false;
+
     @Override
     protected void init() {
         EventBus.getDefault().register(this);
         ControlManager.get().startServer();
         initView();
         initViewModel();
+        useCacheConfig = false;
+        Intent intent = getIntent();
+        if (intent != null && intent.getExtras() != null) {
+            Bundle bundle = intent.getExtras();
+            useCacheConfig = bundle.getBoolean("useCache", false);
+        }
         initData();
     }
 
@@ -237,6 +247,7 @@ public class HomeActivity extends BaseActivity {
                         mHandler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
+                                Toast.makeText(HomeActivity.this, "jar加载成功", Toast.LENGTH_SHORT).show();
                                 initData();
                             }
                         }, 50);
@@ -249,12 +260,19 @@ public class HomeActivity extends BaseActivity {
 
                     @Override
                     public void error(String msg) {
+                        jarInitOk = true;
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(HomeActivity.this, "jar加载失败", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 });
             }
             return;
         }
-        ApiConfig.get().loadConfig(new ApiConfig.LoadConfigCallback() {
+        ApiConfig.get().loadConfig(useCacheConfig, new ApiConfig.LoadConfigCallback() {
             AlertDialog dialog = null;
 
             @Override
@@ -283,6 +301,17 @@ public class HomeActivity extends BaseActivity {
 
             @Override
             public void error(String msg) {
+                if (msg.equalsIgnoreCase("-1")) {
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            dataInitOk = true;
+                            jarInitOk = true;
+                            initData();
+                        }
+                    });
+                    return;
+                }
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {

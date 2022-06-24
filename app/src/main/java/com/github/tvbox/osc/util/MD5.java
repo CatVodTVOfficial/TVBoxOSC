@@ -4,6 +4,9 @@ import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -31,7 +34,7 @@ public class MD5 {
         try {
             MD5.sDigest = MessageDigest.getInstance("MD5");
         } catch (NoSuchAlgorithmException e) {
-            Log.e("获取MD5信息摘要失败" , e.getMessage());
+            Log.e("获取MD5信息摘要失败", e.getMessage());
         }
     }
 
@@ -49,10 +52,13 @@ public class MD5 {
      * @return md5值
      */
     public static String encode(String res) {
+        byte[] strTemp = res.getBytes();
+        return encode(strTemp);
+    }
 
+    private static String encode(byte[] bytes) {
         try {
-            byte[] strTemp = res.getBytes();
-            sDigest.update(strTemp);
+            sDigest.update(bytes);
             byte[] md = sDigest.digest();
             int j = md.length;
             char str[] = new char[j * 2];
@@ -68,15 +74,45 @@ public class MD5 {
         }
     }
 
+    public static String getFileMd5(File f) {
+        StringBuffer sb = new StringBuffer("");
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] buffer = new byte[4096];
+            FileInputStream fis = new FileInputStream(f);
+            int len = 0;
+            while ((len = fis.read(buffer)) != -1) {
+                md.update(buffer, 0, len);
+            }
+            fis.close();
+            byte b[] = md.digest();
+            int d;
+            for (int i = 0; i < b.length; i++) {
+                d = b[i];
+                if (d < 0) {
+                    d = b[i] & 0xff;
+                }
+                if (d < 16)
+                    sb.append("0");
+                sb.append(Integer.toHexString(d));
+            }
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return sb.toString();
+    }
+
     /**
      * MD5加码 生成32位md5码
      */
     public static String string2MD5(String inStr) {
         if (sDigest == null) {
-            Log.e("MD5","MD5信息摘要初始化失败");
+            Log.e("MD5", "MD5信息摘要初始化失败");
             return null;
         } else if (TextUtils.isEmpty(inStr)) {
-            Log.e("MD5","参数strSource不能为空");
+            Log.e("MD5", "参数strSource不能为空");
             return null;
         }
         char[] charArray = inStr.toCharArray();
@@ -104,10 +140,10 @@ public class MD5 {
      */
     public static String encrypt(final String strSource) {
         if (sDigest == null) {
-            Log.e("MD5","MD5信息摘要初始化失败");
+            Log.e("MD5", "MD5信息摘要初始化失败");
             return null;
         } else if (TextUtils.isEmpty(strSource)) {
-            Log.e("MD5","参数strSource不能为空");
+            Log.e("MD5", "参数strSource不能为空");
             return null;
         }
         try {
@@ -117,7 +153,7 @@ public class MD5 {
             String strEncrypt = new String(encryptBytes, "utf-8");
             return strEncrypt.substring(0, strEncrypt.length() - 1); // 截断Base64产生的换行符
         } catch (UnsupportedEncodingException e) {
-            Log.e("MD5","加密模块暂不支持此字符集合" + e);
+            Log.e("MD5", "加密模块暂不支持此字符集合" + e);
         }
         return null;
     }
