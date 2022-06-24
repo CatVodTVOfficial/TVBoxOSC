@@ -124,7 +124,7 @@ public class ApiConfig {
             e.printStackTrace();
             callback.error("加载配置失败");
         }
-            https://jyt0106.github.io/T/tan}
+ }
 
     private void loadConfigServer(LoadConfigCallback callback, Activity activity) {
         OkGo.<String>get(Hawk.get(HawkConfig.API_URL, ""))
