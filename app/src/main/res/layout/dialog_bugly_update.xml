@@ -11,7 +11,7 @@
         android:layout_gravity="center"
         android:background="@drawable/model_dialog_bugly_bg"
         android:orientation="vertical"
-        android:padding="30pt">
+        android:padding="30mm">
         <!--upgrade_dialog为项目的布局资源。 注意：因为要保持接口统一，需要用户在指定控件按照以下方式设置tag，
         否则会影响您的正常使用： - 特性图片：beta_upgrade_banner，如：android:tag="beta_upgrade_banner"
 
@@ -40,33 +40,33 @@
             android:tag="beta_title"
             android:text="标题"
             android:textColor="@color/color_CCFFFFFF"
-            android:textSize="20pt"
+            android:textSize="20mm"
             android:textStyle="bold" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5pt"
+            android:layout_marginTop="5mm"
             android:tag="beta_upgrade_info"
             android:text="升级信息"
             android:textColor="@color/color_CCFFFFFF"
-            android:textSize="18pt" />
+            android:textSize="18mm" />
 
         <TextView
-            android:layout_width="300pt"
+            android:layout_width="300mm"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5pt"
-            android:lineSpacingExtra="2pt"
-            android:minWidth="250pt"
+            android:layout_marginTop="5mm"
+            android:lineSpacingExtra="2mm"
+            android:minWidth="250mm"
             android:tag="beta_upgrade_feature"
             android:textColor="@color/color_CCFFFFFF"
-            android:textSize="18pt"
+            android:textSize="18mm"
             tools:text="桃李得日开，荣华照当年。东风动百物，草木尽欲言。\n枯枝无丑叶，涸水吐清泉。大力运天地，羲和无停..." />
 
         <TextView
-            android:layout_width="300pt"
-            android:layout_height="40pt"
-            android:layout_marginTop="10pt"
+            android:layout_width="300mm"
+            android:layout_height="40mm"
+            android:layout_marginTop="10mm"
             android:background="@drawable/splash_focus"
             android:focusable="true"
             android:focusableInTouchMode="true"
@@ -74,12 +74,12 @@
             android:tag="beta_confirm_button"
             android:text="下载"
             android:textColor="@android:color/black"
-            android:textSize="18pt" />
+            android:textSize="18mm" />
 
         <TextView
-            android:layout_width="300pt"
-            android:layout_height="40pt"
-            android:layout_marginTop="10pt"
+            android:layout_width="300mm"
+            android:layout_height="40mm"
+            android:layout_marginTop="10mm"
             android:background="@drawable/splash_focus"
             android:focusable="true"
             android:focusableInTouchMode="true"
@@ -87,7 +87,7 @@
             android:tag="beta_cancel_button"
             android:text="取消"
             android:textColor="@android:color/black"
-            android:textSize="18pt" />
+            android:textSize="18mm" />
 
     </LinearLayout>
 </FrameLayout>

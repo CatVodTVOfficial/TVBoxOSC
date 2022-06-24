@@ -21,12 +21,21 @@ import com.github.tvbox.osc.bean.Movie;
 import com.github.tvbox.osc.bean.SourceBean;
 import com.github.tvbox.osc.event.RefreshEvent;
 import com.github.tvbox.osc.event.ServerEvent;
-import com.github.tvbox.osc.server.RemoteServer;
+import com.github.tvbox.osc.server.ControlManager;
+import com.github.tvbox.osc.ui.adapter.PinyinAdapter;
 import com.github.tvbox.osc.ui.adapter.SearchAdapter;
+import com.github.tvbox.osc.ui.dialog.RemoteDialog;
 import com.github.tvbox.osc.ui.tv.QRCodeGen;
+import com.github.tvbox.osc.ui.tv.widget.SearchKeyboard;
 import com.github.tvbox.osc.util.FastClickCheckUtil;
 import com.github.tvbox.osc.viewmodel.SourceViewModel;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.AbsCallback;
+import com.lzy.okgo.model.Response;
 import com.owen.tvrecyclerview.widget.TvRecyclerView;
 import com.owen.tvrecyclerview.widget.V7LinearLayoutManager;
 
@@ -38,6 +47,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author pj567
@@ -47,14 +57,16 @@ import java.util.concurrent.Executors;
 public class SearchActivity extends BaseActivity {
     private LinearLayout llLayout;
     private TvRecyclerView mGridView;
+    private TvRecyclerView mGridViewWord;
     SourceViewModel sourceViewModel;
-    private TextView tvName;
     private EditText etSearch;
     private TextView tvSearch;
     private TextView tvClear;
+    private SearchKeyboard keyboard;
     private TextView tvAddress;
     private ImageView ivQRCode;
     private SearchAdapter searchAdapter;
+    private PinyinAdapter wordAdapter;
     private String searchTitle = "";
 
     @Override
@@ -78,7 +90,18 @@ public class SearchActivity extends BaseActivity {
         tvAddress = findViewById(R.id.tvAddress);
         ivQRCode = findViewById(R.id.ivQRCode);
         mGridView = findViewById(R.id.mGridView);
-        tvName = findViewById(R.id.tvName);
+        keyboard = findViewById(R.id.keyBoardRoot);
+        mGridViewWord = findViewById(R.id.mGridViewWord);
+        mGridViewWord.setHasFixedSize(true);
+        mGridViewWord.setLayoutManager(new V7LinearLayoutManager(this.mContext, 1, false));
+        wordAdapter = new PinyinAdapter();
+        mGridViewWord.setAdapter(wordAdapter);
+        wordAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                search(wordAdapter.getItem(position));
+            }
+        });
         mGridView.setHasFixedSize(true);
         mGridView.setLayoutManager(new V7LinearLayoutManager(this.mContext, 1, false));
         searchAdapter = new SearchAdapter();
@@ -115,11 +138,71 @@ public class SearchActivity extends BaseActivity {
                 etSearch.setText("");
             }
         });
+        keyboard.setOnSearchKeyListener(new SearchKeyboard.OnSearchKeyListener() {
+            @Override
+            public void onSearchKey(int pos, String key) {
+                if (pos > 1) {
+                    String text = etSearch.getText().toString().trim();
+                    text += key;
+                    etSearch.setText(text);
+                    if (text.length() > 0) {
+                        loadRec(text);
+                    }
+                } else if (pos == 1) {
+                    String text = etSearch.getText().toString().trim();
+                    if (text.length() > 0) {
+                        text = text.substring(0, text.length() - 1);
+                        etSearch.setText(text);
+                    }
+                    if (text.length() > 0) {
+                        loadRec(text);
+                    }
+                } else if (pos == 0) {
+                    RemoteDialog remoteDialog = new RemoteDialog().build(mContext);
+                    remoteDialog.show();
+                }
+            }
+        });
         setLoadSir(llLayout);
     }
 
     private void initViewModel() {
         sourceViewModel = new ViewModelProvider(this).get(SourceViewModel.class);
+    }
+
+    /**
+     * 拼音联想
+     */
+    private void loadRec(String key) {
+        OkGo.<String>get("https://s.video.qq.com/smartbox")
+                .params("plat", 2)
+                .params("ver", 0)
+                .params("num", 10)
+                .params("otype", "json")
+                .params("query", key)
+                .execute(new AbsCallback<String>() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        try {
+                            ArrayList<String> hots = new ArrayList<>();
+                            String result = response.body();
+                            JsonObject json = JsonParser.parseString(result.substring(result.indexOf("{"), result.lastIndexOf("}") + 1)).getAsJsonObject();
+                            JsonArray itemList = json.get("item").getAsJsonArray();
+                            for (JsonElement ele : itemList) {
+                                JsonObject obj = (JsonObject) ele;
+                                hots.add(obj.get("word").getAsString().trim());
+                            }
+                            wordAdapter.setNewData(hots);
+                        } catch (Throwable th) {
+                            th.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public String convertResponse(okhttp3.Response response) throws Throwable {
+                        return response.body().string();
+                    }
+                });
     }
 
     private void initData() {
@@ -130,10 +213,35 @@ public class SearchActivity extends BaseActivity {
             showLoading();
             search(title);
         }
+        // 加载热词
+        OkGo.<String>get("https://node.video.qq.com/x/api/hot_mobilesearch")
+                .params("channdlId", "0")
+                .params("_", System.currentTimeMillis())
+                .execute(new AbsCallback<String>() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        try {
+                            ArrayList<String> hots = new ArrayList<>();
+                            JsonArray itemList = JsonParser.parseString(response.body()).getAsJsonObject().get("data").getAsJsonObject().get("itemList").getAsJsonArray();
+                            for (JsonElement ele : itemList) {
+                                JsonObject obj = (JsonObject) ele;
+                                hots.add(obj.get("title").getAsString().trim().replaceAll("<|>|《|》|-", "").split(" ")[0]);
+                            }
+                            wordAdapter.setNewData(hots);
+                        } catch (Throwable th) {
+                            th.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public String convertResponse(okhttp3.Response response) throws Throwable {
+                        return response.body().string();
+                    }
+                });
     }
 
     private void refreshQRCode() {
-        String address = RemoteServer.getServerAddress(mContext);
+        String address = ControlManager.get().getAddress(false);
         tvAddress.setText(String.format("远程搜索使用手机/电脑扫描下面二维码或者直接浏览器访问地址\n%s", address));
         ivQRCode.setImageBitmap(QRCodeGen.generateBitmap(address, 300, 300));
     }
@@ -159,7 +267,6 @@ public class SearchActivity extends BaseActivity {
     }
 
     private void search(String title) {
-        tvName.setText(title);
         cancel();
         showLoading();
         this.searchTitle = title;
@@ -168,50 +275,39 @@ public class SearchActivity extends BaseActivity {
         searchResult();
     }
 
-    private final ExecutorService searchExecutorService = Executors.newFixedThreadPool(5);
-    private static final int maxThreadRun = 5;
-    private int threadRunCount = 0;
-    private final Object lockObj = new Object();
-    private int allRunCount = 0;
+    private ExecutorService searchExecutorService = null;
+    private AtomicInteger allRunCount = new AtomicInteger(0);
 
     private void searchResult() {
-        synchronized (lockObj) {
-            threadRunCount = 0;
+        try {
+            if (searchExecutorService != null) {
+                searchExecutorService.shutdownNow();
+            }
+        } catch (Throwable th) {
+            th.printStackTrace();
+        } finally {
+            searchAdapter.setNewData(new ArrayList<>());
+            allRunCount.set(0);
         }
+        searchExecutorService = Executors.newFixedThreadPool(5);
         List<SourceBean> searchRequestList = new ArrayList<>();
         searchRequestList.addAll(ApiConfig.get().getSourceBeanList());
         SourceBean home = ApiConfig.get().getHomeSourceBean();
         searchRequestList.remove(home);
         searchRequestList.add(0, home);
 
-        allRunCount = searchRequestList.size();
+        ArrayList<String> siteKey = new ArrayList<>();
         for (SourceBean bean : searchRequestList) {
             if (!bean.isActive() || bean.isAddition()) {
-                allRunCount--;
                 continue;
             }
-            String key = bean.getKey();
+            siteKey.add(bean.getKey());
+            allRunCount.incrementAndGet();
+        }
+        for (String key : siteKey) {
             searchExecutorService.execute(new Runnable() {
                 @Override
                 public void run() {
-                    while (true) {
-                        int tempCount = 0;
-                        synchronized (lockObj) {
-                            tempCount = threadRunCount;
-                        }
-                        if (tempCount >= maxThreadRun) {
-                            try {
-                                Thread.sleep(1000);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            break;
-                        }
-                    }
-                    synchronized (lockObj) {
-                        threadRunCount++;
-                    }
                     sourceViewModel.getSearch(key, searchTitle);
                 }
             });
@@ -222,7 +318,8 @@ public class SearchActivity extends BaseActivity {
         if (absXml != null && absXml.movie != null && absXml.movie.videoList != null && absXml.movie.videoList.size() > 0) {
             List<Movie.Video> data = new ArrayList<>();
             for (Movie.Video video : absXml.movie.videoList) {
-                data.add(video);
+                if (video.name.contains(searchTitle))
+                    data.add(video);
             }
             if (searchAdapter.getData().size() > 0) {
                 searchAdapter.addData(data);
@@ -233,15 +330,12 @@ public class SearchActivity extends BaseActivity {
             }
         }
 
-        synchronized (lockObj) {
-            threadRunCount--;
-            allRunCount--;
-            if (allRunCount <= 0) {
-                if (searchAdapter.getData().size() <= 0) {
-                    showEmpty();
-                }
-                cancel();
+        int count = allRunCount.decrementAndGet();
+        if (count <= 0) {
+            if (searchAdapter.getData().size() <= 0) {
+                showEmpty();
             }
+            cancel();
         }
     }
 

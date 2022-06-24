@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import com.dueeeke.videoplayer.controller.GestureVideoController;
 import com.dueeeke.videoplayer.controller.IControlComponent;
 import com.dueeeke.videoplayer.player.VideoView;
+import com.dueeeke.videoplayer.player.VideoViewManager;
 import com.github.tvbox.osc.R;
 
 import java.util.Map;
@@ -32,6 +33,7 @@ public class BoxVideoController extends GestureVideoController implements View.O
 
     public BoxVideoController(@NonNull Context context) {
         this(context, null);
+        VideoViewManager.instance().setPlayOnMobileNetwork(true);
     }
 
     public BoxVideoController(@NonNull Context context, @Nullable AttributeSet attrs) {

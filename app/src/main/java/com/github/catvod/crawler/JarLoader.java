@@ -4,9 +4,13 @@ import android.content.Context;
 
 import com.github.tvbox.osc.base.App;
 
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -84,6 +88,32 @@ public class JarLoader {
             th.printStackTrace();
         }
         return new SpiderNull();
+    }
+
+    public JSONObject jsonExt(String key, LinkedHashMap<String, String> jxs, String url) {
+        try {
+            String clsKey = "Json" + key;
+            String hotClass = "com.github.catvod.parser." + clsKey;
+            Class jsonParserCls = classLoader.loadClass(hotClass);
+            Method mth = jsonParserCls.getMethod("parse", LinkedHashMap.class, String.class);
+            return (JSONObject) mth.invoke(null, jxs, url);
+        } catch (Throwable th) {
+            th.printStackTrace();
+        }
+        return null;
+    }
+
+    public JSONObject jsonExtMix(String flag, String key, String name, LinkedHashMap<String, HashMap<String, String>> jxs, String url) {
+        try {
+            String clsKey = "Mix" + key;
+            String hotClass = "com.github.catvod.parser." + clsKey;
+            Class jsonParserCls = classLoader.loadClass(hotClass);
+            Method mth = jsonParserCls.getMethod("parse", LinkedHashMap.class, String.class, String.class, String.class);
+            return (JSONObject) mth.invoke(null, jxs, name, flag, url);
+        } catch (Throwable th) {
+            th.printStackTrace();
+        }
+        return null;
     }
 
     public Object[] proxyInvoke(Map params) {

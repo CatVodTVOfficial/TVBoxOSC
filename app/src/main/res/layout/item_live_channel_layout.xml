@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10pt"
-    android:layout_marginBottom="10pt"
+    android:layout_marginTop="10mm"
+    android:layout_marginBottom="10mm"
     android:background="@drawable/live_focus"
     android:focusable="true"
     android:focusableInTouchMode="true"
@@ -11,24 +11,24 @@
 
     <TextView
         android:id="@+id/tvChannelNum"
-        android:layout_width="40pt"
-        android:layout_height="60pt"
+        android:layout_width="40mm"
+        android:layout_height="60mm"
         android:ellipsize="marquee"
         android:gravity="center"
         android:marqueeRepeatLimit="marquee_forever"
         android:singleLine="true"
         android:textColor="@android:color/white"
-        android:textSize="22pt" />
+        android:textSize="22mm" />
 
     <TextView
         android:id="@+id/tvChannel"
-        android:layout_width="0pt"
-        android:layout_height="60pt"
+        android:layout_width="0mm"
+        android:layout_height="60mm"
         android:layout_weight="1"
         android:ellipsize="marquee"
         android:gravity="center"
         android:marqueeRepeatLimit="marquee_forever"
         android:singleLine="true"
         android:textColor="@android:color/white"
-        android:textSize="22pt" />
+        android:textSize="22mm" />
 </LinearLayout>

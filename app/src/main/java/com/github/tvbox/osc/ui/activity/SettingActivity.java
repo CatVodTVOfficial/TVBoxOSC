@@ -43,8 +43,8 @@ public class SettingActivity extends BaseActivity {
     private int sortFocused = 0;
     private Handler mHandler = new Handler();
     private String homeSourceKey;
+    private String currentApi;
     private String homeSourceSort;
-    private boolean sourceMode;
 
     @Override
     protected int getLayoutResID() {
@@ -105,13 +105,13 @@ public class SettingActivity extends BaseActivity {
     }
 
     private void initData() {
+        currentApi = Hawk.get(HawkConfig.API_URL, "");
         homeSourceKey = ApiConfig.get().getHomeSourceBean().getKey();
         homeSourceSort = ApiConfig.get().getHomeSourceBean().getState().tidSort;
         if (homeSourceSort == null)
             homeSourceSort = "";
-        sourceMode = Hawk.get(HawkConfig.SOURCE_MODE_LOCAL, true);
         List<String> sortList = new ArrayList<>();
-        sortList.add("站点数据源");
+        sortList.add("数据源");
         sortList.add("设置其他");
         sortAdapter.setNewData(sortList);
         initViewPager();
@@ -183,9 +183,9 @@ public class SettingActivity extends BaseActivity {
         if (newHomeSourceSort == null)
             newHomeSourceSort = "";
 
-        if (!homeSourceKey.equals(ApiConfig.get().getHomeSourceBean().getKey()) ||
-                !homeSourceSort.equals(newHomeSourceSort) ||
-                sourceMode != Hawk.get(HawkConfig.SOURCE_MODE_LOCAL, true)) {
+        if ((homeSourceKey != null && !homeSourceKey.equals(ApiConfig.get().getHomeSourceBean().getKey())) ||
+                !currentApi.equals(Hawk.get(HawkConfig.API_URL, "")) ||
+                !homeSourceSort.equals(newHomeSourceSort)) {
             AppManager.getInstance().finishAllActivity();
             jumpActivity(HomeActivity.class);
         } else {

@@ -1,11 +1,16 @@
 package com.github.tvbox.osc.ui.fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.tvbox.osc.R;
+import com.github.tvbox.osc.api.ApiConfig;
 import com.github.tvbox.osc.base.BaseLazyFragment;
+import com.github.tvbox.osc.bean.IJKCode;
 import com.github.tvbox.osc.ui.activity.SettingActivity;
 import com.github.tvbox.osc.ui.dialog.AboutDialog;
 import com.github.tvbox.osc.ui.dialog.ChangeIJKCodeDialog;
@@ -16,7 +21,12 @@ import com.github.tvbox.osc.util.FastClickCheckUtil;
 import com.github.tvbox.osc.util.HawkConfig;
 import com.github.tvbox.osc.util.PlayerHelper;
 import com.github.tvbox.osc.util.XWalkUtils;
+import com.hjq.permissions.OnPermissionCallback;
+import com.hjq.permissions.Permission;
+import com.hjq.permissions.XXPermissions;
 import com.orhanobut.hawk.Hawk;
+
+import java.util.List;
 
 /**
  * @author pj567
@@ -25,13 +35,12 @@ import com.orhanobut.hawk.Hawk;
  */
 public class ModelSettingFragment extends BaseLazyFragment {
     private TextView tvDebugOpen;
-    private TextView tvTestChannel;
     private TextView tvMediaCodec;
-    private TextView tvSourceMode;
     private TextView tvParseWebView;
     private TextView tvPlay;
     private TextView tvRender;
     private TextView tvXWalkDown;
+    private TextView tvApi;
 
     public static ModelSettingFragment newInstance() {
         return new ModelSettingFragment().setArguments();
@@ -49,19 +58,17 @@ public class ModelSettingFragment extends BaseLazyFragment {
     @Override
     protected void init() {
         tvDebugOpen = findViewById(R.id.tvDebugOpen);
-        tvTestChannel = findViewById(R.id.tvTestChannel);
-        tvSourceMode = findViewById(R.id.tvSourceMode);
         tvParseWebView = findViewById(R.id.tvParseWebView);
         tvMediaCodec = findViewById(R.id.tvMediaCodec);
         tvPlay = findViewById(R.id.tvPlay);
         tvRender = findViewById(R.id.tvRenderType);
         tvXWalkDown = findViewById(R.id.tvXWalkDown);
+        tvApi = findViewById(R.id.tvApi);
         tvMediaCodec.setText(Hawk.get(HawkConfig.IJK_CODEC, ""));
         tvDebugOpen.setText(Hawk.get(HawkConfig.DEBUG_OPEN, false) ? "已打开" : "已关闭");
-        tvSourceMode.setText(Hawk.get(HawkConfig.SOURCE_MODE_LOCAL, true) ? "本地" : "云端");
-        tvTestChannel.setText(Hawk.get(HawkConfig.TEST_CHANNEL, false) ? "已打开" : "已关闭");
         tvParseWebView.setText(Hawk.get(HawkConfig.PARSE_WEBVIEW, true) ? "系统自带" : "XWalkView");
         tvXWalkDown.setText(XWalkUtils.xWalkLibExist(mContext) ? "已下载" : "未下载");
+        tvApi.setText(Hawk.get(HawkConfig.API_URL, ""));
         findViewById(R.id.llXWalkCore).setVisibility(Hawk.get(HawkConfig.PARSE_WEBVIEW, true) ? View.GONE : View.VISIBLE);
         changePlay();
         changeRender();
@@ -73,20 +80,34 @@ public class ModelSettingFragment extends BaseLazyFragment {
                 tvDebugOpen.setText(Hawk.get(HawkConfig.DEBUG_OPEN, false) ? "已打开" : "已关闭");
             }
         });
-        findViewById(R.id.llTest).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.llStorage).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FastClickCheckUtil.check(v);
-                Hawk.put(HawkConfig.TEST_CHANNEL, !Hawk.get(HawkConfig.TEST_CHANNEL, false));
-                tvTestChannel.setText(Hawk.get(HawkConfig.TEST_CHANNEL, false) ? "已打开" : "已关闭");
-            }
-        });
-        findViewById(R.id.llSourceMode).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FastClickCheckUtil.check(v);
-                Hawk.put(HawkConfig.SOURCE_MODE_LOCAL, !Hawk.get(HawkConfig.SOURCE_MODE_LOCAL, true));
-                tvSourceMode.setText(Hawk.get(HawkConfig.SOURCE_MODE_LOCAL, true) ? "本地" : "云端");
+                if (XXPermissions.isGranted(requireContext(), Permission.Group.STORAGE)) {
+                    Toast.makeText(requireContext(), "已获得存储权限", Toast.LENGTH_SHORT).show();
+                } else {
+                    XXPermissions.with(mActivity)
+                            .permission(Permission.Group.STORAGE)
+                            .request(new OnPermissionCallback() {
+                                @Override
+                                public void onGranted(List<String> permissions, boolean all) {
+                                    if (all) {
+                                        Toast.makeText(requireContext(), "已获得存储权限", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onDenied(List<String> permissions, boolean never) {
+                                    if (never) {
+                                        Toast.makeText(requireContext(), "获取存储权限失败,请在系统设置中开启", Toast.LENGTH_SHORT).show();
+                                        XXPermissions.startPermissionActivity(mActivity, permissions);
+                                    } else {
+                                        Toast.makeText(requireContext(), "获取存储权限失败", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                }
             }
         });
         findViewById(R.id.llParseWebVew).setOnClickListener(new View.OnClickListener() {
@@ -132,9 +153,36 @@ public class ModelSettingFragment extends BaseLazyFragment {
                 dialog.show();
             }
         });
+        findViewById(R.id.llApi).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+                builder.setTitle("请输入配置地址");
+                final EditText edit = new EditText(mActivity);
+                edit.setText(tvApi.getText());
+                builder.setView(edit);
+                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String url = edit.getText().toString().trim();
+                        Hawk.put(HawkConfig.API_URL, url);
+                        tvApi.setText(url);
+                    }
+                });
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+                builder.create().show();
+            }
+        });
         findViewById(R.id.llMediaCodec).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                List<IJKCode> ijkCodes = ApiConfig.get().getIjkCodes();
+                if (ijkCodes == null || ijkCodes.size() == 0)
+                    return;
                 FastClickCheckUtil.check(v);
                 ChangeIJKCodeDialog dialog = new ChangeIJKCodeDialog().build(mActivity, new ChangeIJKCodeDialog.Callback() {
                     @Override
@@ -175,8 +223,6 @@ public class ModelSettingFragment extends BaseLazyFragment {
             @Override
             public void onChange() {
                 findViewById(R.id.llDebug).setVisibility(View.VISIBLE);
-                findViewById(R.id.llTest).setVisibility(View.VISIBLE);
-                findViewById(R.id.llSourceMode).setVisibility(View.VISIBLE);
             }
         };
     }

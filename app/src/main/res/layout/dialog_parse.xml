@@ -13,8 +13,8 @@
 
         <ProgressBar
             android:id="@+id/mProgressBar"
-            android:layout_width="60pt"
-            android:layout_height="60pt"
+            android:layout_width="60mm"
+            android:layout_height="60mm"
             android:layout_gravity="center"
             android:indeterminateBehavior="repeat"
             android:indeterminateDrawable="@drawable/data_loading"
@@ -24,22 +24,22 @@
             android:id="@+id/mParse_tip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20pt"
+            android:layout_marginTop="20mm"
             android:text="资源解析中，请稍后"
             android:textColor="@android:color/white"
-            android:textSize="30pt" />
+            android:textSize="30mm" />
 
     </LinearLayout>
 
     <com.owen.tvrecyclerview.widget.TvRecyclerView
         android:id="@+id/mGridView"
         android:layout_width="match_parent"
-        android:layout_height="190pt"
+        android:layout_height="190mm"
         android:layout_gravity="bottom"
-        android:layout_marginLeft="250pt"
-        android:layout_marginRight="250pt"
-        android:layout_marginBottom="30pt"
-        app:tv_horizontalSpacingWithMargins="5pt"
+        android:layout_marginLeft="250mm"
+        android:layout_marginRight="250mm"
+        android:layout_marginBottom="30mm"
+        app:tv_horizontalSpacingWithMargins="5mm"
         app:tv_selectedItemIsCentered="true"
-        app:tv_verticalSpacingWithMargins="5pt" />
+        app:tv_verticalSpacingWithMargins="5mm" />
 </FrameLayout>

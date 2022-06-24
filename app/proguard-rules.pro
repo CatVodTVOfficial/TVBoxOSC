@@ -188,7 +188,4 @@
     <methods>;
 }
 
-#Spider
--keep class * implements com.github.tvbox.osc.spider.Spider {
-    public <methods>;
-}
+-keep class com.github.catvod.crawler.*{*;}

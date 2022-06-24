@@ -211,6 +211,8 @@ public class LivePlayActivity extends BaseActivity {
             }
         });
         List<LiveChannel> list = ApiConfig.get().getChannelList();
+        if (list.isEmpty())
+            return;
         if (list.size() > 0 && list.get(0).getUrls().startsWith("proxy://")) {
             showLoading();
             String url = DefaultConfig.checkReplaceProxy(list.get(0).getUrls());

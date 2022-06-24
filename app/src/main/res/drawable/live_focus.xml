@@ -2,7 +2,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_focused="true">
         <shape>
-            <stroke android:width="2pt" android:color="@android:color/white" />
+            <stroke android:width="2mm" android:color="@android:color/white" />
             <solid android:color="@android:color/transparent" />
         </shape>
     </item>

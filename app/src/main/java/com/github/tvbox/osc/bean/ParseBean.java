@@ -1,5 +1,7 @@
 package com.github.tvbox.osc.bean;
 
+import android.util.Base64;
+
 /**
  * @author pj567
  * @date :2021/3/8
@@ -9,6 +11,7 @@ public class ParseBean {
 
     private String name;
     private String url;
+    private String ext;
     private int type;   // 0 普通嗅探 1 json 2 Json扩展 3 聚合
 
     private boolean isDefault = false;
@@ -37,12 +40,29 @@ public class ParseBean {
         isDefault = b;
     }
 
-
     public int getType() {
         return type;
     }
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    public String getExt() {
+        return ext;
+    }
+
+    public void setExt(String ext) {
+        this.ext = ext;
+    }
+
+    public String mixUrl() {
+        if (!ext.isEmpty()) {
+            int idx = url.indexOf("?");
+            if (idx > 0) {
+                return url.substring(0, idx + 1) + "cat_ext=" + Base64.encodeToString(ext.getBytes(), Base64.DEFAULT | Base64.URL_SAFE | Base64.NO_WRAP) + "&" + url.substring(idx + 1);
+            }
+        }
+        return url;
     }
 }

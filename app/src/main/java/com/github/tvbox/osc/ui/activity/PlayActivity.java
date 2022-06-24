@@ -114,16 +114,21 @@ public class PlayActivity extends BaseActivity {
                     parseDialog.parse(sourceKey, object, new ParseDialog.ParseCallback() {
                         @Override
                         public void success(String playUrl, Map<String, String> headers) {
-                            if (mVideoView != null) {
-                                mVideoView.release();
-                                if (headers != null) {
-                                    mVideoView.setUrl(playUrl, headers);
-                                } else {
-                                    mVideoView.setUrl(playUrl);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (mVideoView != null) {
+                                        mVideoView.release();
+                                        if (headers != null) {
+                                            mVideoView.setUrl(playUrl, headers);
+                                        } else {
+                                            mVideoView.setUrl(playUrl);
+                                        }
+                                        mVideoView.start();
+                                    }
+                                    tryDismissParse();
                                 }
-                                mVideoView.start();
-                            }
-                            tryDismissParse();
+                            });
                         }
 
                         @Override

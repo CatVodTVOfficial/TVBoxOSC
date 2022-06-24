@@ -8,15 +8,15 @@
 
     <TextView
         android:id="@+id/tvParse"
-        android:layout_width="100pt"
-        android:layout_height="30pt"
+        android:layout_width="100mm"
+        android:layout_height="30mm"
         android:ellipsize="end"
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:gravity="center"
-        android:paddingLeft="5pt"
-        android:paddingRight="5pt"
+        android:paddingLeft="5mm"
+        android:paddingRight="5mm"
         android:singleLine="true"
         android:textColor="@android:color/white"
-        android:textSize="22pt" />
+        android:textSize="22mm" />
 </FrameLayout>

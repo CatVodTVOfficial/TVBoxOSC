@@ -11,18 +11,18 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="128pt"
-            android:layout_height="128pt"
+            android:layout_width="128mm"
+            android:layout_height="128mm"
             android:src="@drawable/empty" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20pt"
+            android:layout_marginTop="20mm"
             android:gravity="center"
             android:text="没找到数据"
             android:textColor="@android:color/white"
-            android:textSize="24pt" />
+            android:textSize="24mm" />
     </LinearLayout>
 
 </FrameLayout>
