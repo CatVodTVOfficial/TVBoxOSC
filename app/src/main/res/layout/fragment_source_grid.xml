@@ -6,9 +6,7 @@
     android:layout_height="match_parent"
     android:clipChildren="false"
     android:clipToPadding="false"
-    android:paddingLeft="30pt"
-    android:paddingTop="60pt"
-    android:paddingRight="30pt"
-    app:tv_horizontalSpacingWithMargins="10pt"
+    android:padding="@dimen/vs_20"
+    app:tv_horizontalSpacingWithMargins="@dimen/vs_10"
     app:tv_selectedItemIsCentered="true"
-    app:tv_verticalSpacingWithMargins="10pt" />
+    app:tv_verticalSpacingWithMargins="@dimen/vs_10" />

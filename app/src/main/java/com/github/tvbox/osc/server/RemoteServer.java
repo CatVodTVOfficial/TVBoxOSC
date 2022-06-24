@@ -3,23 +3,40 @@ package com.github.tvbox.osc.server;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.wifi.WifiManager;
+import android.os.Environment;
 
 import com.github.tvbox.osc.R;
 import com.github.tvbox.osc.api.ApiConfig;
 import com.github.tvbox.osc.event.ServerEvent;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 import fi.iki.elonen.NanoHTTPD;
 
@@ -44,11 +61,12 @@ public class RemoteServer extends NanoHTTPD {
     }
 
     private void addGetRequestProcess() {
+        getRequestList.add(new RawRequestProcess(this.mContext, "/", R.raw.index, NanoHTTPD.MIME_HTML));
         getRequestList.add(new RawRequestProcess(this.mContext, "/index.html", R.raw.index, NanoHTTPD.MIME_HTML));
         getRequestList.add(new RawRequestProcess(this.mContext, "/style.css", R.raw.style, "text/css"));
-        getRequestList.add(new RawRequestProcess(this.mContext, "/jquery_min.js", R.raw.jquery_min, "application/x-javascript"));
-        getRequestList.add(new RawRequestProcess(this.mContext, "/ime_core.js", R.raw.ime_core, "application/x-javascript"));
-        getRequestList.add(new RawRequestProcess(this.mContext, "/keys.png", R.raw.keys, "image/png"));
+        getRequestList.add(new RawRequestProcess(this.mContext, "/ui.css", R.raw.ui, "text/css"));
+        getRequestList.add(new RawRequestProcess(this.mContext, "/jquery.js", R.raw.jquery, "application/x-javascript"));
+        getRequestList.add(new RawRequestProcess(this.mContext, "/script.js", R.raw.script, "application/x-javascript"));
         getRequestList.add(new RawRequestProcess(this.mContext, "/favicon.ico", R.drawable.app_icon, "image/x-icon"));
     }
 
@@ -101,10 +119,41 @@ public class RemoteServer extends NanoHTTPD {
                             return NanoHTTPD.newFixedLengthResponse(NanoHTTPD.Response.Status.INTERNAL_ERROR, NanoHTTPD.MIME_PLAINTEXT, "500");
                         }
                     }
+                } else if (fileName.startsWith("/file/")) {
+                    try {
+                        String f = fileName.substring(6);
+                        String root = Environment.getExternalStorageDirectory().getAbsolutePath();
+                        String file = root + "/" + f;
+                        File localFile = new File(file);
+                        if (localFile.exists()) {
+                            if (localFile.isFile()) {
+                                return NanoHTTPD.newChunkedResponse(NanoHTTPD.Response.Status.OK, "application/octet-stream", new FileInputStream(localFile));
+                            } else {
+                                return NanoHTTPD.newFixedLengthResponse(NanoHTTPD.Response.Status.OK, NanoHTTPD.MIME_PLAINTEXT, fileList(root, f));
+                            }
+                        } else {
+                            return NanoHTTPD.newFixedLengthResponse(NanoHTTPD.Response.Status.INTERNAL_ERROR, NanoHTTPD.MIME_PLAINTEXT, "File " + file + " not found!");
+                        }
+                    } catch (Throwable th) {
+                        return NanoHTTPD.newFixedLengthResponse(NanoHTTPD.Response.Status.INTERNAL_ERROR, NanoHTTPD.MIME_PLAINTEXT, th.getMessage());
+                    }
                 }
             } else if (session.getMethod() == Method.POST) {
                 Map<String, String> files = new HashMap<String, String>();
                 try {
+                    if (session.getHeaders().containsKey("content-type")) {
+                        String hd = session.getHeaders().get("content-type");
+                        if (hd != null) {
+                            // cuke: 修正中文乱码问题
+                            if (hd.toLowerCase().contains("multipart/form-data") && !hd.toLowerCase().contains("charset=")) {
+                                Matcher matcher = Pattern.compile("[ |\t]*(boundary[ |\t]*=[ |\t]*['|\"]?[^\"^'^;^,]*['|\"]?)", Pattern.CASE_INSENSITIVE).matcher(hd);
+                                String boundary = matcher.find() ? matcher.group(1) : null;
+                                if (boundary != null) {
+                                    session.getHeaders().put("content-type", "multipart/form-data; charset=utf-8; " + boundary);
+                                }
+                            }
+                        }
+                    }
                     session.parseBody(files);
                 } catch (IOException IOExc) {
                     return createPlainTextResponse(NanoHTTPD.Response.Status.INTERNAL_ERROR, "SERVER INTERNAL ERROR: IOException: " + IOExc.getMessage());
@@ -115,6 +164,63 @@ public class RemoteServer extends NanoHTTPD {
                     if (process.isRequest(session, fileName)) {
                         return process.doResponse(session, fileName, session.getParms(), files);
                     }
+                }
+                try {
+                    Map<String, String> params = session.getParms();
+                    if (fileName.equals("/upload")) {
+                        String path = params.get("path");
+                        for (String k : files.keySet()) {
+                            if (k.startsWith("files-")) {
+                                String fn = params.get(k);
+                                String tmpFile = files.get(k);
+                                File tmp = new File(tmpFile);
+                                String root = Environment.getExternalStorageDirectory().getAbsolutePath();
+                                File file = new File(root + "/" + path + "/" + fn);
+                                if (file.exists())
+                                    file.delete();
+                                if (tmp.exists()) {
+                                    if (fn.toLowerCase().endsWith(".zip")) {
+                                        unzip(tmp, root + "/" + path);
+                                    } else {
+                                        copyFile(tmp, file);
+                                    }
+                                }
+                                if (tmp.exists())
+                                    tmp.delete();
+                            }
+                        }
+                        return NanoHTTPD.newFixedLengthResponse(NanoHTTPD.Response.Status.OK, NanoHTTPD.MIME_PLAINTEXT, "OK");
+                    } else if (fileName.equals("/newFolder")) {
+                        String path = params.get("path");
+                        String name = params.get("name");
+                        String root = Environment.getExternalStorageDirectory().getAbsolutePath();
+                        File file = new File(root + "/" + path + "/" + name);
+                        if (!file.exists()) {
+                            file.mkdirs();
+                            File flag = new File(root + "/" + path + "/" + name + "/.tvbox_folder");
+                            if (!flag.exists())
+                                flag.createNewFile();
+                        }
+                        return NanoHTTPD.newFixedLengthResponse(NanoHTTPD.Response.Status.OK, NanoHTTPD.MIME_PLAINTEXT, "OK");
+                    } else if (fileName.equals("/delFolder")) {
+                        String path = params.get("path");
+                        String root = Environment.getExternalStorageDirectory().getAbsolutePath();
+                        File file = new File(root + "/" + path);
+                        if (file.exists()) {
+                            recursiveDelete(file);
+                        }
+                        return NanoHTTPD.newFixedLengthResponse(NanoHTTPD.Response.Status.OK, NanoHTTPD.MIME_PLAINTEXT, "OK");
+                    } else if (fileName.equals("/delFile")) {
+                        String path = params.get("path");
+                        String root = Environment.getExternalStorageDirectory().getAbsolutePath();
+                        File file = new File(root + "/" + path);
+                        if (file.exists()) {
+                            file.delete();
+                        }
+                        return NanoHTTPD.newFixedLengthResponse(NanoHTTPD.Response.Status.OK, NanoHTTPD.MIME_PLAINTEXT, "OK");
+                    }
+                } catch (Throwable th) {
+                    return NanoHTTPD.newFixedLengthResponse(NanoHTTPD.Response.Status.OK, NanoHTTPD.MIME_PLAINTEXT, "OK");
                 }
             }
         }
@@ -135,12 +241,12 @@ public class RemoteServer extends NanoHTTPD {
     }
 
     public String getServerAddress() {
-        return getServerAddress(mContext);
+        String ipAddress = getLocalIPAddress(mContext);
+        return "http://" + ipAddress + ":" + RemoteServer.serverPort + "/";
     }
 
-    public static String getServerAddress(Context context) {
-        String ipAddress = getLocalIPAddress(context);
-        return "http://" + ipAddress + ":" + RemoteServer.serverPort + "/";
+    public String getLoadAddress() {
+        return "http://127.0.0.1:" + RemoteServer.serverPort + "/";
     }
 
     public static Response createPlainTextResponse(Response.IStatus status, String text) {
@@ -179,4 +285,126 @@ public class RemoteServer extends NanoHTTPD {
         }
         return "0.0.0.0";
     }
+
+    String fileTime(long time, String fmt) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(time);
+        Date date = calendar.getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat(fmt);
+        return sdf.format(date);
+    }
+
+    String fileList(String root, String path) {
+        File file = new File(root + "/" + path);
+        File[] list = file.listFiles();
+        JsonObject info = new JsonObject();
+        info.addProperty("remote", getServerAddress().replace("http://", "clan://"));
+        info.addProperty("del", 0);
+        if (path.isEmpty()) {
+            info.addProperty("parent", ".");
+        } else {
+            info.addProperty("parent", file.getParentFile().getAbsolutePath().replace(root + "/", "").replace(root, ""));
+        }
+        if (list == null || list.length == 0) {
+            info.add("files", new JsonArray());
+            return info.toString();
+        }
+        Arrays.sort(list, new Comparator<File>() {
+            @Override
+            public int compare(File o1, File o2) {
+                if (o1.isDirectory() && o2.isFile()) return -1;
+                return o1.isFile() && o2.isDirectory() ? 1 : o1.getName().compareTo(o2.getName());
+            }
+        });
+        JsonArray result = new JsonArray();
+        for (File f : list) {
+            if (f.getName().startsWith(".")) {
+                if (f.getName().equals(".tvbox_folder")) {
+                    info.addProperty("del", 1);
+                }
+                continue;
+            }
+            JsonObject fileObj = new JsonObject();
+            fileObj.addProperty("name", f.getName());
+            fileObj.addProperty("path", f.getAbsolutePath().replace(root + "/", ""));
+            fileObj.addProperty("time", fileTime(f.lastModified(), "yyyy/MM/dd aHH:mm:ss"));
+            fileObj.addProperty("dir", f.isDirectory() ? 1 : 0);
+            result.add(fileObj);
+        }
+        info.add("files", result);
+        return info.toString();
+    }
+
+    void unzip(File zipFilePath, String destDirectory) throws Throwable {
+        File destDir = new File(destDirectory);
+        if (!destDir.exists()) {
+            destDir.mkdirs();
+        }
+        ZipFile zip = new ZipFile(zipFilePath);
+        Enumeration<ZipEntry> iter = (Enumeration<ZipEntry>) zip.entries();
+        while (iter.hasMoreElements()) {
+            ZipEntry entry = iter.nextElement();
+            InputStream is = zip.getInputStream(entry);
+            String filePath = destDirectory + File.separator + entry.getName();
+            if (!entry.isDirectory()) {
+                extractFile(is, filePath);
+            } else {
+                File dir = new File(filePath);
+                if (!dir.exists())
+                    dir.mkdirs();
+                File flag = new File(dir + "/.tvbox_folder");
+                if (!flag.exists())
+                    flag.createNewFile();
+            }
+        }
+    }
+
+    private void extractFile(InputStream inputStream, String destFilePath) throws Throwable {
+        File dst = new File(destFilePath);
+        if (dst.exists())
+            dst.delete();
+        BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(destFilePath));
+        byte[] bytesIn = new byte[2048];
+        int len = inputStream.read(bytesIn);
+        while (len > 0) {
+            bos.write(bytesIn, 0, len);
+            len = inputStream.read(bytesIn);
+        }
+        bos.close();
+    }
+
+    private void copyFile(File source, File dest) throws IOException {
+        InputStream is = null;
+        OutputStream os = null;
+        try {
+            is = new FileInputStream(source);
+            os = new FileOutputStream(dest);
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = is.read(buffer)) > 0) {
+                os.write(buffer, 0, length);
+            }
+        } finally {
+            is.close();
+            os.close();
+        }
+    }
+
+    public void recursiveDelete(File file) {
+        // 结束递归循环
+        if (!file.exists())
+            return;
+
+        // 如果是目录，请进入内部并递归调用
+        if (file.isDirectory()) {
+            for (File f : file.listFiles()) {
+                // 调用递归
+                recursiveDelete(f);
+            }
+        }
+        // 调用delete删除文件和空目录
+        file.delete();
+        System.out.println("Deleted file/folder: " + file.getAbsolutePath());
+    }
+
 }

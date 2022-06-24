@@ -22,10 +22,13 @@ import com.kingja.loadsir.core.LoadSir;
 
 import java.util.List;
 
+import me.jessyan.autosize.AutoSize;
+import me.jessyan.autosize.internal.CustomAdapt;
+
 /**
  * Fragment的基类(懒加载)
  */
-public abstract class BaseLazyFragment extends Fragment {
+public abstract class BaseLazyFragment extends Fragment implements CustomAdapt {
     /**
      * Fragment生命周期 onAttach -> onCreate -> onCreatedView -> onActivityCreated
      * -> onStart -> onResume -> onPause -> onStop -> onDestroyView -> onDestroy
@@ -62,6 +65,7 @@ public abstract class BaseLazyFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        AutoSize.autoConvertDensity(getActivity(), getSizeInDp(), true);
         if (null == rootView) {
             rootView = inflater.inflate(getLayoutResID(), container, false);
         }
@@ -194,6 +198,7 @@ public abstract class BaseLazyFragment extends Fragment {
      */
     @Override
     public void onResume() {
+        AutoSize.autoConvertDensity(getActivity(), getSizeInDp(), true);
         super.onResume();
         // 如果不是第一次可见
         if (!mIsFirstVisible) {
@@ -278,5 +283,16 @@ public abstract class BaseLazyFragment extends Fragment {
         intent.putExtras(bundle);
         startActivity(intent);
     }
+
+    @Override
+    public float getSizeInDp() {
+        return 1280;
+    }
+
+    @Override
+    public boolean isBaseOnWidth() {
+        return true;
+    }
+
 
 }

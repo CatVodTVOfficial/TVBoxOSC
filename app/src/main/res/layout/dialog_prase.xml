@@ -5,57 +5,57 @@
     android:layout_gravity="center"
     android:background="@drawable/model_dialog_bg"
     android:orientation="vertical"
-    android:padding="30pt">
+    android:padding="30mm">
 
     <TextView
         android:id="@+id/tvPrase1"
-        android:layout_width="300pt"
-        android:layout_height="40pt"
+        android:layout_width="300mm"
+        android:layout_height="40mm"
         android:background="@drawable/splash_focus"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:gravity="center"
         android:text="主用"
         android:textColor="@android:color/black"
-        android:textSize="18pt" />
+        android:textSize="18mm" />
 
     <TextView
         android:id="@+id/tvPrase2"
-        android:layout_width="300pt"
-        android:layout_height="40pt"
-        android:layout_marginTop="30pt"
+        android:layout_width="300mm"
+        android:layout_height="40mm"
+        android:layout_marginTop="30mm"
         android:background="@drawable/splash_focus"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:gravity="center"
         android:text="备用1"
         android:textColor="@android:color/black"
-        android:textSize="18pt" />
+        android:textSize="18mm" />
 
     <TextView
         android:id="@+id/tvPrase3"
-        android:layout_width="300pt"
-        android:layout_height="40pt"
-        android:layout_marginTop="30pt"
+        android:layout_width="300mm"
+        android:layout_height="40mm"
+        android:layout_marginTop="30mm"
         android:background="@drawable/splash_focus"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:gravity="center"
         android:text="备用2"
         android:textColor="@android:color/black"
-        android:textSize="18pt" />
+        android:textSize="18mm" />
 
     <TextView
         android:id="@+id/tvPrase4"
-        android:layout_width="300pt"
-        android:layout_height="40pt"
-        android:layout_marginTop="30pt"
+        android:layout_width="300mm"
+        android:layout_height="40mm"
+        android:layout_marginTop="30mm"
         android:background="@drawable/splash_focus"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:gravity="center"
         android:text="备用3"
         android:textColor="@android:color/black"
-        android:textSize="18pt" />
+        android:textSize="18mm" />
 
 </LinearLayout>

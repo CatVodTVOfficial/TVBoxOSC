@@ -1,5 +1,6 @@
 package com.github.tvbox.osc.ui.dialog;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -25,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -61,6 +63,8 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import me.jessyan.autosize.AutoSize;
 
 /**
  * @author pj567
@@ -232,11 +236,47 @@ public class ParseDialog {
 
     private void initWebView(boolean useSystemWebView) {
         if (useSystemWebView) {
-            mSysWebView = new WebView(mContext);
+            mSysWebView = new MyWebView(mContext);
             configWebViewSys(mSysWebView);
         } else {
-            mX5WebView = new XWalkView(mContext);
+            mX5WebView = new MyXWalkView(mContext);
             configWebViewX5(mX5WebView);
+        }
+    }
+
+    class MyWebView extends WebView {
+        public MyWebView(@NonNull Context context) {
+            super(context);
+        }
+
+        @Override
+        public void setOverScrollMode(int mode) {
+            super.setOverScrollMode(mode);
+            if (mContext instanceof Activity)
+                AutoSize.autoConvertDensityOfGlobal((Activity) mContext);
+        }
+
+        @Override
+        public boolean dispatchKeyEvent(KeyEvent event) {
+            return false;
+        }
+    }
+
+    class MyXWalkView extends XWalkView {
+        public MyXWalkView(Context context) {
+            super(context);
+        }
+
+        @Override
+        public void setOverScrollMode(int mode) {
+            super.setOverScrollMode(mode);
+            if (mContext instanceof Activity)
+                AutoSize.autoConvertDensityOfGlobal((Activity) mContext);
+        }
+
+        @Override
+        public boolean dispatchKeyEvent(KeyEvent event) {
+            return false;
         }
     }
 

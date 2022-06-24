@@ -6,17 +6,17 @@
     android:layout_gravity="center"
     android:background="@drawable/model_dialog_bg"
     android:orientation="vertical"
-    android:padding="30pt">
+    android:padding="30mm">
 
     <com.owen.tvrecyclerview.widget.TvRecyclerView
         android:id="@+id/tvIJKCodecGrid"
-        android:layout_width="310pt"
+        android:layout_width="310mm"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:clipChildren="false"
         android:clipToPadding="false"
-        app:tv_horizontalSpacingWithMargins="5pt"
+        app:tv_horizontalSpacingWithMargins="5mm"
         app:tv_selectedItemIsCentered="true"
-        app:tv_verticalSpacingWithMargins="30pt" />
+        app:tv_verticalSpacingWithMargins="30mm" />
 
 </LinearLayout>

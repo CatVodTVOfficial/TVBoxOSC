@@ -1,15 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion '29.0.2'
+    compileSdkVersion 30
 
     defaultConfig {
         applicationId 'com.github.tvbox.osc'
         minSdkVersion 16
-        targetSdkVersion 29
-        versionCode 33
-        versionName '4.3.3'
+        targetSdkVersion 26
+        versionCode 1
+        versionName '1.0.0'
         multiDexEnabled true
         //设置room的Schema的位置
         javaCompileOptions {
@@ -66,6 +65,7 @@ dependencies {
     implementation 'org.nanohttpd:nanohttpd:2.3.1'
     implementation 'com.google.zxing:core:3.4.1'
     implementation 'androidx.appcompat:appcompat:1.3.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
 
@@ -95,4 +95,6 @@ dependencies {
     implementation 'com.github.dueeeke.dkplayer:player-exo:3.2.6'
     implementation 'com.github.dueeeke.dkplayer:player-ijk:3.2.6'
     implementation 'com.owen:tv-recyclerview:3.0.0'
+
+    implementation 'com.github.getActivity:XXPermissions:13.6'
 }

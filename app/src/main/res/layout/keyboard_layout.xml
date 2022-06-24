@@ -1,48 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="428pt"
-    android:layout_height="match_parent"
-    android:paddingLeft="60pt">
-
-    <LinearLayout
-        android:layout_width="322pt"
-        android:layout_height="47pt"
-        android:background="@drawable/search_box"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="29pt"
-            android:layout_height="29pt"
-            android:layout_marginLeft="10pt"
-            android:src="@drawable/search_icon" />
-
-        <TextView
-            android:id="@+id/search"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="20pt"
-            android:layout_marginRight="10pt"
-            android:gravity="center_vertical"
-            android:hint="请输入"
-            android:maxLines="1"
-            android:textColor="@android:color/white"
-            android:textColorHint="#6CFFFFFF"
-            android:textSize="24pt" />
-    </LinearLayout>
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/vs_4_"
+    android:layout_marginRight="@dimen/vs_4_">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/mRecyclerView"
-        android:layout_width="342pt"
-        android:layout_height="394pt"
-        android:layout_marginTop="70pt" />
-
-    <TextView
-        android:id="@+id/hint"
-        android:layout_width="322pt"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="464pt"
-        android:lineSpacingMultiplier="1.4"
-        android:textColor="@android:color/white"
-        android:textSize="18pt" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </FrameLayout>

@@ -2,7 +2,7 @@ package com.github.tvbox.osc.ui.fragment;
 
 import android.view.View;
 import android.view.animation.BounceInterpolator;
-import android.widget.TextView;
+import android.widget.FrameLayout;
 
 import com.github.tvbox.osc.R;
 import com.github.tvbox.osc.base.BaseLazyFragment;
@@ -23,10 +23,10 @@ import org.greenrobot.eventbus.ThreadMode;
  * @description:
  */
 public class UserFragment extends BaseLazyFragment implements View.OnClickListener {
-    private TextView tvLive;
-    private TextView tvSearch;
-    private TextView tvSetting;
-    private TextView tvHistory;
+    private FrameLayout tvLive;
+    private FrameLayout tvSearch;
+    private FrameLayout tvSetting;
+    private FrameLayout tvHistory;
 
     public static UserFragment newInstance() {
         return new UserFragment();

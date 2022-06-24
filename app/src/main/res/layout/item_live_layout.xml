@@ -8,31 +8,31 @@
 
     <TextView
         android:id="@+id/tvLiveAdd"
-        android:layout_width="190pt"
-        android:layout_height="50pt"
+        android:layout_width="190mm"
+        android:layout_height="50mm"
         android:ellipsize="end"
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:gravity="center"
-        android:paddingLeft="5pt"
-        android:paddingRight="5pt"
+        android:paddingLeft="5mm"
+        android:paddingRight="5mm"
         android:singleLine="true"
         android:text="+新增直播"
         android:textColor="@color/color_CBF46A"
-        android:textSize="24pt"
+        android:textSize="24mm"
         android:visibility="gone" />
 
     <TextView
         android:id="@+id/tvLive"
-        android:layout_width="190pt"
-        android:layout_height="50pt"
+        android:layout_width="190mm"
+        android:layout_height="50mm"
         android:ellipsize="end"
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:gravity="center"
-        android:paddingLeft="5pt"
-        android:paddingRight="5pt"
+        android:paddingLeft="5mm"
+        android:paddingRight="5mm"
         android:singleLine="true"
         android:textColor="@android:color/white"
-        android:textSize="22pt" />
+        android:textSize="22mm" />
 </FrameLayout>
