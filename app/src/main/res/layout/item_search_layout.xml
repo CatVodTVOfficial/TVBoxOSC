@@ -3,18 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/source_focus"
-    android:focusable="true"
-    android:focusableInTouchMode="true">
+    android:focusable="true">
 
     <TextView
         android:id="@+id/tvName"
         android:layout_width="match_parent"
-        android:layout_height="40mm"
-        android:ellipsize="end"
+        android:layout_height="wrap_content"
+        android:ellipsize="middle"
         android:gravity="center_vertical"
-        android:paddingLeft="10mm"
-        android:paddingRight="10mm"
+        android:padding="@dimen/vs_10"
         android:singleLine="true"
         android:textColor="@android:color/white"
-        android:textSize="20mm" />
+        android:textSize="@dimen/ts_20" />
 </FrameLayout>

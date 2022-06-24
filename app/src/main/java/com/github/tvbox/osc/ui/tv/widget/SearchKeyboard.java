@@ -1,12 +1,10 @@
 package com.github.tvbox.osc.ui.tv.widget;
 
 import android.content.Context;
-import android.text.Html;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 
 import androidx.annotation.AttrRes;
 import androidx.annotation.NonNull;
@@ -32,12 +30,8 @@ import java.util.List;
  */
 public class SearchKeyboard extends FrameLayout {
     private RecyclerView mRecyclerView;
-    private List<String> keys = Arrays.asList("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M"
-            , "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "1", "2", "3", "4", "5", "6", "7", "8", "9"
-            , "0", "删除", "清空");
+    private List<String> keys = Arrays.asList("远程搜索", "删除", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0");
     private List<Keyboard> keyboardList = new ArrayList<>();
-    private TextView hint;
-    private TextView search;
     private OnSearchKeyListener searchKeyListener;
     private OnFocusChangeListener focusChangeListener = new OnFocusChangeListener() {
         @Override
@@ -64,9 +58,7 @@ public class SearchKeyboard extends FrameLayout {
     private void initView() {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.keyboard_layout, this);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.mRecyclerView);
-        hint = (TextView) view.findViewById(R.id.hint);
-        search = (TextView) view.findViewById(R.id.search);
-        GridLayoutManager manager = new GridLayoutManager(getContext(), 5);
+        GridLayoutManager manager = new GridLayoutManager(getContext(), 6);
         mRecyclerView.setLayoutManager(manager);
         mRecyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
             @Override
@@ -81,45 +73,29 @@ public class SearchKeyboard extends FrameLayout {
 
             }
         });
-        String html = "请输入全拼或者首字母查找影片<br>首字母如：" + "<font color=\"#0CADE2\">“金刚川”</font>输入<font color=\"#0CADE2\">“JGC”</font>" +
-                "<br>部分影片可能搜索不出来";
-        hint.setText(Html.fromHtml(html));
         int size = keys.size();
         for (int i = 0; i < size; i++) {
-            if (i < size - 2) {
-                keyboardList.add(new Keyboard(1, keys.get(i)));
-            } else {
-                keyboardList.add(new Keyboard(2, keys.get(i)));
-            }
+            keyboardList.add(new Keyboard(1, keys.get(i)));
         }
         final KeyboardAdapter adapter = new KeyboardAdapter(keyboardList);
         mRecyclerView.setAdapter(adapter);
         adapter.setSpanSizeLookup(new BaseQuickAdapter.SpanSizeLookup() {
             @Override
             public int getSpanSize(GridLayoutManager gridLayoutManager, int position) {
-                if (position == adapter.getData().size() - 2 || position == adapter.getData().size() - 1) {
-                    return 2;
-                }
+                if (position == 0)
+                    return 3;
+                else if (position == 1)
+                    return 3;
                 return 1;
             }
-
         });
 
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Keyboard keyboard = (Keyboard) adapter.getItem(position);
-                String text = search.getText().toString();
-                if (position == adapter.getData().size() - 1) {
-                    text = "";
-                } else if (position == adapter.getData().size() - 2) {
-                    text = text.substring(0, text.length() - 1);
-                } else {
-                    text += keyboard.getKey();
-                }
-                search.setText(text);
                 if (searchKeyListener != null) {
-                    searchKeyListener.onSearchKey(text);
+                    searchKeyListener.onSearchKey(position, keyboard.getKey());
                 }
             }
         });
@@ -177,6 +153,6 @@ public class SearchKeyboard extends FrameLayout {
     }
 
     public interface OnSearchKeyListener {
-        void onSearchKey(String key);
+        void onSearchKey(int pos, String key);
     }
 }
