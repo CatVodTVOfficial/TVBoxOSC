@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="ts_16">16mm</dimen>
     <dimen name="ts_20">20mm</dimen>
     <dimen name="ts_22">22mm</dimen>
     <dimen name="ts_24">24mm</dimen>
@@ -56,6 +57,7 @@
     <dimen name="vs_170">170mm</dimen>
     <dimen name="vs_180">180mm</dimen>
     <dimen name="vs_200">200mm</dimen>
+    <dimen name="vs_214">214mm</dimen>
     <dimen name="vs_220">220mm</dimen>
     <dimen name="vs_230">230mm</dimen>
     <dimen name="vs_240">240mm</dimen>
