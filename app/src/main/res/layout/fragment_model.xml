@@ -114,52 +114,6 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/llSourceMode"
-                android:layout_width="match_parent"
-                android:layout_height="50pt"
-                android:layout_marginLeft="30pt"
-                android:layout_marginTop="20pt"
-                android:layout_marginRight="30pt"
-                android:background="@drawable/setting_model_focus"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingLeft="20pt"
-                android:paddingRight="20pt"
-                android:visibility="gone">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="数据源模式"
-                    android:textColor="@android:color/white"
-                    android:textSize="24pt" />
-
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <TextView
-                    android:id="@+id/tvSourceMode"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="本地"
-                    android:textColor="@android:color/white"
-                    android:textSize="24pt" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10pt"
-                    android:paddingBottom="5pt"
-                    android:text=">"
-                    android:textColor="@android:color/white"
-                    android:textSize="30pt" />
-            </LinearLayout>
-
-            <LinearLayout
                 android:id="@+id/llApi"
                 android:layout_width="match_parent"
                 android:layout_height="50pt"
@@ -191,9 +145,46 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="middle"
+                    android:singleLine="true"
                     android:textColor="@android:color/white"
-                    android:textSize="24pt"
-                    android:singleLine="true" />
+                    android:textSize="24pt" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10pt"
+                    android:paddingBottom="5pt"
+                    android:text=">"
+                    android:textColor="@android:color/white"
+                    android:textSize="30pt" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llStorage"
+                android:layout_width="match_parent"
+                android:layout_height="50pt"
+                android:layout_marginLeft="30pt"
+                android:layout_marginTop="20pt"
+                android:layout_marginRight="30pt"
+                android:background="@drawable/setting_model_focus"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="20pt"
+                android:paddingRight="20pt">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="存储权限"
+                    android:textColor="@android:color/white"
+                    android:textSize="24pt" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
 
                 <TextView
                     android:layout_width="wrap_content"

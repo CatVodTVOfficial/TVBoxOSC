@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.IdRes;
 
 import com.github.tvbox.osc.R;
+import com.github.tvbox.osc.server.ControlManager;
 import com.github.tvbox.osc.server.RemoteServer;
 import com.github.tvbox.osc.ui.tv.QRCodeGen;
 
@@ -56,7 +57,7 @@ public class RemoteDialog {
     }
 
     private void refreshQRCode() {
-        String address = RemoteServer.getServerAddress(mContext);
+        String address = ControlManager.get().getAddress(false);
         tvAddress.setText(String.format("手机/电脑扫描左边二维码或者直接浏览器访问地址\n%s", address));
         ivQRCode.setImageBitmap(QRCodeGen.generateBitmap(address, 200, 200));
     }
