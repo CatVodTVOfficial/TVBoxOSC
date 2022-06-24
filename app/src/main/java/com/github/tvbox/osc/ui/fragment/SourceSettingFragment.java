@@ -13,7 +13,6 @@ import com.github.tvbox.osc.base.BaseLazyFragment;
 import com.github.tvbox.osc.bean.SourceBean;
 import com.github.tvbox.osc.receiver.CustomWebReceiver;
 import com.github.tvbox.osc.ui.adapter.SourceSettingAdapter;
-import com.github.tvbox.osc.ui.dialog.SourceSetDialog;
 import com.github.tvbox.osc.ui.dialog.SpeedTestDialog;
 import com.github.tvbox.osc.util.FastClickCheckUtil;
 import com.owen.tvrecyclerview.widget.TvRecyclerView;
@@ -51,7 +50,7 @@ public class SourceSettingFragment extends BaseLazyFragment {
         mGridView.setAdapter(settingAdapter);
         mGridView.setLayoutManager(new V7GridLayoutManager(getContext(), 5));
         List<SourceBean> sourceBeans = new ArrayList<>();
-        sourceBeans.add(SourceBean.speedTestBean);
+        // sourceBeans.add(SourceBean.speedTestBean);
         sourceBeans.addAll(ApiConfig.get().getSourceBeanList());
         settingAdapter.setNewData(sourceBeans);
         settingAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -63,7 +62,11 @@ public class SourceSettingFragment extends BaseLazyFragment {
                     SpeedTestDialog dialog = new SpeedTestDialog().build(mContext);
                     dialog.show();
                 } else {
-                    SourceSetDialog dialog = new SourceSetDialog()
+                    int preHome = settingAdapter.getData().indexOf(ApiConfig.get().getHomeSourceBean());
+                    ApiConfig.get().setSourceBean(sourceBean);
+                    settingAdapter.notifyItemChanged(preHome);
+                    settingAdapter.notifyItemChanged(position);
+                    /*SourceSetDialog dialog = new SourceSetDialog()
                             .bean(sourceBean)
                             .OnChangeSrcListener(new SourceSetDialog.OnChangeSrcListener() {
                                 @Override
@@ -84,7 +87,7 @@ public class SourceSettingFragment extends BaseLazyFragment {
                                     settingAdapter.remove(position);
                                 }
                             }).build(SourceSettingFragment.this);
-                    dialog.show();
+                    dialog.show();*/
                 }
             }
         });

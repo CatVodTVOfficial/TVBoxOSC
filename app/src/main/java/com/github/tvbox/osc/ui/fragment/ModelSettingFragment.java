@@ -35,7 +35,6 @@ import java.util.List;
  */
 public class ModelSettingFragment extends BaseLazyFragment {
     private TextView tvDebugOpen;
-    private TextView tvTestChannel;
     private TextView tvMediaCodec;
     private TextView tvParseWebView;
     private TextView tvPlay;
@@ -59,7 +58,6 @@ public class ModelSettingFragment extends BaseLazyFragment {
     @Override
     protected void init() {
         tvDebugOpen = findViewById(R.id.tvDebugOpen);
-        tvTestChannel = findViewById(R.id.tvTestChannel);
         tvParseWebView = findViewById(R.id.tvParseWebView);
         tvMediaCodec = findViewById(R.id.tvMediaCodec);
         tvPlay = findViewById(R.id.tvPlay);
@@ -68,7 +66,6 @@ public class ModelSettingFragment extends BaseLazyFragment {
         tvApi = findViewById(R.id.tvApi);
         tvMediaCodec.setText(Hawk.get(HawkConfig.IJK_CODEC, ""));
         tvDebugOpen.setText(Hawk.get(HawkConfig.DEBUG_OPEN, false) ? "已打开" : "已关闭");
-        tvTestChannel.setText(Hawk.get(HawkConfig.TEST_CHANNEL, false) ? "已打开" : "已关闭");
         tvParseWebView.setText(Hawk.get(HawkConfig.PARSE_WEBVIEW, true) ? "系统自带" : "XWalkView");
         tvXWalkDown.setText(XWalkUtils.xWalkLibExist(mContext) ? "已下载" : "未下载");
         tvApi.setText(Hawk.get(HawkConfig.API_URL, ""));
@@ -81,14 +78,6 @@ public class ModelSettingFragment extends BaseLazyFragment {
                 FastClickCheckUtil.check(v);
                 Hawk.put(HawkConfig.DEBUG_OPEN, !Hawk.get(HawkConfig.DEBUG_OPEN, false));
                 tvDebugOpen.setText(Hawk.get(HawkConfig.DEBUG_OPEN, false) ? "已打开" : "已关闭");
-            }
-        });
-        findViewById(R.id.llTest).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FastClickCheckUtil.check(v);
-                Hawk.put(HawkConfig.TEST_CHANNEL, !Hawk.get(HawkConfig.TEST_CHANNEL, false));
-                tvTestChannel.setText(Hawk.get(HawkConfig.TEST_CHANNEL, false) ? "已打开" : "已关闭");
             }
         });
         findViewById(R.id.llStorage).setOnClickListener(new View.OnClickListener() {
@@ -234,7 +223,6 @@ public class ModelSettingFragment extends BaseLazyFragment {
             @Override
             public void onChange() {
                 findViewById(R.id.llDebug).setVisibility(View.VISIBLE);
-                findViewById(R.id.llTest).setVisibility(View.VISIBLE);
             }
         };
     }

@@ -23,7 +23,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.dueeeke.videoplayer.util.L;
 import com.github.tvbox.osc.R;
 import com.github.tvbox.osc.api.ApiConfig;
 import com.github.tvbox.osc.base.BaseActivity;
@@ -31,8 +30,6 @@ import com.github.tvbox.osc.base.BaseLazyFragment;
 import com.github.tvbox.osc.bean.AbsSortXml;
 import com.github.tvbox.osc.bean.MovieSort;
 import com.github.tvbox.osc.event.RefreshEvent;
-import com.github.tvbox.osc.event.ServerEvent;
-import com.github.tvbox.osc.event.TopStateEvent;
 import com.github.tvbox.osc.server.ControlManager;
 import com.github.tvbox.osc.ui.adapter.HomePageAdapter;
 import com.github.tvbox.osc.ui.adapter.SortAdapter;
@@ -74,7 +71,7 @@ public class HomeActivity extends BaseActivity {
     private List<BaseLazyFragment> fragments = new ArrayList<>();
     private boolean isDownOrUp = false;
     private boolean sortChange = false;
-    private int defaultSelected = 0;
+    private int currentSelected = 0;
     private int sortFocused = 0;
     public View sortFocusView = null;
     private Handler mHandler = new Handler();
@@ -158,7 +155,6 @@ public class HomeActivity extends BaseActivity {
                 if (!((GridFragment) baseLazyFragment).isLoad()) {
                     return true;
                 }
-                changeTop(true);
                 return false;
             }
         });
@@ -172,9 +168,14 @@ public class HomeActivity extends BaseActivity {
                         sortFocusView = viewGroup;
                         viewGroup.requestFocus();
                         sortFocused = position;
-                        if (position != defaultSelected) {
-                            defaultSelected = position;
+                        if (position != currentSelected) {
+                            currentSelected = position;
                             mViewPager.setCurrentItem(position, false);
+                            if (position == 0) {
+                                changeTop(false);
+                            } else {
+                                changeTop(true);
+                            }
                         }
                     }
                 }
@@ -342,7 +343,7 @@ public class HomeActivity extends BaseActivity {
             }
             mViewPager.setPageTransformer(true, new DefaultTransformer());
             mViewPager.setAdapter(pageAdapter);
-            mViewPager.setCurrentItem(defaultSelected, false);
+            mViewPager.setCurrentItem(currentSelected, false);
         }
     }
 
@@ -357,8 +358,6 @@ public class HomeActivity extends BaseActivity {
         if (baseLazyFragment instanceof GridFragment) {
             View view = this.sortFocusView;
             if (view != null && !view.isFocused()) {
-//                ((GridFragment) baseLazyFragment).scrollTop();
-                changeTop(false);
                 this.sortFocusView.requestFocus();
             } else if (this.sortFocused != 0) {
                 this.mGridView.setSelection(0);
@@ -393,53 +392,25 @@ public class HomeActivity extends BaseActivity {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void changeTop(TopStateEvent event) {
-        if (event.type == TopStateEvent.TYPE_TOP) {
-            changeTop(false);
-        }
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
     public void refresh(RefreshEvent event) {
         if (event.type == RefreshEvent.TYPE_API_URL_CHANGE) {
             Toast.makeText(mContext, "配置地址设置为" + (String) event.obj + ",重启应用生效!", Toast.LENGTH_SHORT).show();
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void server(ServerEvent event) {
-//        if (event.type == ServerEvent.SERVER_SUCCESS) {
-//            remoteDialog = new RemoteDialog().build(mContext);
-//            remoteDialog.show();
-//        } else if (event.type == ServerEvent.SERVER_CONNECTION) {
-//            if (remoteDialog != null && remoteDialog.isShowing()) {
-//                remoteDialog.dismiss();
-//            }
-//        }
-    }
-
-    private Runnable mFindFocus = new Runnable() {
-        @Override
-        public void run() {
-            View rootview = getWindow().getDecorView();
-            if (rootview != null) {
-                View focus = rootview.findFocus();
-                if (focus != null) {
-                    L.i("id = 0x" + Integer.toHexString(focus.getId()));
-                }
-            }
-            mHandler.postDelayed(this, 500);
-        }
-    };
-
     private Runnable mDataRunnable = new Runnable() {
         @Override
         public void run() {
             if (sortChange) {
                 sortChange = false;
-                if (sortFocused != defaultSelected) {
-                    defaultSelected = sortFocused;
+                if (sortFocused != currentSelected) {
+                    currentSelected = sortFocused;
                     mViewPager.setCurrentItem(sortFocused, false);
+                    if (sortFocused == 0) {
+                        changeTop(false);
+                    } else {
+                        changeTop(true);
+                    }
                 }
             }
         }
@@ -447,6 +418,8 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
+        if (topHide < 0)
+            return false;
         if (event.getAction() == KeyEvent.ACTION_DOWN) {
             mHandler.removeCallbacks(mDataRunnable);
         } else if (event.getAction() == KeyEvent.ACTION_UP) {
@@ -455,25 +428,66 @@ public class HomeActivity extends BaseActivity {
         return super.dispatchKeyEvent(event);
     }
 
+    byte topHide = 0;
+
     private void changeTop(boolean hide) {
-        ViewObj viewObj = new ViewObj(mGridView, (ViewGroup.MarginLayoutParams) mGridView.getLayoutParams());
+        ViewObj viewObj = new ViewObj(topLayout, (ViewGroup.MarginLayoutParams) topLayout.getLayoutParams());
         AnimatorSet animatorSet = new AnimatorSet();
-        if (hide) {
+        animatorSet.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                topHide = (byte) (hide ? 1 : 0);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        if (hide && topHide == 0) {
             animatorSet.playTogether(new Animator[]{
                     ObjectAnimator.ofObject(viewObj, "marginTop", new IntEvaluator(),
                             new Object[]{
-                                    Integer.valueOf(AutoSizeUtils.pt2px(this.mContext, 80.0f)),
-                                    Integer.valueOf(AutoSizeUtils.pt2px(this.mContext, -65.0f))
+                                    Integer.valueOf(AutoSizeUtils.mm2px(this.mContext, 10.0f)),
+                                    Integer.valueOf(AutoSizeUtils.mm2px(this.mContext, 0.0f))
                             }),
-                    ObjectAnimator.ofFloat(this.mGridView, "alpha", new float[]{1.0f, 0.0f}),
+                    ObjectAnimator.ofObject(viewObj, "height", new IntEvaluator(),
+                            new Object[]{
+                                    Integer.valueOf(AutoSizeUtils.mm2px(this.mContext, 50.0f)),
+                                    Integer.valueOf(AutoSizeUtils.mm2px(this.mContext, 1.0f))
+                            }),
                     ObjectAnimator.ofFloat(this.topLayout, "alpha", new float[]{1.0f, 0.0f})});
-            animatorSet.setDuration(300);
+            animatorSet.setDuration(200);
             animatorSet.start();
             return;
         }
-        viewObj.setMarginTop(AutoSizeUtils.pt2px(this.mContext, 80.0f));
-        this.topLayout.setAlpha(1.0f);
-        this.mGridView.setAlpha(1.0f);
+        if (!hide && topHide == 1) {
+            animatorSet.playTogether(new Animator[]{
+                    ObjectAnimator.ofObject(viewObj, "marginTop", new IntEvaluator(),
+                            new Object[]{
+                                    Integer.valueOf(AutoSizeUtils.mm2px(this.mContext, 0.0f)),
+                                    Integer.valueOf(AutoSizeUtils.mm2px(this.mContext, 10.0f))
+                            }),
+                    ObjectAnimator.ofObject(viewObj, "height", new IntEvaluator(),
+                            new Object[]{
+                                    Integer.valueOf(AutoSizeUtils.mm2px(this.mContext, 1.0f)),
+                                    Integer.valueOf(AutoSizeUtils.mm2px(this.mContext, 50.0f))
+                            }),
+                    ObjectAnimator.ofFloat(this.topLayout, "alpha", new float[]{0.0f, 1.0f})});
+            animatorSet.setDuration(200);
+            animatorSet.start();
+            return;
+        }
     }
 
     @Override
