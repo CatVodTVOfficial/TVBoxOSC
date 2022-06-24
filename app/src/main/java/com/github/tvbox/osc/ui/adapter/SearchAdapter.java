@@ -20,6 +20,6 @@ public class SearchAdapter extends BaseQuickAdapter<Movie.Video, BaseViewHolder>
 
     @Override
     protected void convert(BaseViewHolder helper, Movie.Video item) {
-        helper.setText(R.id.tvName, String.format("%s %s %s %s", ApiConfig.get().getSource(item.sourceKey).getName(), item.name, item.type, item.note));
+        helper.setText(R.id.tvName, String.format("%s %s %s %s", ApiConfig.get().getSource(item.sourceKey).getName(), item.name, item.type == null ? "" : item.type, item.note == null ? "" : item.note));
     }
 }
