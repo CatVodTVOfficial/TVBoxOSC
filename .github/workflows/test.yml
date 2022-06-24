@@ -17,7 +17,7 @@ jobs:
       - name: Build With Gradle
         run: |
           chmod +x gradlew
-          ./gradlew assembledebug --build-cache --parallel --daemon --warning-mode all
+          ./gradlew assemblerelease --build-cache --parallel --daemon --warning-mode all
       - name: Prepare App
         run: |
           mkdir -p ${{ github.workspace }}/apk/
