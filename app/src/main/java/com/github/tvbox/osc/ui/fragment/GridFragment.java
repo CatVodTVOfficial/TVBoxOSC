@@ -92,7 +92,6 @@ public class GridFragment extends BaseLazyFragment {
             @Override
             public boolean onInBorderKeyEvent(int direction, View focused) {
                 if (direction == View.FOCUS_UP) {
-                    EventBus.getDefault().post(new TopStateEvent(TopStateEvent.TYPE_TOP));
                 }
                 return false;
             }
