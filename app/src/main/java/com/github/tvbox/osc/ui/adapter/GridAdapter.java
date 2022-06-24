@@ -65,8 +65,8 @@ public class GridAdapter extends BaseQuickAdapter<Movie.Video, BaseViewHolder> {
                     .load(item.pic)
                     .transform(new RoundTransformation(MD5.string2MD5(item.pic + "position=" + helper.getLayoutPosition()))
                             .centerCorp(true)
-                            .override(AutoSizeUtils.pt2px(mContext, 212), AutoSizeUtils.pt2px(mContext, 300))
-                            .roundRadius(AutoSizeUtils.pt2px(mContext, 10), RoundTransformation.RoundType.ALL))
+                            .override(AutoSizeUtils.mm2px(mContext, 212), AutoSizeUtils.mm2px(mContext, 300))
+                            .roundRadius(AutoSizeUtils.mm2px(mContext, 10), RoundTransformation.RoundType.ALL))
                     .placeholder(R.drawable.error_loading)
                     .error(R.drawable.error_loading)
                     .into(ivThumb);

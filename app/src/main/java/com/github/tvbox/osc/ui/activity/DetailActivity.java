@@ -268,8 +268,8 @@ public class DetailActivity extends BaseActivity {
                                 .load(mVideo.pic)
                                 .transform(new RoundTransformation(mVideo.pic)
                                         .centerCorp(true)
-                                        .override(AutoSizeUtils.pt2px(mContext, 212), AutoSizeUtils.pt2px(mContext, 300))
-                                        .roundRadius(AutoSizeUtils.pt2px(mContext, 10), RoundTransformation.RoundType.ALL))
+                                        .override(AutoSizeUtils.mm2px(mContext, 212), AutoSizeUtils.mm2px(mContext, 300))
+                                        .roundRadius(AutoSizeUtils.mm2px(mContext, 10), RoundTransformation.RoundType.ALL))
                                 .placeholder(R.drawable.error_all_loading)
                                 .error(R.drawable.error_all_loading)
                                 .into(ivThumb);
