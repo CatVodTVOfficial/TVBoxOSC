@@ -1,6 +1,7 @@
 package com.github.tvbox.osc.ui.activity;
 
 import android.graphics.Color;
+import android.os.Bundle;
 import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.View;
@@ -187,7 +188,13 @@ public class SettingActivity extends BaseActivity {
                 !currentApi.equals(Hawk.get(HawkConfig.API_URL, "")) ||
                 !homeSourceSort.equals(newHomeSourceSort)) {
             AppManager.getInstance().finishAllActivity();
-            jumpActivity(HomeActivity.class);
+            if (currentApi.equals(Hawk.get(HawkConfig.API_URL, ""))) {
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("useCache", true);
+                jumpActivity(HomeActivity.class, bundle);
+            } else {
+                jumpActivity(HomeActivity.class);
+            }
         } else {
             super.onBackPressed();
         }
