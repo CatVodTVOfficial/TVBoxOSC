@@ -15,8 +15,7 @@
         <item name="android:windowContentOverlay">@null</item>//是否有遮盖
         <item name="windowNoTitle">true</item>
         <item name="android:keepScreenOn">true</item>
-        <!--        <item name="android:windowBackground">@drawable/main_bg</item>-->
-        <item name="android:windowBackground">@drawable/vod_thumb</item>
+        <item name="android:windowBackground">@drawable/main_bg</item>
     </style>
     <!-- 自定义dialog样式 -->
     <style name="CustomDialogStyle" parent="@android:style/Theme.Dialog">
