@@ -255,6 +255,8 @@ public class LivePlayActivity extends BaseActivity {
     }
 
     private void initList(List<LiveChannel> list) {
+        if (list.isEmpty())
+            return;
         LiveChannel lastChannel = null;
         String lastChannelName = Hawk.get(HawkConfig.LIVE_CHANNEL, "");
         channelList.clear();
