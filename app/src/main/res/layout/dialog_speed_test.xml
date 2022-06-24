@@ -6,16 +6,16 @@
     android:layout_gravity="center"
     android:background="@drawable/model_dialog_bugly_bg"
     android:orientation="vertical"
-    android:padding="30pt">
+    android:padding="30mm">
 
     <com.owen.tvrecyclerview.widget.TvRecyclerView
         android:id="@+id/mGridView"
-        android:layout_width="500pt"
-        android:layout_height="370pt"
+        android:layout_width="500mm"
+        android:layout_height="370mm"
         android:clipChildren="false"
         android:clipToPadding="false"
-        app:tv_horizontalSpacingWithMargins="5pt"
+        app:tv_horizontalSpacingWithMargins="5mm"
         app:tv_selectedItemIsCentered="true"
-        app:tv_verticalSpacingWithMargins="5pt" />
+        app:tv_verticalSpacingWithMargins="5mm" />
 
 </LinearLayout>

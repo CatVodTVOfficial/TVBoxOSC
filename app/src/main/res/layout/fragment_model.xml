@@ -24,17 +24,17 @@
             <LinearLayout
                 android:id="@+id/llTest"
                 android:layout_width="match_parent"
-                android:layout_height="50pt"
-                android:layout_marginLeft="30pt"
-                android:layout_marginTop="20pt"
-                android:layout_marginRight="30pt"
+                android:layout_height="50mm"
+                android:layout_marginLeft="30mm"
+                android:layout_marginTop="20mm"
+                android:layout_marginRight="30mm"
                 android:background="@drawable/setting_model_focus"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingLeft="20pt"
-                android:paddingRight="20pt"
+                android:paddingLeft="20mm"
+                android:paddingRight="20mm"
                 android:visibility="gone">
 
                 <TextView
@@ -42,7 +42,7 @@
                     android:layout_height="wrap_content"
                     android:text="测试渠道"
                     android:textColor="@android:color/white"
-                    android:textSize="24pt" />
+                    android:textSize="24mm" />
 
                 <Space
                     android:layout_width="0dp"
@@ -55,32 +55,32 @@
                     android:layout_height="wrap_content"
                     android:text="关"
                     android:textColor="@android:color/white"
-                    android:textSize="24pt" />
+                    android:textSize="24mm" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10pt"
-                    android:paddingBottom="5pt"
+                    android:layout_marginLeft="10mm"
+                    android:paddingBottom="5mm"
                     android:text=">"
                     android:textColor="@android:color/white"
-                    android:textSize="30pt" />
+                    android:textSize="30mm" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/llDebug"
                 android:layout_width="match_parent"
-                android:layout_height="50pt"
-                android:layout_marginLeft="30pt"
-                android:layout_marginTop="20pt"
-                android:layout_marginRight="30pt"
+                android:layout_height="50mm"
+                android:layout_marginLeft="30mm"
+                android:layout_marginTop="20mm"
+                android:layout_marginRight="30mm"
                 android:background="@drawable/setting_model_focus"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingLeft="20pt"
-                android:paddingRight="20pt"
+                android:paddingLeft="20mm"
+                android:paddingRight="20mm"
                 android:visibility="gone">
 
                 <TextView
@@ -88,7 +88,7 @@
                     android:layout_height="wrap_content"
                     android:text="调试模式"
                     android:textColor="@android:color/white"
-                    android:textSize="24pt" />
+                    android:textSize="24mm" />
 
                 <Space
                     android:layout_width="0dp"
@@ -101,39 +101,39 @@
                     android:layout_height="wrap_content"
                     android:text="关"
                     android:textColor="@android:color/white"
-                    android:textSize="24pt" />
+                    android:textSize="24mm" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10pt"
-                    android:paddingBottom="5pt"
+                    android:layout_marginLeft="10mm"
+                    android:paddingBottom="5mm"
                     android:text=">"
                     android:textColor="@android:color/white"
-                    android:textSize="30pt" />
+                    android:textSize="30mm" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/llApi"
                 android:layout_width="match_parent"
-                android:layout_height="50pt"
-                android:layout_marginLeft="30pt"
-                android:layout_marginTop="20pt"
-                android:layout_marginRight="30pt"
+                android:layout_height="50mm"
+                android:layout_marginLeft="30mm"
+                android:layout_marginTop="20mm"
+                android:layout_marginRight="30mm"
                 android:background="@drawable/setting_model_focus"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingLeft="20pt"
-                android:paddingRight="20pt">
+                android:paddingLeft="20mm"
+                android:paddingRight="20mm">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="配置地址"
                     android:textColor="@android:color/white"
-                    android:textSize="24pt" />
+                    android:textSize="24mm" />
 
                 <Space
                     android:layout_width="0dp"
@@ -147,39 +147,39 @@
                     android:ellipsize="middle"
                     android:singleLine="true"
                     android:textColor="@android:color/white"
-                    android:textSize="24pt" />
+                    android:textSize="24mm" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10pt"
-                    android:paddingBottom="5pt"
+                    android:layout_marginLeft="10mm"
+                    android:paddingBottom="5mm"
                     android:text=">"
                     android:textColor="@android:color/white"
-                    android:textSize="30pt" />
+                    android:textSize="30mm" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/llStorage"
                 android:layout_width="match_parent"
-                android:layout_height="50pt"
-                android:layout_marginLeft="30pt"
-                android:layout_marginTop="20pt"
-                android:layout_marginRight="30pt"
+                android:layout_height="50mm"
+                android:layout_marginLeft="30mm"
+                android:layout_marginTop="20mm"
+                android:layout_marginRight="30mm"
                 android:background="@drawable/setting_model_focus"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingLeft="20pt"
-                android:paddingRight="20pt">
+                android:paddingLeft="20mm"
+                android:paddingRight="20mm">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="存储权限"
                     android:textColor="@android:color/white"
-                    android:textSize="24pt" />
+                    android:textSize="24mm" />
 
                 <Space
                     android:layout_width="0dp"
@@ -189,34 +189,34 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10pt"
-                    android:paddingBottom="5pt"
+                    android:layout_marginLeft="10mm"
+                    android:paddingBottom="5mm"
                     android:text=">"
                     android:textColor="@android:color/white"
-                    android:textSize="30pt" />
+                    android:textSize="30mm" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/llPlay"
                 android:layout_width="match_parent"
-                android:layout_height="50pt"
-                android:layout_marginLeft="30pt"
-                android:layout_marginTop="20pt"
-                android:layout_marginRight="30pt"
+                android:layout_height="50mm"
+                android:layout_marginLeft="30mm"
+                android:layout_marginTop="20mm"
+                android:layout_marginRight="30mm"
                 android:background="@drawable/setting_model_focus"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingLeft="20pt"
-                android:paddingRight="20pt">
+                android:paddingLeft="20mm"
+                android:paddingRight="20mm">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="播放器"
                     android:textColor="@android:color/white"
-                    android:textSize="24pt" />
+                    android:textSize="24mm" />
 
                 <Space
                     android:layout_width="0dp"
@@ -228,39 +228,39 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@android:color/white"
-                    android:textSize="24pt" />
+                    android:textSize="24mm" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10pt"
-                    android:paddingBottom="5pt"
+                    android:layout_marginLeft="10mm"
+                    android:paddingBottom="5mm"
                     android:text=">"
                     android:textColor="@android:color/white"
-                    android:textSize="30pt" />
+                    android:textSize="30mm" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/llMediaCodec"
                 android:layout_width="match_parent"
-                android:layout_height="50pt"
-                android:layout_marginLeft="30pt"
-                android:layout_marginTop="20pt"
-                android:layout_marginRight="30pt"
+                android:layout_height="50mm"
+                android:layout_marginLeft="30mm"
+                android:layout_marginTop="20mm"
+                android:layout_marginRight="30mm"
                 android:background="@drawable/setting_model_focus"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingLeft="20pt"
-                android:paddingRight="20pt">
+                android:paddingLeft="20mm"
+                android:paddingRight="20mm">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="IJK解码方式"
                     android:textColor="@android:color/white"
-                    android:textSize="24pt" />
+                    android:textSize="24mm" />
 
                 <Space
                     android:layout_width="0dp"
@@ -272,39 +272,39 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@android:color/white"
-                    android:textSize="24pt" />
+                    android:textSize="24mm" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10pt"
-                    android:paddingBottom="5pt"
+                    android:layout_marginLeft="10mm"
+                    android:paddingBottom="5mm"
                     android:text=">"
                     android:textColor="@android:color/white"
-                    android:textSize="30pt" />
+                    android:textSize="30mm" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/llRender"
                 android:layout_width="match_parent"
-                android:layout_height="50pt"
-                android:layout_marginLeft="30pt"
-                android:layout_marginTop="20pt"
-                android:layout_marginRight="30pt"
+                android:layout_height="50mm"
+                android:layout_marginLeft="30mm"
+                android:layout_marginTop="20mm"
+                android:layout_marginRight="30mm"
                 android:background="@drawable/setting_model_focus"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingLeft="20pt"
-                android:paddingRight="20pt">
+                android:paddingLeft="20mm"
+                android:paddingRight="20mm">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="渲染方式"
                     android:textColor="@android:color/white"
-                    android:textSize="24pt" />
+                    android:textSize="24mm" />
 
                 <Space
                     android:layout_width="0dp"
@@ -316,39 +316,39 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@android:color/white"
-                    android:textSize="24pt" />
+                    android:textSize="24mm" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10pt"
-                    android:paddingBottom="5pt"
+                    android:layout_marginLeft="10mm"
+                    android:paddingBottom="5mm"
                     android:text=">"
                     android:textColor="@android:color/white"
-                    android:textSize="30pt" />
+                    android:textSize="30mm" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/llParseWebVew"
                 android:layout_width="match_parent"
-                android:layout_height="50pt"
-                android:layout_marginLeft="30pt"
-                android:layout_marginTop="20pt"
-                android:layout_marginRight="30pt"
+                android:layout_height="50mm"
+                android:layout_marginLeft="30mm"
+                android:layout_marginTop="20mm"
+                android:layout_marginRight="30mm"
                 android:background="@drawable/setting_model_focus"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingLeft="20pt"
-                android:paddingRight="20pt">
+                android:paddingLeft="20mm"
+                android:paddingRight="20mm">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="资源解析WebView"
                     android:textColor="@android:color/white"
-                    android:textSize="24pt" />
+                    android:textSize="24mm" />
 
                 <Space
                     android:layout_width="0dp"
@@ -361,39 +361,39 @@
                     android:layout_height="wrap_content"
                     android:text="系统自带"
                     android:textColor="@android:color/white"
-                    android:textSize="24pt" />
+                    android:textSize="24mm" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10pt"
-                    android:paddingBottom="5pt"
+                    android:layout_marginLeft="10mm"
+                    android:paddingBottom="5mm"
                     android:text=">"
                     android:textColor="@android:color/white"
-                    android:textSize="30pt" />
+                    android:textSize="30mm" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/llXWalkCore"
                 android:layout_width="match_parent"
-                android:layout_height="50pt"
-                android:layout_marginLeft="30pt"
-                android:layout_marginTop="20pt"
-                android:layout_marginRight="30pt"
+                android:layout_height="50mm"
+                android:layout_marginLeft="30mm"
+                android:layout_marginTop="20mm"
+                android:layout_marginRight="30mm"
                 android:background="@drawable/setting_model_focus"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingLeft="20pt"
-                android:paddingRight="20pt">
+                android:paddingLeft="20mm"
+                android:paddingRight="20mm">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="XWalkView组件"
                     android:textColor="@android:color/white"
-                    android:textSize="24pt" />
+                    android:textSize="24mm" />
 
                 <Space
                     android:layout_width="0dp"
@@ -405,39 +405,39 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@android:color/white"
-                    android:textSize="24pt" />
+                    android:textSize="24mm" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10pt"
-                    android:paddingBottom="5pt"
+                    android:layout_marginLeft="10mm"
+                    android:paddingBottom="5mm"
                     android:text=">"
                     android:textColor="@android:color/white"
-                    android:textSize="30pt" />
+                    android:textSize="30mm" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/llAbout"
                 android:layout_width="match_parent"
-                android:layout_height="50pt"
-                android:layout_marginLeft="30pt"
-                android:layout_marginTop="20pt"
-                android:layout_marginRight="30pt"
+                android:layout_height="50mm"
+                android:layout_marginLeft="30mm"
+                android:layout_marginTop="20mm"
+                android:layout_marginRight="30mm"
                 android:background="@drawable/setting_model_focus"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingLeft="20pt"
-                android:paddingRight="20pt">
+                android:paddingLeft="20mm"
+                android:paddingRight="20mm">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="关于"
                     android:textColor="@android:color/white"
-                    android:textSize="24pt" />
+                    android:textSize="24mm" />
 
                 <Space
                     android:layout_width="0dp"
@@ -447,11 +447,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10pt"
-                    android:paddingBottom="5pt"
+                    android:layout_marginLeft="10mm"
+                    android:paddingBottom="5mm"
                     android:text=">"
                     android:textColor="@android:color/white"
-                    android:textSize="30pt" />
+                    android:textSize="30mm" />
             </LinearLayout>
 
         </LinearLayout>

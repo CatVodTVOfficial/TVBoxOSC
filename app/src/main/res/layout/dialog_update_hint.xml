@@ -5,27 +5,27 @@
     android:layout_gravity="center"
     android:background="@drawable/update_dialog_bg"
     android:orientation="vertical"
-    android:padding="20pt">
+    android:padding="20mm">
 
     <TextView
-        android:layout_width="350pt"
+        android:layout_width="350mm"
         android:layout_height="wrap_content"
         android:background="@drawable/splash_focus"
         android:text="更新内容：\n1、增加json格式数据源支持\n2、增加解析资源嗅探WebView选择设置\n3、修复部分Bug\n\n 目前版本仍处于不稳定状态，更新后历史记录可能会丢失，请谅解"
         android:textColor="@android:color/black"
-        android:textSize="20pt" />
+        android:textSize="20mm" />
 
 
     <TextView
         android:id="@+id/tvSure"
-        android:layout_width="350pt"
-        android:layout_height="40pt"
-        android:layout_marginTop="10pt"
+        android:layout_width="350mm"
+        android:layout_height="40mm"
+        android:layout_marginTop="10mm"
         android:background="@drawable/update_hint_sure_focus"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:gravity="center"
         android:text="确定"
         android:textColor="@android:color/white"
-        android:textSize="18pt" />
+        android:textSize="18mm" />
 </LinearLayout>

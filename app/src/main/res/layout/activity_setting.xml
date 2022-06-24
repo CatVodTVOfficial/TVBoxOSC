@@ -5,30 +5,30 @@
     android:orientation="horizontal">
 
     <LinearLayout
-        android:layout_width="200pt"
+        android:layout_width="200mm"
         android:layout_height="match_parent"
         android:background="@color/color_6632364E"
         android:orientation="vertical"
-        android:paddingTop="30pt">
+        android:paddingTop="30mm">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="60pt"
+            android:layout_marginLeft="60mm"
             android:drawableLeft="@drawable/search_line"
-            android:drawablePadding="10pt"
+            android:drawablePadding="10mm"
             android:gravity="center"
             android:text="设置"
             android:textColor="@android:color/white"
-            android:textSize="24pt"
+            android:textSize="24mm"
             android:textStyle="bold" />
 
         <com.owen.tvrecyclerview.widget.TvRecyclerView
             android:id="@+id/mGridView"
-            android:layout_width="170pt"
+            android:layout_width="170mm"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_marginTop="20pt" />
+            android:layout_marginTop="20mm" />
     </LinearLayout>
 
     <com.github.tvbox.osc.ui.tv.widget.NoScrollViewPager

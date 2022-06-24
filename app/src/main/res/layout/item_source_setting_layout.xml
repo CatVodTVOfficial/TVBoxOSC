@@ -8,65 +8,65 @@
 
     <TextView
         android:id="@+id/tvSourceSpeed"
-        android:layout_width="190pt"
-        android:layout_height="60pt"
+        android:layout_width="190mm"
+        android:layout_height="60mm"
         android:ellipsize="end"
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:gravity="center"
-        android:paddingLeft="5pt"
-        android:paddingRight="5pt"
+        android:paddingLeft="5mm"
+        android:paddingRight="5mm"
         android:singleLine="true"
         android:text="☇一键测速"
         android:textColor="@color/color_CBF46A"
-        android:textSize="24pt" />
+        android:textSize="24mm" />
 
     <TextView
         android:id="@+id/tvSourceAdd"
-        android:layout_width="190pt"
-        android:layout_height="60pt"
+        android:layout_width="190mm"
+        android:layout_height="60mm"
         android:ellipsize="end"
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:gravity="center"
-        android:paddingLeft="5pt"
-        android:paddingRight="5pt"
+        android:paddingLeft="5mm"
+        android:paddingRight="5mm"
         android:singleLine="true"
         android:text="+新增数据源"
         android:textColor="@color/color_CBF46A"
-        android:textSize="24pt" />
+        android:textSize="24mm" />
 
     <TextView
         android:id="@+id/tvSource"
-        android:layout_width="190pt"
-        android:layout_height="60pt"
+        android:layout_width="190mm"
+        android:layout_height="60mm"
         android:ellipsize="marquee"
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:gravity="top|center_horizontal"
         android:marqueeRepeatLimit="marquee_forever"
-        android:paddingLeft="5pt"
-        android:paddingTop="2pt"
-        android:paddingRight="5pt"
+        android:paddingLeft="5mm"
+        android:paddingTop="2mm"
+        android:paddingRight="5mm"
         android:singleLine="true"
         android:text="快播云"
         android:textColor="@android:color/white"
-        android:textSize="22pt" />
+        android:textSize="22mm" />
 
     <TextView
         android:id="@+id/tvSourceStatus"
-        android:layout_width="190pt"
-        android:layout_height="60pt"
+        android:layout_width="190mm"
+        android:layout_height="60mm"
         android:ellipsize="end"
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:gravity="bottom|center_horizontal"
-        android:paddingLeft="5pt"
-        android:paddingRight="5pt"
-        android:paddingBottom="2pt"
+        android:paddingLeft="5mm"
+        android:paddingRight="5mm"
+        android:paddingBottom="2mm"
         android:singleLine="true"
         android:text="已启用"
         android:textColor="@color/color_02F8E1"
-        android:textSize="18pt" />
+        android:textSize="18mm" />
 
 </FrameLayout>

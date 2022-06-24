@@ -5,8 +5,8 @@
     android:layout_gravity="center">
 
     <ProgressBar
-        android:layout_width="50pt"
-        android:layout_height="50pt"
+        android:layout_width="50mm"
+        android:layout_height="50mm"
         android:layout_gravity="center"
         android:indeterminateBehavior="repeat"
         android:indeterminateDrawable="@drawable/data_loading"

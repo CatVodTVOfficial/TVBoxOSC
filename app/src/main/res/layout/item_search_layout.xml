@@ -9,12 +9,12 @@
     <TextView
         android:id="@+id/tvName"
         android:layout_width="match_parent"
-        android:layout_height="40pt"
+        android:layout_height="40mm"
         android:ellipsize="end"
         android:gravity="center_vertical"
-        android:paddingLeft="10pt"
-        android:paddingRight="10pt"
+        android:paddingLeft="10mm"
+        android:paddingRight="10mm"
         android:singleLine="true"
         android:textColor="@android:color/white"
-        android:textSize="20pt" />
+        android:textSize="20mm" />
 </FrameLayout>
