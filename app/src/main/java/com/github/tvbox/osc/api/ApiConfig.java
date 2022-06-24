@@ -109,7 +109,7 @@ public class ApiConfig {
     }
 
     private void loadConfigServer(LoadConfigCallback callback, Activity activity) {
-        String apiUrl = Hawk.get(HawkConfig.API_URL, "");
+        String apiUrl = Hawk.get(HawkConfig.API_URL, "http://tv.51cube.com/maotv/saohua.json");
         String apiFix = apiUrl;
         if (apiUrl.startsWith("clan://")) {
             apiFix = clanToAddress(apiUrl);
