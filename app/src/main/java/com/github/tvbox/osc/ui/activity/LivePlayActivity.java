@@ -16,8 +16,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.dueeeke.videocontroller.component.GestureView;
-import com.dueeeke.videoplayer.player.VideoView;
+import xyz.doikki.videocontroller.component.GestureView;
+import xyz.doikki.videoplayer.player.VideoView;
 import com.github.tvbox.osc.R;
 import com.github.tvbox.osc.api.ApiConfig;
 import com.github.tvbox.osc.base.BaseActivity;
