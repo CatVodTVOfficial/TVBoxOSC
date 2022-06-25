@@ -19,6 +19,7 @@
 
     <dimen name="vs_4_">-4mm</dimen>
     <dimen name="vs_20_">-20mm</dimen>
+    <dimen name="vs_25_">-25mm</dimen>
     <dimen name="vs_60_">-60mm</dimen>
 
     <dimen name="vs_0">0mm</dimen>

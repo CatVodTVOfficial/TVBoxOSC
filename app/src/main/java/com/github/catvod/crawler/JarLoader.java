@@ -26,7 +26,7 @@ public class JarLoader {
      *
      * @param jarData
      */
-    public boolean load(byte[] jarData) {
+    public boolean load(String cache) {
         spiders.clear();
         proxyFun = null;
         boolean success = false;
@@ -34,11 +34,6 @@ public class JarLoader {
             File cacheDir = new File(App.getInstance().getCacheDir().getAbsolutePath() + "/catvod_csp");
             if (!cacheDir.exists())
                 cacheDir.mkdirs();
-            String cache = App.getInstance().getCacheDir().getAbsolutePath() + "/catvod_csp.jar";
-            FileOutputStream fos = new FileOutputStream(cache);
-            fos.write(jarData);
-            fos.flush();
-            fos.close();
             classLoader = new DexClassLoader(cache, cacheDir.getAbsolutePath(), null, App.getInstance().getClassLoader());
             // make force wait here, some device async dex load
             int count = 0;
@@ -46,10 +41,10 @@ public class JarLoader {
                 try {
                     Class classInit = classLoader.loadClass("com.github.catvod.spider.Init");
                     if (classInit != null) {
-                        success = true;
                         Method method = classInit.getMethod("init", Context.class);
                         method.invoke(null, App.getInstance());
                         System.out.println("自定义爬虫代码加载成功!");
+                        success = true;
                         try {
                             Class proxy = classLoader.loadClass("com.github.catvod.spider.Proxy");
                             Method mth = proxy.getMethod("proxy", Map.class);
@@ -59,8 +54,6 @@ public class JarLoader {
                         }
                         break;
                     }
-
-
                     Thread.sleep(200);
                 } catch (Throwable th) {
                     th.printStackTrace();
@@ -75,7 +68,7 @@ public class JarLoader {
 
     public Spider getSpider(String key, String ext) {
         String clsKey = key.replace("csp_", "");
-        if (spiders.contains(clsKey))
+        if (spiders.containsKey(clsKey))
             return spiders.get(clsKey);
         if (classLoader == null)
             return new SpiderNull();

@@ -11,7 +11,6 @@ import androidx.annotation.IdRes;
 
 import com.github.tvbox.osc.R;
 import com.github.tvbox.osc.server.ControlManager;
-import com.github.tvbox.osc.server.RemoteServer;
 import com.github.tvbox.osc.ui.tv.QRCodeGen;
 
 /**
