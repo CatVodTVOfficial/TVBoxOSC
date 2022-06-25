@@ -4,9 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.widget.Toast;
-
-import com.dueeeke.videocontroller.component.GestureView;
-import com.dueeeke.videoplayer.player.VideoView;
+import xyz.doikki.videocontroller.component.GestureView;
+import xyz.doikki.videoplayer.player.VideoView;
 import com.github.tvbox.osc.R;
 import com.github.tvbox.osc.base.BaseActivity;
 import com.github.tvbox.osc.player.controller.BoxVideoController;

@@ -10,9 +10,9 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
-import com.dueeeke.videoplayer.player.AbstractPlayer;
-import com.dueeeke.videoplayer.render.IRenderView;
-import com.dueeeke.videoplayer.render.MeasureHelper;
+import xyz.doikki.videoplayer.player.AbstractPlayer;
+import xyz.doikki.videoplayer.render.IRenderView;
+import xyz.doikki.videoplayer.render.MeasureHelper;
 
 public class SurfaceRenderView extends SurfaceView implements IRenderView, SurfaceHolder.Callback {
     private MeasureHelper mMeasureHelper;
