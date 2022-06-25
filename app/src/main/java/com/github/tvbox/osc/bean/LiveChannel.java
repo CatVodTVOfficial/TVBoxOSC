@@ -16,7 +16,7 @@ public class LiveChannel {
      */
 
     private int channelNum;
-    private String name;
+    private String channelName;
     private ArrayList<String> urls;
     private boolean isDefault;
     public int sourceIdx = 0;
@@ -29,12 +29,12 @@ public class LiveChannel {
         return channelNum;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setChannelName(String channelName) {
+        this.channelName = channelName;
     }
 
-    public String getName() {
-        return name;
+    public String getChannelName() {
+        return channelName;
     }
 
     public String getUrls() {
