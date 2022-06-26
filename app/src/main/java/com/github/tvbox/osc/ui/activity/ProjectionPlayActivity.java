@@ -4,8 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.widget.Toast;
-import xyz.doikki.videocontroller.component.GestureView;
-import xyz.doikki.videoplayer.player.VideoView;
+
 import com.github.tvbox.osc.R;
 import com.github.tvbox.osc.base.BaseActivity;
 import com.github.tvbox.osc.player.controller.BoxVideoController;
@@ -14,6 +13,9 @@ import com.github.tvbox.osc.ui.dialog.ParseDialog;
 import com.github.tvbox.osc.util.HawkConfig;
 import com.github.tvbox.osc.util.PlayerHelper;
 import com.orhanobut.hawk.Hawk;
+
+import xyz.doikki.videocontroller.component.GestureView;
+import xyz.doikki.videoplayer.player.VideoView;
 
 /**
  * @author pj567

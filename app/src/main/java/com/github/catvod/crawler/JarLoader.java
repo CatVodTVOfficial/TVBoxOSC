@@ -24,7 +24,7 @@ public class JarLoader {
     /**
      * 不要在主线程调用我
      *
-     * @param jarData
+     * @param cache
      */
     public boolean load(String cache) {
         spiders.clear();
@@ -66,16 +66,16 @@ public class JarLoader {
         return success;
     }
 
-    public Spider getSpider(String key, String ext) {
-        String clsKey = key.replace("csp_", "");
-        if (spiders.containsKey(clsKey))
-            return spiders.get(clsKey);
+    public Spider getSpider(String key, String cls, String ext) {
+        String clsKey = cls.replace("csp_", "");
+        if (spiders.containsKey(key))
+            return spiders.get(key);
         if (classLoader == null)
             return new SpiderNull();
         try {
             Spider sp = (Spider) classLoader.loadClass("com.github.catvod.spider." + clsKey).newInstance();
             sp.init(App.getInstance(), ext);
-            spiders.put(clsKey, sp);
+            spiders.put(key, sp);
             return sp;
         } catch (Throwable th) {
             th.printStackTrace();

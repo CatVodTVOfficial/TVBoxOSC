@@ -159,15 +159,29 @@ public class XWalkUtils {
     }
 
     public static String getRuntimeAbi() {
+        String result = "arm";
         try {
             Class cls = Class.forName("org.xwalk.core.XWalkEnvironment");
             Method method = cls.getMethod("getRuntimeAbi");
             String obj = (String) method.invoke(null);
-            return obj;
+            switch (obj) {
+                case "arm64-v8a": {
+                    result = "arm64";
+                    break;
+                }
+                case "x86": {
+                    result = "x86";
+                    break;
+                }
+                case "x86_64": {
+                    result = "x86_64";
+                    break;
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "arm";
+        return result;
     }
 
     public static boolean extractXWalkLib(Context context) throws Throwable {
