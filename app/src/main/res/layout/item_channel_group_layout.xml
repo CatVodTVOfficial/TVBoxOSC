@@ -4,8 +4,9 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="10mm"
     android:layout_marginBottom="10mm"
+    android:background="@drawable/live_focus"
     android:focusable="true"
-    android:focusableInTouchMode="true"
+    android:focusableInTouchMode="false"
     android:orientation="horizontal">
 
     <TextView

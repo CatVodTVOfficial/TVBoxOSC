@@ -21,10 +21,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.github.tvbox.osc.R;
+
 import xyz.doikki.videoplayer.controller.ControlWrapper;
 import xyz.doikki.videoplayer.controller.IControlComponent;
 import xyz.doikki.videoplayer.player.VideoView;
-import com.github.tvbox.osc.R;
 
 import static xyz.doikki.videoplayer.util.PlayerUtils.stringForTime;
 

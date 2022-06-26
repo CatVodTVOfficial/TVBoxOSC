@@ -13,13 +13,6 @@ import java.util.HashMap;
  * @description:
  */
 public class SourceBean {
-    public static SourceBean speedTestBean = new SourceBean();
-
-    static {
-        speedTestBean.key = "_source_speed_test";
-        speedTestBean.api = "";
-    }
-
     /**
      * name : 最大资源网
      * api : http://www.zdziyuan.com/inc/api.php
@@ -98,10 +91,6 @@ public class SourceBean {
     public void setActive(boolean act) {
         getState().active = act;
         RoomDataManger.addSourceState(getState());
-    }
-
-    public boolean isAddition() {
-        return this == speedTestBean;
     }
 
     public int getType() {

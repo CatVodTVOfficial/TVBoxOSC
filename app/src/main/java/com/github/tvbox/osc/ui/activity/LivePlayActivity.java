@@ -16,16 +16,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import xyz.doikki.videocontroller.component.GestureView;
-import xyz.doikki.videoplayer.player.VideoView;
 import com.github.tvbox.osc.R;
 import com.github.tvbox.osc.api.ApiConfig;
 import com.github.tvbox.osc.base.BaseActivity;
 import com.github.tvbox.osc.bean.ChannelGroup;
 import com.github.tvbox.osc.bean.LiveChannel;
 import com.github.tvbox.osc.player.controller.BoxVideoController;
-import com.github.tvbox.osc.ui.adapter.LiveChannelAdapter;
 import com.github.tvbox.osc.ui.adapter.ChannelGroupAdapter;
+import com.github.tvbox.osc.ui.adapter.LiveChannelAdapter;
 import com.github.tvbox.osc.ui.tv.widget.ViewObj;
 import com.github.tvbox.osc.util.DefaultConfig;
 import com.github.tvbox.osc.util.FastClickCheckUtil;
@@ -44,6 +42,9 @@ import com.owen.tvrecyclerview.widget.V7LinearLayoutManager;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import xyz.doikki.videocontroller.component.GestureView;
+import xyz.doikki.videoplayer.player.VideoView;
 
 /**
  * @author pj567
