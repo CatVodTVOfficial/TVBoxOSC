@@ -85,15 +85,13 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.2.0'
     implementation 'com.orhanobut:hawk:2.0.1'
 
+    implementation project(":player")
+
     implementation('org.xwalk:xwalk_shared_library:23.53.589.4') {
         exclude group: 'com.android.support'
     }
     implementation 'com.lzy.net:okgo:3.0.4'
     // implementation 'com.tencent.bugly:crashreport_upgrade:latest.release'
-    implementation 'com.github.dueeeke.dkplayer:dkplayer-java:3.2.6'
-    implementation 'com.github.dueeeke.dkplayer:dkplayer-ui:3.2.6'
-    implementation 'com.github.dueeeke.dkplayer:player-exo:3.2.6'
-    implementation 'com.github.dueeeke.dkplayer:player-ijk:3.2.6'
     implementation 'com.owen:tv-recyclerview:3.0.0'
 
     implementation 'com.github.getActivity:XXPermissions:13.6'

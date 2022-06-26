@@ -9,6 +9,7 @@ import android.webkit.WebViewClient;
 
 import androidx.annotation.NonNull;
 
+import com.github.tvbox.osc.base.App;
 import com.github.tvbox.osc.util.SSL.SSLSocketFactoryCompat;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.https.HttpsUtils;
@@ -39,6 +40,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Protocol;
 import okhttp3.Request;
 import okhttp3.Response;
+import xyz.doikki.videoplayer.exo.ExoMediaSourceHelper;
 
 public class OkGoHelper {
     public static final long DEFAULT_MILLISECONDS = 10000;      //默认的超时时间
@@ -111,40 +113,31 @@ public class OkGoHelper {
         return fastParseClient;
     }
 
-    private static OkHttpClient localSpiderClient = null;
+    static void initExoOkHttpClient() {
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor("OkExoPlayer");
 
-    public static OkHttpClient getLocalSpiderClient() {
-        if (localSpiderClient == null) {
-            OkHttpClient.Builder builder = new OkHttpClient.Builder();
-            HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor("OkGo");
-
-            if (Hawk.get(HawkConfig.DEBUG_OPEN, false)) {
-                loggingInterceptor.setPrintLevel(HttpLoggingInterceptor.Level.BODY);
-                loggingInterceptor.setColorLevel(Level.INFO);
-            } else {
-                loggingInterceptor.setPrintLevel(HttpLoggingInterceptor.Level.NONE);
-                loggingInterceptor.setColorLevel(Level.OFF);
-            }
-
-            builder.protocols(Collections.singletonList(Protocol.HTTP_1_1));
-
-            //builder.retryOnConnectionFailure(false);
-
-            builder.addInterceptor(loggingInterceptor);
-
-            builder.readTimeout(10000, TimeUnit.MILLISECONDS);
-            builder.writeTimeout(10000, TimeUnit.MILLISECONDS);
-            builder.connectTimeout(10000, TimeUnit.MILLISECONDS);
-
-            try {
-                setOkHttpSsl(builder);
-            } catch (Throwable th) {
-                th.printStackTrace();
-            }
-
-            localSpiderClient = builder.build();
+        if (Hawk.get(HawkConfig.DEBUG_OPEN, false)) {
+            loggingInterceptor.setPrintLevel(HttpLoggingInterceptor.Level.BODY);
+            loggingInterceptor.setColorLevel(Level.INFO);
+        } else {
+            loggingInterceptor.setPrintLevel(HttpLoggingInterceptor.Level.NONE);
+            loggingInterceptor.setColorLevel(Level.OFF);
         }
-        return localSpiderClient;
+        builder.addInterceptor(loggingInterceptor);
+
+        builder.retryOnConnectionFailure(true);
+        builder.followRedirects(true);
+        builder.followSslRedirects(true);
+
+
+        try {
+            setOkHttpSsl(builder);
+        } catch (Throwable th) {
+            th.printStackTrace();
+        }
+
+        ExoMediaSourceHelper.getInstance(App.getInstance()).setOkClient(builder.build());
     }
 
     public static void init() {
@@ -176,6 +169,8 @@ public class OkGoHelper {
 
         OkHttpClient okHttpClient = builder.build();
         OkGo.getInstance().setOkHttpClient(okHttpClient);
+
+        initExoOkHttpClient();
     }
 
     private static synchronized void setOkHttpSsl(OkHttpClient.Builder builder) {

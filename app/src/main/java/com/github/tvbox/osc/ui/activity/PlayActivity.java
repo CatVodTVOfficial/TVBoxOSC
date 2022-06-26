@@ -8,16 +8,20 @@ import android.widget.Toast;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.dueeeke.videocontroller.component.GestureView;
-import com.dueeeke.videoplayer.player.VideoView;
+import xyz.doikki.videocontroller.component.GestureView;
+import xyz.doikki.videoplayer.player.ProgressManager;
+import xyz.doikki.videoplayer.player.VideoView;
+
 import com.github.tvbox.osc.R;
 import com.github.tvbox.osc.base.BaseActivity;
 import com.github.tvbox.osc.bean.VodInfo;
+import com.github.tvbox.osc.cache.CacheManager;
 import com.github.tvbox.osc.event.RefreshEvent;
 import com.github.tvbox.osc.player.controller.BoxVideoController;
 import com.github.tvbox.osc.player.controller.BoxVodControlView;
 import com.github.tvbox.osc.ui.dialog.ParseDialog;
 import com.github.tvbox.osc.util.HawkConfig;
+import com.github.tvbox.osc.util.MD5;
 import com.github.tvbox.osc.util.PlayerHelper;
 import com.github.tvbox.osc.viewmodel.SourceViewModel;
 import com.orhanobut.hawk.Hawk;
@@ -101,6 +105,20 @@ public class PlayActivity extends BaseActivity {
         controller.setCanChangePosition(true);
         controller.setEnableInNormal(true);
         controller.setGestureEnabled(true);
+        mVideoView.setProgressManager(new ProgressManager() {
+            @Override
+            public void saveProgress(String url, long progress) {
+                CacheManager.save(MD5.string2MD5(url), progress);
+            }
+
+            @Override
+            public long getSavedProgress(String url) {
+                if (CacheManager.getCache(MD5.string2MD5(url)) == null) {
+                    return 0;
+                }
+                return (long) CacheManager.getCache(MD5.string2MD5(url));
+            }
+        });
         mVideoView.setVideoController(controller);
     }
 
@@ -111,6 +129,7 @@ public class PlayActivity extends BaseActivity {
             public void onChanged(JSONObject object) {
                 showSuccess();
                 if (object != null && object.optString("key", "").equals(parseKey)) {
+                    String progressKey = object.optString("proKey", null);
                     parseDialog.parse(sourceKey, object, new ParseDialog.ParseCallback() {
                         @Override
                         public void success(String playUrl, Map<String, String> headers) {
@@ -119,6 +138,7 @@ public class PlayActivity extends BaseActivity {
                                 public void run() {
                                     if (mVideoView != null) {
                                         mVideoView.release();
+                                        mVideoView.setProgressKey(progressKey);
                                         if (headers != null) {
                                             mVideoView.setUrl(playUrl, headers);
                                         } else {
@@ -173,7 +193,7 @@ public class PlayActivity extends BaseActivity {
         if (action == KeyEvent.ACTION_DOWN) {
             if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT || keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
                 controller.boxTVSlideStart(keyCode == KeyEvent.KEYCODE_DPAD_RIGHT ? 1 : -1);
-            } else if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || (Hawk.get(HawkConfig.DEBUG_OPEN, false) && keyCode == KeyEvent.KEYCODE_0)) {
+            } else if (keyCode == KeyEvent.KEYCODE_ENTER || keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_NUMPAD_ENTER || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || (Hawk.get(HawkConfig.DEBUG_OPEN, false) && keyCode == KeyEvent.KEYCODE_0)) {
                 controller.boxTVTogglePlay();
             } else if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
 //                playPrevious();
@@ -284,6 +304,7 @@ public class PlayActivity extends BaseActivity {
 
         parseKey = vs.url;
         showLoading();
-        sourceViewModel.getPlay(sourceKey, mVodInfo.playFlag, vs.url);
+        String progressKey = mVodInfo.sourceKey + mVodInfo.playFlag + mVodInfo.playIndex;
+        sourceViewModel.getPlay(sourceKey, mVodInfo.playFlag, progressKey, vs.url);
     }
 }

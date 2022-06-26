@@ -21,12 +21,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.dueeeke.videoplayer.controller.ControlWrapper;
-import com.dueeeke.videoplayer.controller.IControlComponent;
-import com.dueeeke.videoplayer.player.VideoView;
+import xyz.doikki.videoplayer.controller.ControlWrapper;
+import xyz.doikki.videoplayer.controller.IControlComponent;
+import xyz.doikki.videoplayer.player.VideoView;
 import com.github.tvbox.osc.R;
 
-import static com.dueeeke.videoplayer.util.PlayerUtils.stringForTime;
+import static xyz.doikki.videoplayer.util.PlayerUtils.stringForTime;
 
 /**
  * 点播底部控制栏
