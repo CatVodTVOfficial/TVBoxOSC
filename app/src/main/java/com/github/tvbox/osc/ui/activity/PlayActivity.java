@@ -1,12 +1,18 @@
 package com.github.tvbox.osc.ui.activity;
 
+import android.app.PictureInPictureParams;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+
+import xyz.doikki.videocontroller.component.GestureView;
+import xyz.doikki.videoplayer.player.ProgressManager;
+import xyz.doikki.videoplayer.player.VideoView;
 
 import com.github.tvbox.osc.R;
 import com.github.tvbox.osc.base.BaseActivity;
@@ -181,6 +187,15 @@ public class PlayActivity extends BaseActivity {
         }
     }
 
+    //  takagen99
+    @Override
+    public void onUserLeaveHint () {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            PictureInPictureParams pictureInPictureParams = new PictureInPictureParams.Builder().build();
+            enterPictureInPictureMode(pictureInPictureParams);
+        }
+    }
+
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         int keyCode = event.getKeyCode();
@@ -218,12 +233,19 @@ public class PlayActivity extends BaseActivity {
         }
     }
 
-
+    //  takagen99
     @Override
     protected void onPause() {
         super.onPause();
-        if (mVideoView != null) {
-            mVideoView.pause();
+        // If called while in PiP mode, do not pause playback
+        if (isInPictureInPictureMode()) {
+            // Continue playback
+            mVideoView.resume();
+        } else {
+            // Use existing playback logic for paused Activity behavior.
+            if (mVideoView != null) {
+                mVideoView.pause();
+            }
         }
     }
 
@@ -304,7 +326,7 @@ public class PlayActivity extends BaseActivity {
 
         parseKey = vs.url;
         showLoading();
-        String progressKey = mVodInfo.sourceKey + mVodInfo.id + mVodInfo.playFlag + mVodInfo.playIndex;
+        String progressKey = mVodInfo.sourceKey + mVodInfo.playFlag + mVodInfo.playIndex;
         sourceViewModel.getPlay(sourceKey, mVodInfo.playFlag, progressKey, vs.url);
     }
 }

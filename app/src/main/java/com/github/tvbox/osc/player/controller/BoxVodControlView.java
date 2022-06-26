@@ -317,7 +317,7 @@ public class BoxVodControlView extends FrameLayout implements IControlComponent,
 
     private void changeSpeed() {
         videoSpeed += 0.25f;
-        if (videoSpeed > 2.1) {
+        if (videoSpeed > 3.1) {
             videoSpeed = 0.5f;
         }
         mControlWrapper.setSpeed(videoSpeed);
@@ -442,6 +442,7 @@ public class BoxVodControlView extends FrameLayout implements IControlComponent,
         if (show && mTVPauseContainer.getVisibility() == VISIBLE)
             return;
         mTVBottomContainer.setVisibility(show ? VISIBLE : GONE);
+        mTVInfoContainer.setVisibility(show ? VISIBLE : GONE);    // takagen99
     }
 
     public boolean isTVBottomShow() {

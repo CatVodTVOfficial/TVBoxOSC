@@ -163,11 +163,11 @@
                         android:layout_height="44mm"
                         android:layout_marginEnd="10mm"
                         android:layout_marginRight="10mm"
-                        android:background="@drawable/detail_play_focus"
+                        android:background="@drawable/detail_quick_search_focus"
                         android:focusable="true"
                         android:focusableInTouchMode="true"
                         android:gravity="center"
-                        android:text="立即播放"
+                        android:text="Play"
                         android:textColor="@android:color/white"
                         android:textSize="20mm" />
 
@@ -179,7 +179,7 @@
                         android:focusable="true"
                         android:focusableInTouchMode="true"
                         android:gravity="center"
-                        android:text="快速搜索"
+                        android:text="Search"
                         android:textColor="@android:color/white"
                         android:textSize="20mm" />
                 </LinearLayout>
