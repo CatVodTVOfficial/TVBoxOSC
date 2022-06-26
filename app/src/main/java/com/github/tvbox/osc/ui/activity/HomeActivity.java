@@ -238,7 +238,7 @@ public class HomeActivity extends BaseActivity {
             return;
         }
         showLoading();
-        if (dataInitOk) {
+        if (dataInitOk && !jarInitOk) {
             if (!ApiConfig.get().getSpider().isEmpty()) {
                 ApiConfig.get().loadJar(ApiConfig.get().getSpider(), new ApiConfig.LoadConfigCallback() {
                     @Override
@@ -265,6 +265,7 @@ public class HomeActivity extends BaseActivity {
                             @Override
                             public void run() {
                                 Toast.makeText(HomeActivity.this, "jar加载失败", Toast.LENGTH_SHORT).show();
+                                initData();
                             }
                         });
                     }
