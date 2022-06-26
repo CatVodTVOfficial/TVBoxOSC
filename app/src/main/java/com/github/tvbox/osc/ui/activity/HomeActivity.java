@@ -73,7 +73,7 @@ public class HomeActivity extends BaseActivity {
     private List<BaseLazyFragment> fragments = new ArrayList<>();
     private boolean isDownOrUp = false;
     private boolean sortChange = false;
-    private int currentSelected = 0;
+    private int currentSelected = 1;
     private int sortFocused = 0;
     public View sortFocusView = null;
     private Handler mHandler = new Handler();
