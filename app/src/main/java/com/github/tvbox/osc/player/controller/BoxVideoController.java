@@ -12,13 +12,14 @@ import androidx.annotation.AttrRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.github.tvbox.osc.R;
+
+import java.util.Map;
+
 import xyz.doikki.videoplayer.controller.GestureVideoController;
 import xyz.doikki.videoplayer.controller.IControlComponent;
 import xyz.doikki.videoplayer.player.VideoView;
 import xyz.doikki.videoplayer.player.VideoViewManager;
-import com.github.tvbox.osc.R;
-
-import java.util.Map;
 
 /**
  * 直播/点播控制器

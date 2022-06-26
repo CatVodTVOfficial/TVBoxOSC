@@ -26,13 +26,6 @@ public class SourceSettingAdapter extends BaseQuickAdapter<SourceBean, BaseViewH
         TextView tvSourceSpeed = helper.getView(R.id.tvSourceSpeed);
         TextView tvSource = helper.getView(R.id.tvSource);
         TextView tvSourceStatus = helper.getView(R.id.tvSourceStatus);
-        if (item == SourceBean.speedTestBean) {
-            tvSourceSpeed.setVisibility(View.VISIBLE);
-            tvSource.setVisibility(View.GONE);
-            tvSourceStatus.setVisibility(View.GONE);
-            tvSourceAdd.setVisibility(View.GONE);
-            return;
-        }
         tvSourceSpeed.setVisibility(View.GONE);
         tvSourceAdd.setVisibility(View.GONE);
         tvSource.setVisibility(View.VISIBLE);

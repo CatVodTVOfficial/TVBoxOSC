@@ -298,7 +298,7 @@ public class SearchActivity extends BaseActivity {
 
         ArrayList<String> siteKey = new ArrayList<>();
         for (SourceBean bean : searchRequestList) {
-            if (!bean.isActive() || bean.isAddition()) {
+            if (!bean.isActive()) {
                 continue;
             }
             siteKey.add(bean.getKey());
