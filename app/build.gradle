@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 
+def gitCommits = Integer.parseInt('git rev-list HEAD --count'.execute().text.trim())
+
 android {
     compileSdkVersion 30
 
@@ -7,7 +9,7 @@ android {
         applicationId 'com.github.tvbox.osc'
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 1
+        versionCode gitCommits
         versionName '1.0.0'
         multiDexEnabled true
         //设置room的Schema的位置
