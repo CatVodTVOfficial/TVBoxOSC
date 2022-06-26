@@ -7,8 +7,8 @@ import android.util.Base64;
 
 import com.github.catvod.crawler.JarLoader;
 import com.github.catvod.crawler.Spider;
-import com.github.tvbox.osc.bean.ChannelGroup;
 import com.github.tvbox.osc.base.App;
+import com.github.tvbox.osc.bean.ChannelGroup;
 import com.github.tvbox.osc.bean.IJKCode;
 import com.github.tvbox.osc.bean.LiveChannel;
 import com.github.tvbox.osc.bean.ParseBean;
@@ -158,14 +158,14 @@ public class ApiConfig {
     }
 
 
-    public void loadJar(String spider, LoadConfigCallback callback) {
+    public void loadJar(boolean useCache, String spider, LoadConfigCallback callback) {
         String[] urls = spider.split(";md5;");
         String jarUrl = urls[0];
         String md5 = urls.length > 1 ? urls[1].trim() : "";
         File cache = new File(App.getInstance().getFilesDir().getAbsolutePath() + "/csp.jar");
 
-        if (!md5.isEmpty()) {
-            if (cache.exists() && MD5.getFileMd5(cache).equalsIgnoreCase(md5)) {
+        if (!md5.isEmpty() || useCache) {
+            if (cache.exists() && (useCache || MD5.getFileMd5(cache).equalsIgnoreCase(md5))) {
                 if (jarLoader.load(cache.getAbsolutePath())) {
                     callback.success();
                 } else {
@@ -296,8 +296,7 @@ public class ApiConfig {
                 ChannelGroup channelGroup = new ChannelGroup();
                 channelGroup.setGroupName(url);
                 channelGroupList.add(channelGroup);
-            }
-            else{
+            } else {
                 loadLives(infoJson.get("lives").getAsJsonArray());
             }
         } catch (Throwable th) {
@@ -338,8 +337,7 @@ public class ApiConfig {
         }
     }
 
-    public void loadLives(JsonArray livesArray)
-    {
+    public void loadLives(JsonArray livesArray) {
         int groupIndex = 0;
         int channelIndex = 0;
         for (JsonElement groupElement : livesArray) {
@@ -364,7 +362,7 @@ public class ApiConfig {
     }
 
     public Spider getCSP(SourceBean sourceBean) {
-        return jarLoader.getSpider(sourceBean.getApi(), sourceBean.getExt());
+        return jarLoader.getSpider(sourceBean.getKey(), sourceBean.getApi(), sourceBean.getExt());
     }
 
     public Object[] proxyLocal(Map param) {
@@ -439,6 +437,7 @@ public class ApiConfig {
     public List<ChannelGroup> getChannelGroupList() {
         return channelGroupList;
     }
+
     public void setChannelGroupList(List<ChannelGroup> list) {
         channelGroupList.clear();
         channelGroupList.addAll(list);

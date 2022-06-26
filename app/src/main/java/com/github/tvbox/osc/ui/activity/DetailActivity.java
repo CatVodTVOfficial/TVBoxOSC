@@ -464,7 +464,7 @@ public class DetailActivity extends BaseActivity {
         searchRequestList.remove(home);
         searchRequestList.add(0, home);
         for (SourceBean bean : searchRequestList) {
-            if (!bean.isActive() || bean.isAddition()) {
+            if (!bean.isActive()) {
                 continue;
             }
             String key = bean.getKey();

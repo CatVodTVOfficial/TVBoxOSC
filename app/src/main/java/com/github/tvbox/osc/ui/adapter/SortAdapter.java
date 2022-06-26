@@ -20,6 +20,5 @@ public class SortAdapter extends BaseQuickAdapter<MovieSort.SortData, BaseViewHo
     @Override
     protected void convert(BaseViewHolder helper, MovieSort.SortData item) {
         helper.setText(R.id.tvTitle, item.name);
-        helper.addOnClickListener(R.id.tvTitle);
     }
 }

@@ -7,6 +7,9 @@ import com.thoughtworks.xstream.annotations.XStreamImplicit;
 import com.thoughtworks.xstream.converters.extended.ToAttributedValueConverter;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -27,6 +30,8 @@ public class MovieSort implements Serializable {
         public String name;
         public int sort = -1;
         public boolean select = false;
+        public ArrayList<SortFilter> filters = new ArrayList<>();
+        public HashMap<String, String> filterSelect = new HashMap<>();
 
         public SortData() {
         }
@@ -42,4 +47,11 @@ public class MovieSort implements Serializable {
             return this.sort - o.sort;
         }
     }
+
+    public static class SortFilter {
+        public String key;
+        public String name;
+        public LinkedHashMap<String, String> values;
+    }
+
 }
