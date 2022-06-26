@@ -4,16 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.dueeeke.videoplayer.player.VideoView
+    <xyz.doikki.videoplayer.player.VideoView
         android:id="@+id/mVideoView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <LinearLayout
-        android:id="@+id/tvLeftlinearLayout"
+        android:id="@+id/tvLeftLinearLayout"
         android:layout_width="421mm"
         android:layout_height="match_parent"
-        android:layout_marginLeft="0mm"
+        android:layout_marginLeft="-421mm"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:visibility="visible" >
