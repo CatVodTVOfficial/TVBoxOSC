@@ -24,7 +24,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.github.tvbox.osc.R;
 import com.github.tvbox.osc.api.ApiConfig;
 import com.github.tvbox.osc.base.BaseActivity;
@@ -43,7 +42,6 @@ import com.github.tvbox.osc.ui.tv.widget.NoScrollViewPager;
 import com.github.tvbox.osc.ui.tv.widget.ViewObj;
 import com.github.tvbox.osc.util.AppManager;
 import com.github.tvbox.osc.util.DefaultConfig;
-import com.github.tvbox.osc.util.FastClickCheckUtil;
 import com.github.tvbox.osc.util.LOG;
 import com.github.tvbox.osc.viewmodel.SourceViewModel;
 import com.owen.tvrecyclerview.widget.TvRecyclerView;
@@ -130,6 +128,7 @@ public class HomeActivity extends BaseActivity {
                     textView.getPaint().setFakeBoldText(false);
                     textView.setTextColor(HomeActivity.this.getResources().getColor(R.color.color_BBFFFFFF));
                     textView.invalidate();
+                    view.findViewById(R.id.tvFilter).setVisibility(View.GONE);
                 }
             }
 
@@ -142,14 +141,23 @@ public class HomeActivity extends BaseActivity {
                     textView.getPaint().setFakeBoldText(true);
                     textView.setTextColor(HomeActivity.this.getResources().getColor(R.color.color_FFFFFF));
                     textView.invalidate();
+                    if (!sortAdapter.getItem(position).filters.isEmpty())
+                        view.findViewById(R.id.tvFilter).setVisibility(View.VISIBLE);
                     HomeActivity.this.sortFocusView = view;
                     HomeActivity.this.sortFocused = position;
+                    mHandler.removeCallbacks(mDataRunnable);
+                    mHandler.postDelayed(mDataRunnable, 200);
                 }
             }
 
             @Override
             public void onItemClick(TvRecyclerView parent, View itemView, int position) {
-
+                if (itemView != null && currentSelected == position && !sortAdapter.getItem(position).filters.isEmpty()) { // 弹出筛选
+                    BaseLazyFragment baseLazyFragment = fragments.get(currentSelected);
+                    if ((baseLazyFragment instanceof GridFragment)) {
+                        ((GridFragment)baseLazyFragment).showFilter();
+                    }
+                }
             }
         });
         this.mGridView.setOnInBorderKeyEventListener(new TvRecyclerView.OnInBorderKeyEventListener() {
@@ -166,30 +174,6 @@ public class HomeActivity extends BaseActivity {
                     return true;
                 }
                 return false;
-            }
-        });
-        this.sortAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            public final void onItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int position) {
-                if (view.getId() == R.id.tvTitle) {
-                    FastClickCheckUtil.check(view);
-                    mGridView.smoothScrollToPosition(position);
-                    if (view.getParent() != null) {
-                        ViewGroup viewGroup = (ViewGroup) view.getParent();
-                        sortFocusView = viewGroup;
-                        viewGroup.requestFocus();
-                        sortFocused = position;
-                        if (position != currentSelected) {
-                            currentSelected = position;
-                            mViewPager.setCurrentItem(position, false);
-                            if (position == 0) {
-                                changeTop(false);
-                            } else {
-                                changeTop(true);
-                            }
-                        }
-                    }
-                }
-
             }
         });
         setLoadSir(this.contentLayout);
@@ -238,16 +222,17 @@ public class HomeActivity extends BaseActivity {
             return;
         }
         showLoading();
-        if (dataInitOk) {
+        if (dataInitOk && !jarInitOk) {
             if (!ApiConfig.get().getSpider().isEmpty()) {
-                ApiConfig.get().loadJar(ApiConfig.get().getSpider(), new ApiConfig.LoadConfigCallback() {
+                ApiConfig.get().loadJar(useCacheConfig, ApiConfig.get().getSpider(), new ApiConfig.LoadConfigCallback() {
                     @Override
                     public void success() {
                         jarInitOk = true;
                         mHandler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(HomeActivity.this, "jar加载成功", Toast.LENGTH_SHORT).show();
+                                if (!useCacheConfig)
+                                    Toast.makeText(HomeActivity.this, "自定义jar加载成功", Toast.LENGTH_SHORT).show();
                                 initData();
                             }
                         }, 50);
@@ -265,6 +250,7 @@ public class HomeActivity extends BaseActivity {
                             @Override
                             public void run() {
                                 Toast.makeText(HomeActivity.this, "jar加载失败", Toast.LENGTH_SHORT).show();
+                                initData();
                             }
                         });
                     }
@@ -358,7 +344,7 @@ public class HomeActivity extends BaseActivity {
                 if (data.id.equals("my0")) {
                     fragments.add(UserFragment.newInstance());
                 } else {
-                    fragments.add(GridFragment.newInstance(data.id));
+                    fragments.add(GridFragment.newInstance(data));
                 }
             }
             pageAdapter = new HomePageAdapter(getSupportFragmentManager(), fragments);
@@ -450,9 +436,9 @@ public class HomeActivity extends BaseActivity {
         if (topHide < 0)
             return false;
         if (event.getAction() == KeyEvent.ACTION_DOWN) {
-            mHandler.removeCallbacks(mDataRunnable);
+
         } else if (event.getAction() == KeyEvent.ACTION_UP) {
-            mHandler.postDelayed(mDataRunnable, 200);
+
         }
         return super.dispatchKeyEvent(event);
     }

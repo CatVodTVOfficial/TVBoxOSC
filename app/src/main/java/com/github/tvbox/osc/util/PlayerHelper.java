@@ -2,6 +2,11 @@ package com.github.tvbox.osc.util;
 
 import android.content.Context;
 
+import com.github.tvbox.osc.player.IjkMediaPlayer;
+import com.github.tvbox.osc.player.render.SurfaceRenderViewFactory;
+import com.orhanobut.hawk.Hawk;
+
+import tv.danmaku.ijk.media.player.IjkLibLoader;
 import xyz.doikki.videoplayer.exo.ExoMediaPlayerFactory;
 import xyz.doikki.videoplayer.player.AndroidMediaPlayerFactory;
 import xyz.doikki.videoplayer.player.PlayerFactory;
@@ -10,11 +15,6 @@ import xyz.doikki.videoplayer.player.VideoViewConfig;
 import xyz.doikki.videoplayer.player.VideoViewManager;
 import xyz.doikki.videoplayer.render.RenderViewFactory;
 import xyz.doikki.videoplayer.render.TextureRenderViewFactory;
-import com.github.tvbox.osc.player.IjkMediaPlayer;
-import com.github.tvbox.osc.player.render.SurfaceRenderViewFactory;
-import com.orhanobut.hawk.Hawk;
-
-import tv.danmaku.ijk.media.player.IjkLibLoader;
 
 public class PlayerHelper {
     public static void updateCfg(VideoView videoView) {
