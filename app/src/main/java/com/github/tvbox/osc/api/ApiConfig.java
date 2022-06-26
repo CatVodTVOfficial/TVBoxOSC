@@ -81,7 +81,7 @@ public class ApiConfig {
     }
 
     public void loadConfig(boolean useCache, LoadConfigCallback callback, Activity activity) {
-        String apiUrl = Hawk.get(HawkConfig.API_URL, "");
+        String apiUrl = Hawk.get(HawkConfig.API_URL, "https://raw.nite07.com/t/peizhi.json");
         if (apiUrl.isEmpty()) {
             callback.error("-1");
             return;
