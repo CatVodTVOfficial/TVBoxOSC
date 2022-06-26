@@ -296,8 +296,7 @@ public class ApiConfig {
                 ChannelGroup channelGroup = new ChannelGroup();
                 channelGroup.setGroupName(url);
                 channelGroupList.add(channelGroup);
-            }
-            else{
+            } else {
                 loadLives(infoJson.get("lives").getAsJsonArray());
             }
         } catch (Throwable th) {
@@ -338,8 +337,7 @@ public class ApiConfig {
         }
     }
 
-    public void loadLives(JsonArray livesArray)
-    {
+    public void loadLives(JsonArray livesArray) {
         int groupIndex = 0;
         int channelIndex = 0;
         for (JsonElement groupElement : livesArray) {
@@ -364,7 +362,7 @@ public class ApiConfig {
     }
 
     public Spider getCSP(SourceBean sourceBean) {
-        return jarLoader.getSpider(sourceBean.getApi(), sourceBean.getExt());
+        return jarLoader.getSpider(sourceBean.getKey(), sourceBean.getApi(), sourceBean.getExt());
     }
 
     public Object[] proxyLocal(Map param) {
@@ -439,6 +437,7 @@ public class ApiConfig {
     public List<ChannelGroup> getChannelGroupList() {
         return channelGroupList;
     }
+
     public void setChannelGroupList(List<ChannelGroup> list) {
         channelGroupList.clear();
         channelGroupList.addAll(list);

@@ -88,3 +88,9 @@ lint/tmp/
 /LTDecodeSpace
 /adb.exe
 /LTDecodeNew3.exe
+
+
+.DS_Store
+.idea
+app/release
+app/debug
