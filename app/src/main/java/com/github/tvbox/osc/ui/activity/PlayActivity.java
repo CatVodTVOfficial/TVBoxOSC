@@ -304,7 +304,7 @@ public class PlayActivity extends BaseActivity {
 
         parseKey = vs.url;
         showLoading();
-        String progressKey = mVodInfo.sourceKey + mVodInfo.playFlag + mVodInfo.playIndex;
+        String progressKey = mVodInfo.sourceKey + mVodInfo.id + mVodInfo.playFlag + mVodInfo.playIndex;
         sourceViewModel.getPlay(sourceKey, mVodInfo.playFlag, progressKey, vs.url);
     }
 }
