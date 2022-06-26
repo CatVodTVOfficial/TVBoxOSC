@@ -82,7 +82,7 @@ public class LivePlayActivity extends BaseActivity {
 //        layoutParams.width = 100;
 //        layoutParams.height = 50;
 //        mVideoView.setLayoutParams(layoutParams);
-        tvLeftLinearLayout = findViewById(R.id.tvLeftlinearLayout);
+        tvLeftLinearLayout = findViewById(R.id.tvLeftLinearLayout);
         mGroupGridView = findViewById(R.id.mGroupGridView);
         mChannelGridView = findViewById(R.id.mChannelGridView);
         tvChannel = findViewById(R.id.tvChannel);
@@ -306,6 +306,7 @@ public class LivePlayActivity extends BaseActivity {
             }
             channelGroupList.add(channelGroup);
         }
+        ApiConfig.get().setChannelGroupList(channelGroupList);
     }
 
     private void initLiveState() {
@@ -388,7 +389,7 @@ public class LivePlayActivity extends BaseActivity {
     private Runnable showListAfterScrollOk = new Runnable() {
         @Override
         public void run() {
-            if (mGroupGridView.isScrolling()) {
+            if (mGroupGridView.isScrolling() || mChannelGridView.isScrolling()) {
                 mHandler.postDelayed(this, 100);
             } else {
                 ViewObj viewObj = new ViewObj(tvLeftLinearLayout, (ViewGroup.MarginLayoutParams) tvLeftLinearLayout.getLayoutParams());
@@ -409,11 +410,18 @@ public class LivePlayActivity extends BaseActivity {
 
     private void showChannelList() {
         if (tvLeftLinearLayout.getVisibility() == View.INVISIBLE) {
-            tvHint.setVisibility(View.VISIBLE);
-            tvLeftLinearLayout.setVisibility(View.VISIBLE);
+            if (selectedGroupIndex != currentGroupIndex) {
+                channelGroupList.get(selectedGroupIndex).setDefault(false);
+                groupAdapter.notifyItemChanged(selectedGroupIndex);
+                selectedGroupIndex = currentGroupIndex;
+                channelGroupList.get(selectedGroupIndex).setDefault(true);
+                groupAdapter.notifyItemChanged(selectedGroupIndex);
+            }
             channelAdapter.setNewData(channelGroupList.get(currentGroupIndex).getLiveChannels());
             mGroupGridView.setSelection(currentGroupIndex);
             mChannelGridView.setSelection(currentChannelIndex);
+            tvHint.setVisibility(View.VISIBLE);
+            tvLeftLinearLayout.setVisibility(View.VISIBLE);
             mHandler.postDelayed(showListAfterScrollOk, 100);
         }
     }
@@ -442,9 +450,9 @@ public class LivePlayActivity extends BaseActivity {
                 || channelIndex < 0 || channelIndex >= channelGroupList.get(groupIndex).getLiveChannels().size())
             return false;
 
-        if (groupIndex != currentGroupIndex) {
-            channelGroupList.get(currentGroupIndex).setDefault(false);
-            groupAdapter.notifyItemChanged(currentGroupIndex);
+        if (groupIndex != selectedGroupIndex) {
+            channelGroupList.get(selectedGroupIndex).setDefault(false);
+            groupAdapter.notifyItemChanged(selectedGroupIndex);
         }
         if (channelIndex != currentChannelIndex) {
             channelGroupList.get(currentGroupIndex).getLiveChannels().get(currentChannelIndex).setDefault(false);

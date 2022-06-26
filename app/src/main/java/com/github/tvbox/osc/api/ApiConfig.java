@@ -439,6 +439,10 @@ public class ApiConfig {
     public List<ChannelGroup> getChannelGroupList() {
         return channelGroupList;
     }
+    public void setChannelGroupList(List<ChannelGroup> list) {
+        channelGroupList.clear();
+        channelGroupList.addAll(list);
+    }
 
     public List<IJKCode> getIjkCodes() {
         return ijkCodes;
