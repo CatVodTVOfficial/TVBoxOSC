@@ -1,0 +1,45 @@
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    compileSdkVersion 30
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildTypes {
+        all {
+            ndk {
+                abiFilters 'armeabi-v7a'
+            }
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        releaseSimon.initWith(release)
+        releaseSimon {
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation "androidx.annotation:annotation:1.3.0"
+    api "com.google.android.exoplayer:exoplayer-core:2.14.2"
+    api "com.google.android.exoplayer:exoplayer-dash:2.14.2"
+    api "com.google.android.exoplayer:exoplayer-hls:2.14.2"
+    api "com.google.android.exoplayer:exoplayer-rtsp:2.14.2"
+    api "com.google.android.exoplayer:extension-rtmp:2.14.2"
+    api "com.google.android.exoplayer:extension-okhttp:2.14.2"
+    api 'xyz.doikki.android.dkplayer:dkplayer-ui:3.3.5'
+}

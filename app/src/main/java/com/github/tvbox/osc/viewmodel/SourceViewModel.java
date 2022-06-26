@@ -309,7 +309,7 @@ public class SourceViewModel extends ViewModel {
         }
     }
 
-    public void getPlay(String sourceKey, String playFlag, String url) {
+    public void getPlay(String sourceKey, String playFlag, String progressKey, String url) {
         SourceBean sourceBean = ApiConfig.get().getSource(sourceKey);
         int type = sourceBean.getType();
         if (type == 3) {
@@ -321,6 +321,7 @@ public class SourceViewModel extends ViewModel {
                     try {
                         JSONObject result = new JSONObject(json);
                         result.put("key", url);
+                        result.put("proKey", progressKey);
                         if (!result.has("flag"))
                             result.put("flag", playFlag);
                         playResult.postValue(result);

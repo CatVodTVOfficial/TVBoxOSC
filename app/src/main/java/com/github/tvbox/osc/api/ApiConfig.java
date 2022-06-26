@@ -7,6 +7,7 @@ import android.util.Base64;
 
 import com.github.catvod.crawler.JarLoader;
 import com.github.catvod.crawler.Spider;
+import com.github.tvbox.osc.bean.ChannelGroup;
 import com.github.tvbox.osc.base.App;
 import com.github.tvbox.osc.bean.IJKCode;
 import com.github.tvbox.osc.bean.LiveChannel;
@@ -20,6 +21,7 @@ import com.github.tvbox.osc.util.DefaultConfig;
 import com.github.tvbox.osc.util.HawkConfig;
 import com.github.tvbox.osc.util.MD5;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.lzy.okgo.OkGo;
@@ -50,7 +52,7 @@ public class ApiConfig {
     private List<SourceBean> sourceBeanList;
     private SourceBean mHomeSource;
     private ParseBean mDefaultParse;
-    private List<LiveChannel> channelList;
+    private List<ChannelGroup> channelGroupList;
     private List<ParseBean> parseBeanList;
     private List<String> vipParseFlags;
     private List<IJKCode> ijkCodes;
@@ -63,7 +65,7 @@ public class ApiConfig {
 
     private ApiConfig() {
         sourceBeanList = new ArrayList<>();
-        channelList = new ArrayList<>();
+        channelGroupList = new ArrayList<>();
         parseBeanList = new ArrayList<>();
     }
 
@@ -274,34 +276,29 @@ public class ApiConfig {
         }
         // 直播源
         try {
-            int lcIdx = 0;
-            for (JsonElement opt : infoJson.get("lives").getAsJsonArray()) {
-                for (JsonElement optChl : ((JsonObject) opt).get("channels").getAsJsonArray()) {
-                    JsonObject obj = (JsonObject) optChl;
-                    LiveChannel lc = new LiveChannel();
-                    lc.setName(obj.get("name").getAsString().trim());
-                    ArrayList<String> urls = DefaultConfig.safeJsonStringList(obj, "urls");
-                    if (urls.size() > 0) {
-                        String url = urls.get(0);
-                        if (url.startsWith("proxy://")) {
-                            String fix = url.replace("proxy://", "http://0.0.0.0/?");
-                            String extUrl = Uri.parse(fix).getQueryParameter("ext");
-                            if (extUrl != null && !extUrl.isEmpty()) {
-                                String extUrlFix = new String(Base64.decode(extUrl, Base64.DEFAULT | Base64.URL_SAFE | Base64.NO_WRAP), "UTF-8");
-                                if (extUrlFix.startsWith("clan://")) {
-                                    extUrlFix = clanContentFix(clanToAddress(apiUrl), extUrlFix);
-                                    extUrlFix = Base64.encodeToString(extUrlFix.getBytes("UTF-8"), Base64.DEFAULT | Base64.URL_SAFE | Base64.NO_WRAP);
-                                    fix = url.replace(extUrl, extUrlFix);
-                                    urls.set(0, fix);
-                                }
-                            }
-                        }
+            String lives = infoJson.get("lives").getAsJsonArray().toString();
+            int index = lives.indexOf("proxy://");
+            if (index != -1) {
+                int endIndex = lives.lastIndexOf("\"");
+                String url = lives.substring(index, endIndex);
+                url = DefaultConfig.checkReplaceProxy(url);
+
+                //clan
+                String extUrl = Uri.parse(url).getQueryParameter("ext");
+                if (extUrl != null && !extUrl.isEmpty()) {
+                    String extUrlFix = new String(Base64.decode(extUrl, Base64.DEFAULT | Base64.URL_SAFE | Base64.NO_WRAP), "UTF-8");
+                    if (extUrlFix.startsWith("clan://")) {
+                        extUrlFix = clanContentFix(clanToAddress(apiUrl), extUrlFix);
+                        extUrlFix = Base64.encodeToString(extUrlFix.getBytes("UTF-8"), Base64.DEFAULT | Base64.URL_SAFE | Base64.NO_WRAP);
+                        url = url.replace(extUrl, extUrlFix);
                     }
-                    lc.setUrls(urls);
-                    // 暂时不考虑分组问题
-                    lc.setChannelNum(lcIdx++);
-                    channelList.add(lc);
                 }
+                ChannelGroup channelGroup = new ChannelGroup();
+                channelGroup.setGroupName(url);
+                channelGroupList.add(channelGroup);
+            }
+            else{
+                loadLives(infoJson.get("lives").getAsJsonArray());
             }
         } catch (Throwable th) {
             th.printStackTrace();
@@ -338,6 +335,27 @@ public class ApiConfig {
         }
         if (!foundOldSelect && ijkCodes.size() > 0) {
             ijkCodes.get(0).selected(true);
+        }
+    }
+
+    public void loadLives(JsonArray livesArray)
+    {
+        int groupIndex = 0;
+        int channelIndex = 0;
+        for (JsonElement groupElement : livesArray) {
+            ChannelGroup channelGroup = new ChannelGroup();
+            channelGroup.setGroupNum(groupIndex++);
+            channelGroup.setGroupName(((JsonObject) groupElement).get("Group").getAsString().trim());
+            for (JsonElement channelElement : ((JsonObject) groupElement).get("channels").getAsJsonArray()) {
+                JsonObject obj = (JsonObject) channelElement;
+                LiveChannel liveChannel = new LiveChannel();
+                liveChannel.setChannelName(obj.get("name").getAsString().trim());
+                liveChannel.setChannelNum(channelIndex++);
+                ArrayList<String> urls = DefaultConfig.safeJsonStringList(obj, "urls");
+                liveChannel.setUrls(urls);
+                channelGroup.getLiveChannels().add(liveChannel);
+            }
+            channelGroupList.add(channelGroup);
         }
     }
 
@@ -418,8 +436,8 @@ public class ApiConfig {
         return mHomeSource == null ? emptyHome : mHomeSource;
     }
 
-    public List<LiveChannel> getChannelList() {
-        return channelList;
+    public List<ChannelGroup> getChannelGroupList() {
+        return channelGroupList;
     }
 
     public List<IJKCode> getIjkCodes() {

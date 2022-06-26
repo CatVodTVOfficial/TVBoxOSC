@@ -256,6 +256,12 @@ public class DetailActivity extends BaseActivity {
 
                     tvName.setText(mVideo.name);
                     tvSite.setText(Html.fromHtml(getHtml("来源：", mVideo.sourceKey)));
+                    for (SourceBean sourceBean : ApiConfig.get().getSourceBeanList()) {
+                        if (sourceBean.getKey().equals(mVideo.sourceKey)) {
+                            tvSite.setText(Html.fromHtml(getHtml("来源：", sourceBean.getName())));
+                            break;
+                        }
+                    }
                     tvYear.setText(Html.fromHtml(getHtml("年份：", String.valueOf(mVideo.year))));
                     tvArea.setText(Html.fromHtml(getHtml("地区：", mVideo.area)));
                     tvLang.setText(Html.fromHtml(getHtml("语言：", mVideo.lang)));
@@ -325,6 +331,9 @@ public class DetailActivity extends BaseActivity {
     }
 
     private String getHtml(String label, String content) {
+        if (content == null) {
+            content = "";
+        }
         return label + "<font color=\"#FFFFFF\">" + content + "</font>";
     }
 

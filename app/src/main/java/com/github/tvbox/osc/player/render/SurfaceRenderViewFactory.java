@@ -2,8 +2,8 @@ package com.github.tvbox.osc.player.render;
 
 import android.content.Context;
 
-import com.dueeeke.videoplayer.render.IRenderView;
-import com.dueeeke.videoplayer.render.RenderViewFactory;
+import xyz.doikki.videoplayer.render.IRenderView;
+import xyz.doikki.videoplayer.render.RenderViewFactory;
 
 public class SurfaceRenderViewFactory extends RenderViewFactory {
 
