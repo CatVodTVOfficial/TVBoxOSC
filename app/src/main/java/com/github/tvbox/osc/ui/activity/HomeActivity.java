@@ -6,8 +6,6 @@ import android.animation.AnimatorSet;
 import android.animation.IntEvaluator;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -34,6 +32,7 @@ import com.github.tvbox.osc.event.RefreshEvent;
 import com.github.tvbox.osc.server.ControlManager;
 import com.github.tvbox.osc.ui.adapter.HomePageAdapter;
 import com.github.tvbox.osc.ui.adapter.SortAdapter;
+import com.github.tvbox.osc.ui.dialog.TipDialog;
 import com.github.tvbox.osc.ui.fragment.GridFragment;
 import com.github.tvbox.osc.ui.fragment.UserFragment;
 import com.github.tvbox.osc.ui.tv.widget.DefaultTransformer;
@@ -248,7 +247,7 @@ public class HomeActivity extends BaseActivity {
             return;
         }
         ApiConfig.get().loadConfig(useCacheConfig, new ApiConfig.LoadConfigCallback() {
-            AlertDialog dialog = null;
+            TipDialog dialog = null;
 
             @Override
             public void retry() {
@@ -291,34 +290,44 @@ public class HomeActivity extends BaseActivity {
                     @Override
                     public void run() {
                         if (dialog == null)
-                            dialog = new AlertDialog.Builder(HomeActivity.this).setTitle("提示")
-                                    .setMessage(msg + "\n\n请重试!")
-                                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            dialog = new TipDialog(HomeActivity.this, msg, "重试", "取消", new TipDialog.OnListener() {
+                                @Override
+                                public void left() {
+                                    mHandler.post(new Runnable() {
                                         @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            mHandler.post(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    initData();
-                                                }
-                                            });
-                                        }
-                                    })
-                                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dataInitOk = true;
-                                            jarInitOk = true;
+                                        public void run() {
                                             initData();
+                                            dialog.hide();
                                         }
-                                    })
-                                    .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                                    });
+                                }
+
+                                @Override
+                                public void right() {
+                                    dataInitOk = true;
+                                    jarInitOk = true;
+                                    mHandler.post(new Runnable() {
                                         @Override
-                                        public void onCancel(DialogInterface dialog) {
-                                            dataInitOk = true;
-                                            jarInitOk = true;
+                                        public void run() {
+                                            initData();
+                                            dialog.hide();
                                         }
-                                    }).create();
+                                    });
+                                }
+
+                                @Override
+                                public void cancel() {
+                                    dataInitOk = true;
+                                    jarInitOk = true;
+                                    mHandler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            initData();
+                                            dialog.hide();
+                                        }
+                                    });
+                                }
+                            });
                         if (!dialog.isShowing())
                             dialog.show();
                     }

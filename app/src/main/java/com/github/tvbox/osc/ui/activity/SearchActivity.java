@@ -158,7 +158,7 @@ public class SearchActivity extends BaseActivity {
                         loadRec(text);
                     }
                 } else if (pos == 0) {
-                    RemoteDialog remoteDialog = new RemoteDialog().build(mContext);
+                    RemoteDialog remoteDialog = new RemoteDialog(mContext);
                     remoteDialog.show();
                 }
             }
@@ -347,6 +347,13 @@ public class SearchActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         cancel();
+        try {
+            if (searchExecutorService != null) {
+                searchExecutorService.shutdownNow();
+            }
+        } catch (Throwable th) {
+            th.printStackTrace();
+        }
         EventBus.getDefault().unregister(this);
     }
 }
