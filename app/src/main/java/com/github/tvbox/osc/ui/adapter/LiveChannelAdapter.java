@@ -17,7 +17,7 @@ import java.util.ArrayList;
  */
 public class LiveChannelAdapter extends BaseQuickAdapter<LiveChannel, BaseViewHolder> {
     public LiveChannelAdapter() {
-        super(R.layout.item_live_channel_layout, new ArrayList<>());
+        super(R.layout.item_live_channel, new ArrayList<>());
     }
 
     @Override

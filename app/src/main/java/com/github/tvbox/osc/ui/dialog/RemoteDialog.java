@@ -31,7 +31,7 @@ public class RemoteDialog {
     }
 
     public RemoteDialog build(Context context) {
-        rootView = LayoutInflater.from(context).inflate(R.layout.remote_dialog, null);
+        rootView = LayoutInflater.from(context).inflate(R.layout.dialog_remote, null);
         mDialog = new Dialog(context, R.style.CustomDialogStyle);
         mDialog.setCanceledOnTouchOutside(false);
         mDialog.setContentView(rootView);

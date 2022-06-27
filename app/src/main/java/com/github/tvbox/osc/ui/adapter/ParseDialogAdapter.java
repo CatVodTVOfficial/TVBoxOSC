@@ -18,7 +18,7 @@ import java.util.ArrayList;
  */
 public class ParseDialogAdapter extends BaseQuickAdapter<ParseBean, BaseViewHolder> {
     public ParseDialogAdapter() {
-        super(R.layout.item_parse_dialog_layout, new ArrayList<>());
+        super(R.layout.item_dialog_parse, new ArrayList<>());
     }
 
     @Override

@@ -18,7 +18,7 @@ import java.util.ArrayList;
  */
 public class ChannelGroupAdapter extends BaseQuickAdapter<ChannelGroup, BaseViewHolder> {
     public ChannelGroupAdapter() {
-        super(R.layout.item_channel_group_layout, new ArrayList<>());
+        super(R.layout.item_channel_group, new ArrayList<>());
     }
 
     @Override
