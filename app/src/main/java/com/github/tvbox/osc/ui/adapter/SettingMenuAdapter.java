@@ -11,9 +11,9 @@ import java.util.ArrayList;
  * @date :2020/12/23
  * @description:
  */
-public class SettingSortAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
-    public SettingSortAdapter() {
-        super(R.layout.item_sort_setting_layout, new ArrayList<>());
+public class SettingMenuAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
+    public SettingMenuAdapter() {
+        super(R.layout.item_setting_menu, new ArrayList<>());
     }
 
     @Override

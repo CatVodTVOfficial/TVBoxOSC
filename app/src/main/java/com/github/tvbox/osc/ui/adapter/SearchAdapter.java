@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 public class SearchAdapter extends BaseQuickAdapter<Movie.Video, BaseViewHolder> {
     public SearchAdapter() {
-        super(R.layout.item_search_layout, new ArrayList<>());
+        super(R.layout.item_search, new ArrayList<>());
     }
 
     @Override

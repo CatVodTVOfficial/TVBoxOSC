@@ -38,7 +38,6 @@ public class QuickSearchDialog {
     private TvRecyclerView mGridView;
     private TvRecyclerView mGridViewWord;
 
-
     public QuickSearchDialog build(Context context) {
         mContext = context;
         rootView = LayoutInflater.from(context).inflate(R.layout.dialog_quick_search, null);
