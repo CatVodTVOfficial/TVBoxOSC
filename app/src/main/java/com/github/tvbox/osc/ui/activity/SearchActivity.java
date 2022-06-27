@@ -158,7 +158,7 @@ public class SearchActivity extends BaseActivity {
                         loadRec(text);
                     }
                 } else if (pos == 0) {
-                    RemoteDialog remoteDialog = new RemoteDialog().build(mContext);
+                    RemoteDialog remoteDialog = new RemoteDialog(mContext);
                     remoteDialog.show();
                 }
             }

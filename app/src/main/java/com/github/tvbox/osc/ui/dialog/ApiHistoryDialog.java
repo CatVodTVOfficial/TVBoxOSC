@@ -2,28 +2,24 @@ package com.github.tvbox.osc.ui.dialog;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 
 import com.github.tvbox.osc.R;
-import com.github.tvbox.osc.ui.adapter.SelectDialogAdapter;
+import com.github.tvbox.osc.ui.adapter.ApiHistoryDialogAdapter;
 import com.owen.tvrecyclerview.widget.TvRecyclerView;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class SelectDialog<T> extends BaseDialog {
-    public SelectDialog(@NonNull @NotNull Context context) {
-        super(context);
-        setContentView(R.layout.dialog_select);
-    }
-
-    public SelectDialog(@NonNull @NotNull Context context, int resId) {
-        super(context);
-        setContentView(resId);
+public class ApiHistoryDialog extends BaseDialog {
+    public ApiHistoryDialog(@NonNull @NotNull Context context) {
+        super(context, R.style.CustomDialogStyleDim);
+        setContentView(R.layout.dialog_api_history);
     }
 
     @Override
@@ -35,8 +31,8 @@ public class SelectDialog<T> extends BaseDialog {
         ((TextView) findViewById(R.id.title)).setText(tip);
     }
 
-    public void setAdapter(SelectDialogAdapter.SelectDialogInterface<T> sourceBeanSelectDialogInterface, DiffUtil.ItemCallback<T> sourceBeanItemCallback, List<T> data, int select) {
-        SelectDialogAdapter<T> adapter = new SelectDialogAdapter(sourceBeanSelectDialogInterface, sourceBeanItemCallback);
+    public void setAdapter(ApiHistoryDialogAdapter.SelectDialogInterface sourceBeanSelectDialogInterface, List<String> data, int select) {
+        ApiHistoryDialogAdapter adapter = new ApiHistoryDialogAdapter(sourceBeanSelectDialogInterface);
         adapter.setData(data, select);
         TvRecyclerView tvRecyclerView = ((TvRecyclerView) findViewById(R.id.list));
         tvRecyclerView.setAdapter(adapter);

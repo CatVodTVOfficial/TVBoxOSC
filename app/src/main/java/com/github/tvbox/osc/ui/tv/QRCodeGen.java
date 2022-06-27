@@ -21,6 +21,7 @@ public class QRCodeGen {
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
         Map<EncodeHintType, String> hints = new HashMap<>();
         hints.put(EncodeHintType.CHARACTER_SET, "utf-8");
+        hints.put(EncodeHintType.MARGIN, "0");
         try {
             BitMatrix encode = qrCodeWriter.encode(content, BarcodeFormat.QR_CODE, width, height, hints);
             int[] pixels = new int[width * height];

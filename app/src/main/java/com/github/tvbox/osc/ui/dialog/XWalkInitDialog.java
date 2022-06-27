@@ -1,15 +1,13 @@
 package com.github.tvbox.osc.ui.dialog;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
 
 import com.github.tvbox.osc.R;
 import com.github.tvbox.osc.util.FastClickCheckUtil;
@@ -19,35 +17,24 @@ import com.lzy.okgo.callback.FileCallback;
 import com.lzy.okgo.model.Progress;
 import com.lzy.okgo.model.Response;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 
-/**
- * @author pj567
- * @date :2020/12/23
- * @description:
- */
-public class XWalkInitDialog {
-    private View rootView;
-    private Dialog mDialog;
+public class XWalkInitDialog extends BaseDialog {
     private OnListener listener;
 
-    public XWalkInitDialog build(Context context) {
-        rootView = LayoutInflater.from(context).inflate(R.layout.dialog_xwalk, null);
-        mDialog = new Dialog(context, R.style.CustomDialogStyle);
-        mDialog.setCanceledOnTouchOutside(false);
-        mDialog.setCancelable(true);
-        mDialog.setContentView(rootView);
-        mDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+    public XWalkInitDialog(@NonNull @NotNull Context context) {
+        super(context);
+        setCanceledOnTouchOutside(false);
+        setCancelable(true);
+        setContentView(R.layout.dialog_xwalk);
+        setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
                 OkGo.getInstance().cancelTag("down_xwalk");
             }
         });
-        init(context);
-        return this;
-    }
-
-    private void init(Context context) {
         TextView downText = findViewById(R.id.downXWalk);
         TextView downTip = findViewById(R.id.downXWalkArch);
 
@@ -102,28 +89,6 @@ public class XWalkInitDialog {
         });
     }
 
-
-    public void show() {
-        if (mDialog != null && !mDialog.isShowing()) {
-            mDialog.show();
-        }
-    }
-
-    public void dismiss() {
-        if (mDialog != null && mDialog.isShowing()) {
-            mDialog.dismiss();
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    private <T extends View> T findViewById(@IdRes int viewId) {
-        View view = null;
-        if (rootView != null) {
-            view = rootView.findViewById(viewId);
-        }
-        return (T) view;
-    }
-
     public XWalkInitDialog setOnListener(OnListener listener) {
         this.listener = listener;
         return this;
@@ -131,6 +96,5 @@ public class XWalkInitDialog {
 
     public interface OnListener {
         void onchange();
-
     }
 }
