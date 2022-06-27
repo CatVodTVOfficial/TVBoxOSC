@@ -50,7 +50,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         hideSysBar();
     }
 
-    private void hideSysBar() {
+    public void hideSysBar() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             int uiOptions = getWindow().getDecorView().getSystemUiVisibility();
             uiOptions |= View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
