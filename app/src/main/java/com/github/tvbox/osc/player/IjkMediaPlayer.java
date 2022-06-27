@@ -3,12 +3,13 @@ package com.github.tvbox.osc.player;
 import android.content.Context;
 import android.text.TextUtils;
 
-import xyz.doikki.videoplayer.ijk.IjkPlayer;
 import com.github.tvbox.osc.api.ApiConfig;
 import com.github.tvbox.osc.bean.IJKCode;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import xyz.doikki.videoplayer.ijk.IjkPlayer;
 
 public class IjkMediaPlayer extends IjkPlayer {
 

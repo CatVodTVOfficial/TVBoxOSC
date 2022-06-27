@@ -13,7 +13,6 @@ import com.github.tvbox.osc.base.BaseLazyFragment;
 import com.github.tvbox.osc.bean.SourceBean;
 import com.github.tvbox.osc.receiver.CustomWebReceiver;
 import com.github.tvbox.osc.ui.adapter.SourceSettingAdapter;
-import com.github.tvbox.osc.ui.dialog.SpeedTestDialog;
 import com.github.tvbox.osc.util.FastClickCheckUtil;
 import com.owen.tvrecyclerview.widget.TvRecyclerView;
 import com.owen.tvrecyclerview.widget.V7GridLayoutManager;
@@ -58,37 +57,10 @@ public class SourceSettingFragment extends BaseLazyFragment {
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 FastClickCheckUtil.check(view);
                 SourceBean sourceBean = settingAdapter.getData().get(position);
-                if (sourceBean == SourceBean.speedTestBean) {
-                    SpeedTestDialog dialog = new SpeedTestDialog().build(mContext);
-                    dialog.show();
-                } else {
-                    int preHome = settingAdapter.getData().indexOf(ApiConfig.get().getHomeSourceBean());
-                    ApiConfig.get().setSourceBean(sourceBean);
-                    settingAdapter.notifyItemChanged(preHome);
-                    settingAdapter.notifyItemChanged(position);
-                    /*SourceSetDialog dialog = new SourceSetDialog()
-                            .bean(sourceBean)
-                            .OnChangeSrcListener(new SourceSetDialog.OnChangeSrcListener() {
-                                @Override
-                                public void onHome() {
-                                    // 之前的首页源可能也要刷新下
-                                    int homePosition = settingAdapter.getData().indexOf(ApiConfig.get().getHomeSourceBean());
-                                    settingAdapter.notifyItemChanged(homePosition);
-                                    settingAdapter.notifyItemChanged(position);
-                                }
-
-                                @Override
-                                public void onRefresh() {
-                                    settingAdapter.notifyItemChanged(position);
-                                }
-
-                                @Override
-                                public void onDelete() {
-                                    settingAdapter.remove(position);
-                                }
-                            }).build(SourceSettingFragment.this);
-                    dialog.show();*/
-                }
+                int preHome = settingAdapter.getData().indexOf(ApiConfig.get().getHomeSourceBean());
+                ApiConfig.get().setSourceBean(sourceBean);
+                settingAdapter.notifyItemChanged(preHome);
+                settingAdapter.notifyItemChanged(position);
             }
         });
     }
