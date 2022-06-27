@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="color_058AF4">#058AF4</color>
     <color name="color_6200EE">#6200EE</color>
     <color name="color_3700B3">#3700B3</color>
     <color name="color_03DAC5">#03DAC5</color>
@@ -20,6 +19,7 @@
     <color name="color_66000000">#66000000</color>
     <color name="color_CC000000">#CC000000</color>
     <color name="color_02F8E1">#02F8E1</color>
+    <color name="color_353744">#353744</color>
     <color name="color_CC353744">#CC353744</color>
     <color name="color_6C3D3D3D">#6c3d3d3d</color>
     <color name="color_BBFFFFFF">#bbffffff</color>

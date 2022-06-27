@@ -155,7 +155,7 @@ public class HomeActivity extends BaseActivity {
                 if (itemView != null && currentSelected == position && !sortAdapter.getItem(position).filters.isEmpty()) { // 弹出筛选
                     BaseLazyFragment baseLazyFragment = fragments.get(currentSelected);
                     if ((baseLazyFragment instanceof GridFragment)) {
-                        ((GridFragment)baseLazyFragment).showFilter();
+                        ((GridFragment) baseLazyFragment).showFilter();
                     }
                 }
             }
@@ -178,17 +178,6 @@ public class HomeActivity extends BaseActivity {
         });
         setLoadSir(this.contentLayout);
         //mHandler.postDelayed(mFindFocus, 500);
-        /*
-        if (!Hawk.contains("update_hint_v14")) {
-            UpdateHintDialog updateHintDialog = new UpdateHintDialog().OnSureListener(new UpdateHintDialog.OnSureListener() {
-                @Override
-                public void sure() {
-                    Hawk.put("update_hint_v14", true);
-                }
-            }).build(this);
-            updateHintDialog.show();
-        }
-        */
     }
 
     private void initViewModel() {

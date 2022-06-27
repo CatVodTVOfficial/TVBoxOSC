@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public class SearchWordAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
     public SearchWordAdapter() {
-        super(R.layout.item_search_word_layout, new ArrayList<>());
+        super(R.layout.item_search_word_split, new ArrayList<>());
     }
 
     @Override

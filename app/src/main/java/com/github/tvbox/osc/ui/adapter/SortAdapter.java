@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class SortAdapter extends BaseQuickAdapter<MovieSort.SortData, BaseViewHolder> {
     public SortAdapter() {
-        super(R.layout.item_home_sort_layout, new ArrayList<>());
+        super(R.layout.item_home_sort, new ArrayList<>());
     }
 
     @Override

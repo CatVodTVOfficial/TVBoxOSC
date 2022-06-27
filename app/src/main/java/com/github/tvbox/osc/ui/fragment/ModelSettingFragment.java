@@ -7,15 +7,18 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+
 import com.github.tvbox.osc.R;
 import com.github.tvbox.osc.api.ApiConfig;
 import com.github.tvbox.osc.base.BaseLazyFragment;
 import com.github.tvbox.osc.bean.IJKCode;
+import com.github.tvbox.osc.bean.SourceBean;
 import com.github.tvbox.osc.ui.activity.SettingActivity;
+import com.github.tvbox.osc.ui.adapter.SelectDialogAdapter;
 import com.github.tvbox.osc.ui.dialog.AboutDialog;
-import com.github.tvbox.osc.ui.dialog.ChangeIJKCodeDialog;
-import com.github.tvbox.osc.ui.dialog.ChangePlayDialog;
-import com.github.tvbox.osc.ui.dialog.ChangeRenderDialog;
+import com.github.tvbox.osc.ui.dialog.SelectDialog;
 import com.github.tvbox.osc.ui.dialog.XWalkInitDialog;
 import com.github.tvbox.osc.util.FastClickCheckUtil;
 import com.github.tvbox.osc.util.HawkConfig;
@@ -26,6 +29,9 @@ import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
 import com.orhanobut.hawk.Hawk;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,6 +47,7 @@ public class ModelSettingFragment extends BaseLazyFragment {
     private TextView tvRender;
     private TextView tvXWalkDown;
     private TextView tvApi;
+    private TextView tvHomeApi;
 
     public static ModelSettingFragment newInstance() {
         return new ModelSettingFragment().setArguments();
@@ -64,14 +71,16 @@ public class ModelSettingFragment extends BaseLazyFragment {
         tvRender = findViewById(R.id.tvRenderType);
         tvXWalkDown = findViewById(R.id.tvXWalkDown);
         tvApi = findViewById(R.id.tvApi);
+        tvHomeApi = findViewById(R.id.tvHomeApi);
         tvMediaCodec.setText(Hawk.get(HawkConfig.IJK_CODEC, ""));
         tvDebugOpen.setText(Hawk.get(HawkConfig.DEBUG_OPEN, false) ? "已打开" : "已关闭");
         tvParseWebView.setText(Hawk.get(HawkConfig.PARSE_WEBVIEW, true) ? "系统自带" : "XWalkView");
         tvXWalkDown.setText(XWalkUtils.xWalkLibExist(mContext) ? "已下载" : "未下载");
         tvApi.setText(Hawk.get(HawkConfig.API_URL, ""));
+        tvHomeApi.setText(ApiConfig.get().getHomeSourceBean().getName());
+        tvPlay.setText(getPlayerName(Hawk.get(HawkConfig.PLAY_TYPE, 0)));
+        tvRender.setText(getRenderName(Hawk.get(HawkConfig.PLAY_RENDER, 0)));
         findViewById(R.id.llXWalkCore).setVisibility(Hawk.get(HawkConfig.PARSE_WEBVIEW, true) ? View.GONE : View.VISIBLE);
-        changePlay();
-        changeRender();
         findViewById(R.id.llDebug).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -153,9 +162,44 @@ public class ModelSettingFragment extends BaseLazyFragment {
                 dialog.show();
             }
         });
+        findViewById(R.id.llHomeApi).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FastClickCheckUtil.check(v);
+                List<SourceBean> sites = ApiConfig.get().getSourceBeanList();
+                if (sites.size() > 0) {
+                    SelectDialog<SourceBean> dialog = new SelectDialog<>(mActivity);
+                    dialog.setTip("请选择首页数据源");
+                    dialog.setAdapter(new SelectDialogAdapter.SelectDialogInterface<SourceBean>() {
+                        @Override
+                        public void click(SourceBean value, int pos) {
+                            ApiConfig.get().setSourceBean(value);
+                            tvHomeApi.setText(ApiConfig.get().getHomeSourceBean().getName());
+                        }
+
+                        @Override
+                        public String getDisplay(SourceBean val) {
+                            return val.getName();
+                        }
+                    }, new DiffUtil.ItemCallback<SourceBean>() {
+                        @Override
+                        public boolean areItemsTheSame(@NonNull @NotNull SourceBean oldItem, @NonNull @NotNull SourceBean newItem) {
+                            return oldItem == newItem;
+                        }
+
+                        @Override
+                        public boolean areContentsTheSame(@NonNull @NotNull SourceBean oldItem, @NonNull @NotNull SourceBean newItem) {
+                            return oldItem.getKey().equals(newItem.getKey());
+                        }
+                    }, sites, sites.indexOf(ApiConfig.get().getHomeSourceBean()));
+                    dialog.show();
+                }
+            }
+        });
         findViewById(R.id.llApi).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                FastClickCheckUtil.check(v);
                 AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
                 builder.setTitle("请输入配置地址");
                 final EditText edit = new EditText(mActivity);
@@ -184,12 +228,40 @@ public class ModelSettingFragment extends BaseLazyFragment {
                 if (ijkCodes == null || ijkCodes.size() == 0)
                     return;
                 FastClickCheckUtil.check(v);
-                ChangeIJKCodeDialog dialog = new ChangeIJKCodeDialog().build(mActivity, new ChangeIJKCodeDialog.Callback() {
-                    @Override
-                    public void change() {
-                        tvMediaCodec.setText(Hawk.get(HawkConfig.IJK_CODEC, ""));
+
+                int defaultPos = 0;
+                String ijkSel = Hawk.get(HawkConfig.IJK_CODEC, "");
+                for (int j = 0; j < ijkCodes.size(); j++) {
+                    if (ijkSel.equals(ijkCodes.get(j).getName())) {
+                        defaultPos = j;
+                        break;
                     }
-                });
+                }
+
+                SelectDialog<IJKCode> dialog = new SelectDialog<>(mActivity);
+                dialog.setTip("请选择IJK解码");
+                dialog.setAdapter(new SelectDialogAdapter.SelectDialogInterface<IJKCode>() {
+                    @Override
+                    public void click(IJKCode value, int pos) {
+                        value.selected(true);
+                        tvMediaCodec.setText(value.getName());
+                    }
+
+                    @Override
+                    public String getDisplay(IJKCode val) {
+                        return val.getName();
+                    }
+                }, new DiffUtil.ItemCallback<IJKCode>() {
+                    @Override
+                    public boolean areItemsTheSame(@NonNull @NotNull IJKCode oldItem, @NonNull @NotNull IJKCode newItem) {
+                        return oldItem == newItem;
+                    }
+
+                    @Override
+                    public boolean areContentsTheSame(@NonNull @NotNull IJKCode oldItem, @NonNull @NotNull IJKCode newItem) {
+                        return oldItem.getName().equals(newItem.getName());
+                    }
+                }, ijkCodes, defaultPos);
                 dialog.show();
             }
         });
@@ -197,26 +269,73 @@ public class ModelSettingFragment extends BaseLazyFragment {
             @Override
             public void onClick(View v) {
                 FastClickCheckUtil.check(v);
-                new ChangePlayDialog().setOnChangePlayListener(new ChangePlayDialog.OnChangePlayListener() {
+                int defaultPos = Hawk.get(HawkConfig.PLAY_TYPE, 0);
+                ArrayList<Integer> players = new ArrayList<>();
+                players.add(0);
+                players.add(1);
+                players.add(2);
+                SelectDialog<Integer> dialog = new SelectDialog<>(mActivity);
+                dialog.setTip("请选择默认播放器");
+                dialog.setAdapter(new SelectDialogAdapter.SelectDialogInterface<Integer>() {
                     @Override
-                    public void onChange() {
-                        changePlay();
+                    public void click(Integer value, int pos) {
+                        Hawk.put(HawkConfig.PLAY_TYPE, value);
+                        tvPlay.setText(getPlayerName(value));
                         PlayerHelper.init();
                     }
-                }).build(mContext).show();
+
+                    @Override
+                    public String getDisplay(Integer val) {
+                        return getPlayerName(val);
+                    }
+                }, new DiffUtil.ItemCallback<Integer>() {
+                    @Override
+                    public boolean areItemsTheSame(@NonNull @NotNull Integer oldItem, @NonNull @NotNull Integer newItem) {
+                        return oldItem.intValue() == newItem.intValue();
+                    }
+
+                    @Override
+                    public boolean areContentsTheSame(@NonNull @NotNull Integer oldItem, @NonNull @NotNull Integer newItem) {
+                        return oldItem.intValue() == newItem.intValue();
+                    }
+                }, players, defaultPos);
+                dialog.show();
             }
         });
         findViewById(R.id.llRender).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FastClickCheckUtil.check(v);
-                new ChangeRenderDialog().setOnChangePlayListener(new ChangeRenderDialog.OnChangeRenderListener() {
+                int defaultPos = Hawk.get(HawkConfig.PLAY_RENDER, 0);
+                ArrayList<Integer> renders = new ArrayList<>();
+                renders.add(0);
+                renders.add(1);
+                SelectDialog<Integer> dialog = new SelectDialog<>(mActivity);
+                dialog.setTip("请选择默认渲染方式");
+                dialog.setAdapter(new SelectDialogAdapter.SelectDialogInterface<Integer>() {
                     @Override
-                    public void onChange() {
-                        changeRender();
+                    public void click(Integer value, int pos) {
+                        Hawk.put(HawkConfig.PLAY_RENDER, value);
+                        tvRender.setText(getRenderName(value));
                         PlayerHelper.init();
                     }
-                }).build(mContext).show();
+
+                    @Override
+                    public String getDisplay(Integer val) {
+                        return getRenderName(val);
+                    }
+                }, new DiffUtil.ItemCallback<Integer>() {
+                    @Override
+                    public boolean areItemsTheSame(@NonNull @NotNull Integer oldItem, @NonNull @NotNull Integer newItem) {
+                        return oldItem.intValue() == newItem.intValue();
+                    }
+
+                    @Override
+                    public boolean areContentsTheSame(@NonNull @NotNull Integer oldItem, @NonNull @NotNull Integer newItem) {
+                        return oldItem.intValue() == newItem.intValue();
+                    }
+                }, renders, defaultPos);
+                dialog.show();
             }
         });
         SettingActivity.callback = new SettingActivity.DevModeCallback() {
@@ -227,25 +346,21 @@ public class ModelSettingFragment extends BaseLazyFragment {
         };
     }
 
-    private void changePlay() {
-        int playType = Hawk.get(HawkConfig.PLAY_TYPE, 0);
+    private String getPlayerName(int playType) {
         if (playType == 1) {
-            tvPlay.setText("IJK播放器");
+            return "IJK播放器";
         } else if (playType == 2) {
-            tvPlay.setText("Exo播放器");
+            return "Exo播放器";
         } else {
-            tvPlay.setText("系统播放器");
+            return "系统播放器";
         }
     }
 
-    private void changeRender() {
-        int renderType = Hawk.get(HawkConfig.PLAY_RENDER, 0);
-        if (renderType == 0) {
-            tvRender.setText("TextureView");
-        } else if (renderType == 1) {
-            tvRender.setText("SurfaceView");
+    private String getRenderName(int renderType) {
+        if (renderType == 1) {
+            return "SurfaceView";
         } else {
-            tvRender.setText("TextureView");
+            return "TextureView";
         }
     }
 

@@ -17,7 +17,7 @@ import java.util.ArrayList;
  */
 public class SeriesAdapter extends BaseQuickAdapter<VodInfo.VodSeries, BaseViewHolder> {
     public SeriesAdapter() {
-        super(R.layout.item_series_layout, new ArrayList<>());
+        super(R.layout.item_series, new ArrayList<>());
     }
 
     @Override

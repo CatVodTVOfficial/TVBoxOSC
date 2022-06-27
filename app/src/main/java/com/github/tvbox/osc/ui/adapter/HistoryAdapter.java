@@ -24,7 +24,7 @@ import me.jessyan.autosize.utils.AutoSizeUtils;
  */
 public class HistoryAdapter extends BaseQuickAdapter<VodInfo, BaseViewHolder> {
     public HistoryAdapter() {
-        super(R.layout.item_grid_layout, new ArrayList<>());
+        super(R.layout.item_grid, new ArrayList<>());
     }
 
     @Override

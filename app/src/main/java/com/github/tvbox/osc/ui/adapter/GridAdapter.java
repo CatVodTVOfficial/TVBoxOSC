@@ -24,7 +24,7 @@ import me.jessyan.autosize.utils.AutoSizeUtils;
  */
 public class GridAdapter extends BaseQuickAdapter<Movie.Video, BaseViewHolder> {
     public GridAdapter() {
-        super(R.layout.item_grid_layout, new ArrayList<>());
+        super(R.layout.item_grid, new ArrayList<>());
     }
 
     @Override
