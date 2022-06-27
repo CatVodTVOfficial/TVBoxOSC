@@ -3,25 +3,17 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:background="@drawable/update_dialog_bg"
+    android:background="@drawable/dialog_bg_01"
     android:orientation="vertical"
-    android:padding="30mm">
+    android:padding="@dimen/vs_30">
 
     <TextView
-        android:layout_width="300mm"
+        android:layout_width="@dimen/vs_600"
         android:layout_height="wrap_content"
-        android:background="@drawable/splash_focus"
-        android:text="本APP基于开源项目TVMovie修改\n\n感谢pj567大佬的开源\n\n所有资源来自网上, 该软件不参与任何制作, 上传, 储存, 下载等内容. 该软件仅供学习参考, 请于安装后24小时内删除."
-        android:textColor="@android:color/black"
-        android:textSize="18mm"
-        android:visibility="gone" />
-
-    <TextView
-        android:layout_width="300mm"
-        android:layout_height="wrap_content"
-        android:background="@drawable/splash_focus"
-        android:text="该软件只提供聚合展示功能，所有资源来自网上, 该软件不参与任何制作, 上传, 储存, 下载等内容. 该软件仅供学习参考, 请于安装后24小时内删除."
-        android:textColor="@android:color/black"
-        android:textSize="18mm" />
+        android:lineSpacingExtra="@dimen/ts_50"
+        android:lineSpacingMultiplier="0"
+        android:text="本软件只提供聚合展示功能，所有资源来自网上, 软件不参与任何制作, 上传, 储存, 下载等内容. 软件仅供学习参考, 请于安装后24小时内删除。\n\n打包分发请保留出处\nhttps://github.com/CatVodTVOfficial/TVBoxOSC"
+        android:textColor="@color/color_CC000000"
+        android:textSize="@dimen/ts_24" />
 
 </LinearLayout>
