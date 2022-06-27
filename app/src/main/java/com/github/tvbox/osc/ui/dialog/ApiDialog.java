@@ -58,6 +58,7 @@ public class ApiDialog extends BaseDialog {
                         history.remove(10);
                     Hawk.put(HawkConfig.API_HISTORY, history);
                     listener.onchange(newApi);
+                    dismiss();
                 }
             }
         });
@@ -76,7 +77,9 @@ public class ApiDialog extends BaseDialog {
                 dialog.setAdapter(new ApiHistoryDialogAdapter.SelectDialogInterface() {
                     @Override
                     public void click(String value) {
+                        inputApi.setText(value);
                         listener.onchange(value);
+                        dialog.dismiss();
                     }
 
                     @Override

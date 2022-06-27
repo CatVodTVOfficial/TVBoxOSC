@@ -44,7 +44,7 @@
             android:name=".ui.activity.PlayActivity"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".ui.activity.ProjectionPlayActivity"
+            android:name=".ui.activity.PushActivity"
             android:screenOrientation="landscape" />
         <activity
             android:name=".ui.activity.SearchActivity"
@@ -64,11 +64,6 @@
         <receiver android:name=".receiver.CustomWebReceiver">
             <intent-filter>
                 <action android:name="android.content.movie.custom.web.Action" />
-            </intent-filter>
-        </receiver>
-        <receiver android:name=".receiver.ProjectionReceiver">
-            <intent-filter>
-                <action android:name="android.content.movie.projection.Action" />
             </intent-filter>
         </receiver>
 

@@ -98,6 +98,8 @@
     public <init>(android.content.Context, android.util.AttributeSet, int);
 }
 
+-keep class com.orhanobut.hawk.** { *; }
+
 # 保留Parcelable序列化类不被混淆
 -keep class * implements android.os.Parcelable {
     public static final android.os.Parcelable$Creator *;

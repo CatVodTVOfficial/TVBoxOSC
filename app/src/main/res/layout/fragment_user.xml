@@ -1,171 +1,275 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:clipChildren="false"
-    android:clipToPadding="false">
+    android:clipToPadding="false"
+    android:orientation="vertical"
+    android:padding="@dimen/vs_40">
 
-    <!--
-    icon
-    https://www.iconfont.cn/collections/detail?spm=a313x.7781069.1998910419.dc64b3430&cid=2941
-    https://www.iconfont.cn/collections/detail?spm=a313x.7781069.0.da5a778a4&cid=31
-    -->
-
-    <!--
-    <HorizontalScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:scrollbars="none">
-    -->
     <LinearLayout
         android:id="@+id/tvUserHome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/vs_25_"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:orientation="horizontal">
 
-        <FrameLayout
+        <LinearLayout
             android:id="@+id/tvHistory"
-            android:layout_width="@dimen/vs_240"
-            android:layout_height="@dimen/vs_320"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/vs_100"
             android:layout_gravity="center"
             android:layout_margin="@dimen/vs_10"
             android:background="@drawable/user_focus"
             android:clipChildren="false"
             android:clipToPadding="false"
             android:focusable="true"
-            android:focusableInTouchMode="true">
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/vs_20"
+            android:paddingTop="@dimen/vs_20"
+            android:paddingRight="@dimen/vs_20"
+            android:paddingBottom="@dimen/vs_20">
+
+
+            <ImageView
+                android:layout_width="@dimen/vs_50"
+                android:layout_height="@dimen/vs_50"
+                android:layout_gravity="center"
+                android:alpha="0.75"
+                android:src="@drawable/ic_history" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|center_horizontal"
-                android:layout_marginBottom="@dimen/vs_20"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/vs_10"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
                 android:gravity="center"
-                android:text="历史记录"
+                android:text="历史"
+                android:textAlignment="gravity"
                 android:textColor="@color/color_CCFFFFFF"
-                android:textSize="@dimen/ts_30" />
+                android:textSize="@dimen/ts_40" />
 
-            <ImageView
-                android:layout_width="@dimen/vs_130"
-                android:layout_height="@dimen/vs_130"
-                android:layout_gravity="center"
-                android:layout_marginBottom="@dimen/vs_30"
-                android:alpha="0.75"
-                android:src="@drawable/ic_history" />
-        </FrameLayout>
+        </LinearLayout>
 
-        <FrameLayout
+        <LinearLayout
             android:id="@+id/tvLive"
-            android:layout_width="@dimen/vs_240"
-            android:layout_height="@dimen/vs_320"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/vs_100"
             android:layout_gravity="center"
             android:layout_margin="@dimen/vs_10"
             android:background="@drawable/user_focus"
             android:clipChildren="false"
             android:clipToPadding="false"
             android:focusable="true"
-            android:focusableInTouchMode="true">
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/vs_20"
+            android:paddingTop="@dimen/vs_20"
+            android:paddingRight="@dimen/vs_20"
+            android:paddingBottom="@dimen/vs_20">
+
+
+            <ImageView
+                android:layout_width="@dimen/vs_50"
+                android:layout_height="@dimen/vs_50"
+                android:layout_gravity="center"
+                android:alpha="0.75"
+                android:src="@drawable/ic_live" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|center_horizontal"
-                android:layout_marginBottom="@dimen/vs_20"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/vs_10"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
                 android:gravity="center"
                 android:text="直播"
+                android:textAlignment="gravity"
                 android:textColor="@color/color_CCFFFFFF"
-                android:textSize="@dimen/ts_30" />
+                android:textSize="@dimen/ts_40" />
 
-            <ImageView
-                android:layout_width="@dimen/vs_130"
-                android:layout_height="@dimen/vs_130"
-                android:layout_gravity="center"
-                android:layout_marginBottom="@dimen/vs_30"
-                android:alpha="0.75"
-                android:src="@drawable/ic_tv" />
-        </FrameLayout>
+        </LinearLayout>
 
-        <FrameLayout
+        <LinearLayout
             android:id="@+id/tvSearch"
-            android:layout_width="@dimen/vs_240"
-            android:layout_height="@dimen/vs_320"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/vs_100"
             android:layout_gravity="center"
             android:layout_margin="@dimen/vs_10"
             android:background="@drawable/user_focus"
             android:clipChildren="false"
             android:clipToPadding="false"
             android:focusable="true"
-            android:focusableInTouchMode="true">
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/vs_20"
+            android:paddingTop="@dimen/vs_20"
+            android:paddingRight="@dimen/vs_20"
+            android:paddingBottom="@dimen/vs_20">
+
+
+            <ImageView
+                android:layout_width="@dimen/vs_50"
+                android:layout_height="@dimen/vs_50"
+                android:layout_gravity="center"
+                android:alpha="0.75"
+                android:src="@drawable/ic_search1" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|center_horizontal"
-                android:layout_marginBottom="@dimen/vs_20"
-
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/vs_10"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
                 android:gravity="center"
                 android:text="搜索"
+                android:textAlignment="gravity"
                 android:textColor="@color/color_CCFFFFFF"
-                android:textSize="@dimen/ts_30" />
+                android:textSize="@dimen/ts_40" />
 
-            <ImageView
-                android:layout_width="@dimen/vs_130"
-                android:layout_height="@dimen/vs_130"
-                android:layout_gravity="center"
-                android:layout_marginBottom="@dimen/vs_30"
-                android:alpha="0.75"
-                android:src="@drawable/ic_search1" />
-        </FrameLayout>
+        </LinearLayout>
 
-        <FrameLayout
-            android:id="@+id/tvSetting"
-            android:layout_width="@dimen/vs_240"
-            android:layout_height="@dimen/vs_320"
+
+        <LinearLayout
+            android:id="@+id/tvPush"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/vs_100"
             android:layout_gravity="center"
             android:layout_margin="@dimen/vs_10"
             android:background="@drawable/user_focus"
             android:clipChildren="false"
             android:clipToPadding="false"
             android:focusable="true"
-            android:focusableInTouchMode="true">
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/vs_20"
+            android:paddingTop="@dimen/vs_20"
+            android:paddingRight="@dimen/vs_20"
+            android:paddingBottom="@dimen/vs_20">
+
+
+            <ImageView
+                android:layout_width="@dimen/vs_50"
+                android:layout_height="@dimen/vs_50"
+                android:layout_gravity="center"
+                android:alpha="0.75"
+                android:src="@drawable/ic_push" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|center_horizontal"
-                android:layout_marginBottom="@dimen/vs_20"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/vs_10"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:gravity="center"
+                android:text="推送"
+                android:textAlignment="gravity"
+                android:textColor="@color/color_CCFFFFFF"
+                android:textSize="@dimen/ts_40" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tvFavorite"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/vs_100"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/vs_10"
+            android:background="@drawable/user_focus"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:focusable="true"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/vs_20"
+            android:paddingTop="@dimen/vs_20"
+            android:paddingRight="@dimen/vs_20"
+            android:paddingBottom="@dimen/vs_20">
+
+
+            <ImageView
+                android:layout_width="@dimen/vs_50"
+                android:layout_height="@dimen/vs_50"
+                android:layout_gravity="center"
+                android:alpha="0.75"
+                android:src="@drawable/ic_collect" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/vs_10"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:gravity="center"
+                android:text="收藏"
+                android:textAlignment="gravity"
+                android:textColor="@color/color_CCFFFFFF"
+                android:textSize="@dimen/ts_40" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/tvSetting"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/vs_100"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/vs_10"
+            android:background="@drawable/user_focus"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:focusable="true"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/vs_20"
+            android:paddingTop="@dimen/vs_20"
+            android:paddingRight="@dimen/vs_20"
+            android:paddingBottom="@dimen/vs_20">
+
+
+            <ImageView
+                android:layout_width="@dimen/vs_50"
+                android:layout_height="@dimen/vs_50"
+                android:layout_gravity="center"
+                android:alpha="0.75"
+                android:src="@drawable/ic_setting" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/vs_10"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
                 android:gravity="center"
                 android:text="设置"
+                android:textAlignment="gravity"
                 android:textColor="@color/color_CCFFFFFF"
-                android:textSize="@dimen/ts_30" />
+                android:textSize="@dimen/ts_40" />
 
-            <ImageView
-                android:layout_width="@dimen/vs_130"
-                android:layout_height="@dimen/vs_130"
-                android:layout_gravity="center"
-                android:layout_marginBottom="@dimen/vs_30"
-                android:alpha="0.75"
-                android:src="@drawable/ic_setting" />
-        </FrameLayout>
+        </LinearLayout>
+
     </LinearLayout>
-    <!--
-    </HorizontalScrollView>
-    -->
-</FrameLayout>
+
+    <com.owen.tvrecyclerview.widget.TvRecyclerView
+        android:id="@+id/tvHotList"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/vs_440"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/vs_0"
+        android:paddingTop="@dimen/vs_40"
+        android:paddingRight="@dimen/vs_0"
+        android:paddingBottom="@dimen/vs_40"
+        app:tv_horizontalSpacingWithMargins="@dimen/vs_10"
+        app:tv_layoutManager="V7LinearLayoutManager"
+        app:tv_selectedItemIsCentered="true"
+        app:tv_verticalSpacingWithMargins="@dimen/vs_10" />
+
+</LinearLayout>

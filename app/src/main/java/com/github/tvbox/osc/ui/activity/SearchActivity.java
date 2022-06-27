@@ -347,6 +347,13 @@ public class SearchActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         cancel();
+        try {
+            if (searchExecutorService != null) {
+                searchExecutorService.shutdownNow();
+            }
+        } catch (Throwable th) {
+            th.printStackTrace();
+        }
         EventBus.getDefault().unregister(this);
     }
 }
