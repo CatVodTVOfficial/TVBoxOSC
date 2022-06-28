@@ -19,7 +19,7 @@ import com.github.tvbox.osc.base.App;
  * @since 2020/5/15
  */
 public class AppDataManager {
-    private static final String DB_NAME = "tvbox.db";
+    private static final String DB_NAME = "tvbox_v1.db";
     private static AppDataManager manager;
     private static AppDataBase dbInstance;
 
@@ -107,8 +107,8 @@ public class AppDataManager {
         }
         if (dbInstance == null)
             dbInstance = Room.databaseBuilder(App.getInstance(), AppDataBase.class, DB_NAME)
-                    .addMigrations(MIGRATION_1_2)
-                    .addMigrations(MIGRATION_2_3)
+                    //.addMigrations(MIGRATION_1_2)
+                    //.addMigrations(MIGRATION_2_3)
                     //.addMigrations(MIGRATION_3_4)
                     //.addMigrations(MIGRATION_4_5)
                     .addCallback(new RoomDatabase.Callback() {

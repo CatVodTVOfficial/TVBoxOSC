@@ -92,7 +92,7 @@ public class RoomDataManger {
                         }.getType());
                         info.sourceKey = record.sourceKey;
                         SourceBean sourceBean = ApiConfig.get().getSource(info.sourceKey);
-                        if (sourceBean == null || !sourceBean.isActive() || info.name == null || info.type == null)
+                        if (sourceBean == null || info.name == null || info.type == null)
                             info = null;
                     }
                 } catch (Exception e) {
@@ -104,21 +104,4 @@ public class RoomDataManger {
         }
         return vodInfoList;
     }
-
-    public static HashMap<String, SourceState> getAllSourceState() {
-        HashMap<String, SourceState> result = new HashMap<>();
-        for (SourceState state : AppDataManager.get().getSourceStateDao().getAll()) {
-            result.put(state.sourceKey, state);
-        }
-        return result;
-    }
-
-    public static void addSourceState(SourceState ss) {
-        AppDataManager.get().getSourceStateDao().insert(ss);
-    }
-
-    public static void delSourceState(SourceState ss) {
-        AppDataManager.get().getSourceStateDao().delete(ss);
-    }
-
 }

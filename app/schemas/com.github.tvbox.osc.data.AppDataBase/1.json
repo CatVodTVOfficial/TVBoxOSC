@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "7eeed1930e952258dac040695df9dd32",
+    "identityHash": "6d7179059b55b28fda16a36a445f306f",
     "entities": [
       {
         "tableName": "cache",
@@ -85,50 +85,12 @@
         },
         "indices": [],
         "foreignKeys": []
-      },
-      {
-        "tableName": "sourceState",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`sourceKey` TEXT NOT NULL, `home` INTEGER NOT NULL, `active` INTEGER NOT NULL, `tidSort` TEXT, PRIMARY KEY(`sourceKey`))",
-        "fields": [
-          {
-            "fieldPath": "sourceKey",
-            "columnName": "sourceKey",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "home",
-            "columnName": "home",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "active",
-            "columnName": "active",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "tidSort",
-            "columnName": "tidSort",
-            "affinity": "TEXT",
-            "notNull": false
-          }
-        ],
-        "primaryKey": {
-          "columnNames": [
-            "sourceKey"
-          ],
-          "autoGenerate": false
-        },
-        "indices": [],
-        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7eeed1930e952258dac040695df9dd32')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6d7179059b55b28fda16a36a445f306f')"
     ]
   }
 }

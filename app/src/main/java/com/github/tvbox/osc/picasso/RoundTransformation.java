@@ -5,6 +5,7 @@ import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.PaintFlagsDrawFilter;
 import android.graphics.RectF;
 import android.graphics.Shader;
 
@@ -84,6 +85,8 @@ public class RoundTransformation implements Transformation {
         bitmap.setHasAlpha(true);
         Canvas mCanvas = new Canvas(bitmap);
         mPaint.setShader(mBitmapShader);
+        // mPaint.setAntiAlias(true);
+        mCanvas.setDrawFilter(new PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG));
         drawRoundRect(mCanvas, mPaint, width, height);
         source.recycle();
         return bitmap;

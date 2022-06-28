@@ -13,8 +13,6 @@ import com.github.tvbox.osc.bean.IJKCode;
 import com.github.tvbox.osc.bean.LiveChannel;
 import com.github.tvbox.osc.bean.ParseBean;
 import com.github.tvbox.osc.bean.SourceBean;
-import com.github.tvbox.osc.cache.RoomDataManger;
-import com.github.tvbox.osc.cache.SourceState;
 import com.github.tvbox.osc.server.ControlManager;
 import com.github.tvbox.osc.util.AdBlocker;
 import com.github.tvbox.osc.util.DefaultConfig;
@@ -49,7 +47,7 @@ import java.util.Map;
  */
 public class ApiConfig {
     private static ApiConfig instance;
-    private List<SourceBean> sourceBeanList;
+    private LinkedHashMap<String, SourceBean> sourceBeanList;
     private SourceBean mHomeSource;
     private ParseBean mDefaultParse;
     private List<ChannelGroup> channelGroupList;
@@ -64,7 +62,7 @@ public class ApiConfig {
 
 
     private ApiConfig() {
-        sourceBeanList = new ArrayList<>();
+        sourceBeanList = new LinkedHashMap<>();
         channelGroupList = new ArrayList<>();
         parseBeanList = new ArrayList<>();
     }
@@ -223,10 +221,12 @@ public class ApiConfig {
         // spider
         spider = DefaultConfig.safeJsonString(infoJson, "spider", "");
         // 远端站点源
+        SourceBean firstSite = null;
         for (JsonElement opt : infoJson.get("sites").getAsJsonArray()) {
             JsonObject obj = (JsonObject) opt;
             SourceBean sb = new SourceBean();
-            sb.setKey(obj.get("key").getAsString().trim());
+            String siteKey = obj.get("key").getAsString().trim();
+            sb.setKey(siteKey);
             sb.setName(obj.get("name").getAsString().trim());
             sb.setType(obj.get("type").getAsInt());
             sb.setApi(obj.get("api").getAsString().trim());
@@ -235,20 +235,17 @@ public class ApiConfig {
             sb.setFilterable(DefaultConfig.safeJsonInt(obj, "filterable", 1));
             sb.setPlayerUrl(DefaultConfig.safeJsonString(obj, "playUrl", ""));
             sb.setExt(DefaultConfig.safeJsonString(obj, "ext", ""));
-            sourceBeanList.add(sb);
+            if (firstSite == null)
+                firstSite = sb;
+            sourceBeanList.put(siteKey, sb);
         }
         if (sourceBeanList != null && sourceBeanList.size() > 0) {
-            // 获取启用状态
-            HashMap<String, SourceState> sourceStates = RoomDataManger.getAllSourceState();
-            for (SourceBean sb : sourceBeanList) {
-                if (sourceStates.containsKey(sb.getKey()))
-                    sb.setState(sourceStates.get(sb.getKey()));
-                if (sb.isHome())
-                    setSourceBean(sb);
-            }
-            // 如果没有home source 使用第一个
-            if (mHomeSource == null)
-                setSourceBean(sourceBeanList.get(0));
+            String home = Hawk.get(HawkConfig.HOME_API, "");
+            SourceBean sh = getSource(home);
+            if (sh == null)
+                setSourceBean(firstSite);
+            else
+                setSourceBean(sh);
         }
         // 需要使用vip解析的flag
         vipParseFlags = DefaultConfig.safeJsonStringList(infoJson, "flags");
@@ -393,18 +390,14 @@ public class ApiConfig {
     }
 
     public SourceBean getSource(String key) {
-        for (SourceBean bean : sourceBeanList) {
-            if (bean.getKey().equals(key))
-                return bean;
-        }
-        return null;
+        if (!sourceBeanList.containsKey(key))
+            return null;
+        return sourceBeanList.get(key);
     }
 
     public void setSourceBean(SourceBean sourceBean) {
-        if (this.mHomeSource != null)
-            this.mHomeSource.setHome(false);
         this.mHomeSource = sourceBean;
-        sourceBean.setHome(true);
+        Hawk.put(HawkConfig.HOME_API, sourceBean.getKey());
     }
 
     public void setDefaultParse(ParseBean parseBean) {
@@ -420,7 +413,7 @@ public class ApiConfig {
     }
 
     public List<SourceBean> getSourceBeanList() {
-        return sourceBeanList;
+        return new ArrayList<>(sourceBeanList.values());
     }
 
     public List<ParseBean> getParseBeanList() {

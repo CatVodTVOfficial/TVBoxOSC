@@ -23,7 +23,7 @@
             android:gravity="center"
             android:text="历史记录"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/ts_26"
+            android:textSize="@dimen/ts_34"
             android:textStyle="bold" />
 
         <Space

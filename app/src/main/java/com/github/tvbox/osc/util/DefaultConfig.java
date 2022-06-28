@@ -28,13 +28,7 @@ public class DefaultConfig {
     public static List<MovieSort.SortData> adjustSort(String sourceKey, List<MovieSort.SortData> list, boolean withMy) {
         List<MovieSort.SortData> data = new ArrayList<>();
         if (sourceKey != null) {
-            SourceBean sb = ApiConfig.get().getSource(sourceKey);
-            HashMap<String, Integer> tidSort = sb.getTidSort();
             for (MovieSort.SortData sortData : list) {
-                // 默认排序 1000
-                sortData.sort = 1000;
-                if (tidSort != null && tidSort.containsKey(sortData.id))
-                    sortData.sort = tidSort.get(sortData.id);
                 data.add(sortData);
             }
         }
