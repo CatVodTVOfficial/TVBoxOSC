@@ -210,7 +210,7 @@ public class HomeActivity extends BaseActivity {
             return;
         }
         showLoading();
-        if (dataInitOk && !jarInitOk) {
+        if (dataInitOk) {
             if (!ApiConfig.get().getSpider().isEmpty()) {
                 ApiConfig.get().loadJar(useCacheConfig, ApiConfig.get().getSpider(), new ApiConfig.LoadConfigCallback() {
                     @Override
