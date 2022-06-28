@@ -71,9 +71,13 @@ public class GridFilterDialog extends BaseDialog {
                         sortData.filterSelect.put(key, keys.get(position));
                         selectChange = true;
                         if (pre != null) {
-                            ((TextView) pre.findViewById(R.id.filterValue)).setTextColor(getContext().getResources().getColor(R.color.color_FFFFFF));
+                            TextView val = pre.findViewById(R.id.filterValue);
+                            val.getPaint().setFakeBoldText(false);
+                            val.setTextColor(getContext().getResources().getColor(R.color.color_FFFFFF));
                         }
-                        ((TextView) view.findViewById(R.id.filterValue)).setTextColor(getContext().getResources().getColor(R.color.color_03DAC5));
+                        TextView val = view.findViewById(R.id.filterValue);
+                        val.getPaint().setFakeBoldText(true);
+                        val.setTextColor(getContext().getResources().getColor(R.color.color_03DAC5));
                         pre = view;
                     }
                 }

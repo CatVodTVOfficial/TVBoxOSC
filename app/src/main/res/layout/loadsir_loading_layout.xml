@@ -8,6 +8,6 @@
         android:layout_height="50mm"
         android:layout_gravity="center"
         android:indeterminateBehavior="repeat"
-        android:indeterminateDrawable="@drawable/data_loading"
+        android:indeterminateDrawable="@drawable/anim_loading"
         android:indeterminateOnly="true" />
 </FrameLayout>

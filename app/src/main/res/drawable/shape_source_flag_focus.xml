@@ -3,12 +3,14 @@
     <item android:state_focused="true">
         <shape>
             <corners android:radius="10mm" />
-            <solid android:color="@color/color_66000000" />
+            <stroke android:width="2mm" android:color="@color/color_FFFFFF" />
+            <solid android:color="@color/color_6C3D3D3D" />
         </shape>
     </item>
     <item android:state_focused="false">
         <shape>
             <corners android:radius="10mm" />
+            <solid android:color="@color/color_6C3D3D3D" />
         </shape>
     </item>
 </selector>

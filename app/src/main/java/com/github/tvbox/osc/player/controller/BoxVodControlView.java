@@ -413,9 +413,9 @@ public class BoxVodControlView extends FrameLayout implements IControlComponent,
 
     public void onTVPositionChange(int slidePosition, int currentPosition, int duration) {
         if (slidePosition > currentPosition) {
-            mTVProgressIcon.setImageResource(R.drawable.ic_pre);
+            mTVProgressIcon.setImageResource(R.drawable.icon_pre);
         } else {
-            mTVProgressIcon.setImageResource(R.drawable.ic_back);
+            mTVProgressIcon.setImageResource(R.drawable.icon_back);
         }
         mTVProgressText.setText(String.format("%s/%s", stringForTime(slidePosition), stringForTime(duration)));
     }

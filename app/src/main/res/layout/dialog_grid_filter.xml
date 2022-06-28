@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@drawable/remote_dialog_bg"
+        android:background="@drawable/shape_dialog_filter_bg"
         android:orientation="vertical"
         android:padding="@dimen/vs_20">
 

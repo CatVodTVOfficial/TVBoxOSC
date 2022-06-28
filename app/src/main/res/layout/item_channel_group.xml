@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="10mm"
     android:layout_marginBottom="10mm"
-    android:background="@drawable/live_focus"
+    android:background="@drawable/shape_live_focus"
     android:focusable="true"
     android:focusableInTouchMode="false"
     android:orientation="horizontal">

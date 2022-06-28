@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="@dimen/vs_45"
-    android:background="@drawable/home_sort_focus"
+    android:background="@drawable/button_home_sort_focus"
     android:clickable="true"
     android:focusable="true"
     android:focusableInTouchMode="true"

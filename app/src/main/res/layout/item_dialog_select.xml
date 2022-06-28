@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:background="@drawable/dialog_button_01"
+    android:background="@drawable/button_dialog_main"
     android:clickable="true"
     android:focusable="true"
     android:gravity="center"

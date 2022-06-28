@@ -2,7 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/user_focus"
+    android:background="@drawable/shape_user_focus"
     android:focusable="true"
     android:padding="@dimen/vs_1">
 
@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/vs_5"
                 android:layout_marginRight="@dimen/vs_5"
-                android:background="@drawable/year_shape"
+                android:background="@drawable/shape_thumb_year"
                 android:ellipsize="end"
                 android:gravity="center"
                 android:paddingLeft="@dimen/vs_5"
@@ -54,7 +54,7 @@
                 android:id="@+id/tvName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bottom_shape"
+                android:background="@drawable/shape_thumb_buttom_name"
                 android:ellipsize="marquee"
                 android:marqueeRepeatLimit="marquee_forever"
                 android:padding="@dimen/vs_5"

@@ -2,18 +2,17 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/vs_10"
-    android:background="@drawable/shape_setting_sort_focus"
-    android:focusable="true"
-    android:focusableInTouchMode="true">
+    android:background="@drawable/button_dialog_main"
+    android:focusable="true">
 
     <TextView
         android:id="@+id/tvName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="@dimen/vs_5"
+        android:ellipsize="middle"
+        android:gravity="center_vertical"
+        android:padding="@dimen/vs_10"
         android:singleLine="true"
-        android:textColor="@color/color_CCFFFFFF"
-        android:textSize="@dimen/ts_24" />
+        android:textColor="@color/color_FFFFFF"
+        android:textSize="@dimen/ts_20" />
 </FrameLayout>

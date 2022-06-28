@@ -2,20 +2,19 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="5mm"
-    android:background="@drawable/series_focus"
-    android:focusable="true"
-    android:focusableInTouchMode="true">
+    android:layout_margin="@dimen/vs_5"
+    android:background="@drawable/shape_source_series_focus"
+    android:focusable="true">
 
     <TextView
         android:id="@+id/tvSeries"
-        android:layout_width="183mm"
-        android:layout_height="50mm"
-        android:ellipsize="end"
+        android:layout_width="@dimen/vs_190"
+        android:layout_height="@dimen/vs_50"
+        android:ellipsize="marquee"
         android:gravity="center"
-        android:paddingLeft="5mm"
-        android:paddingRight="5mm"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:padding="@dimen/vs_10"
         android:singleLine="true"
         android:textColor="@android:color/white"
-        android:textSize="16mm" />
+        android:textSize="@dimen/ts_20" />
 </FrameLayout>

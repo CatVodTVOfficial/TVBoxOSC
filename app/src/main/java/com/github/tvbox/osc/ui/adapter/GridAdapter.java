@@ -37,19 +37,21 @@ public class GridAdapter extends BaseQuickAdapter<Movie.Video, BaseViewHolder> {
             tvYear.setVisibility(View.VISIBLE);
         }
         TextView tvLang = helper.getView(R.id.tvLang);
-        if (TextUtils.isEmpty(item.lang)) {
+        tvLang.setVisibility(View.GONE);
+        /*if (TextUtils.isEmpty(item.lang)) {
             tvLang.setVisibility(View.GONE);
         } else {
             tvLang.setText(item.lang);
             tvLang.setVisibility(View.VISIBLE);
-        }
+        }*/
         TextView tvArea = helper.getView(R.id.tvArea);
-        if (TextUtils.isEmpty(item.area)) {
+        tvArea.setVisibility(View.GONE);
+        /*if (TextUtils.isEmpty(item.area)) {
             tvArea.setVisibility(View.GONE);
         } else {
             tvArea.setText(item.area);
             tvArea.setVisibility(View.VISIBLE);
-        }
+        }*/
         if (TextUtils.isEmpty(item.note)) {
             helper.setVisible(R.id.tvNote, false);
         } else {
@@ -67,11 +69,11 @@ public class GridAdapter extends BaseQuickAdapter<Movie.Video, BaseViewHolder> {
                             .centerCorp(true)
                             .override(AutoSizeUtils.mm2px(mContext, 300), AutoSizeUtils.mm2px(mContext, 400))
                             .roundRadius(AutoSizeUtils.mm2px(mContext, 10), RoundTransformation.RoundType.ALL))
-                    .placeholder(R.drawable.error_loading)
-                    .error(R.drawable.error_loading)
+                    .placeholder(R.drawable.img_loading_placeholder)
+                    .error(R.drawable.img_loading_placeholder)
                     .into(ivThumb);
         } else {
-            ivThumb.setImageResource(R.drawable.error_loading);
+            ivThumb.setImageResource(R.drawable.img_loading_placeholder);
         }
     }
 }

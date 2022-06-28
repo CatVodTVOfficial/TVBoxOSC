@@ -4,12 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
-    android:layout_margin="@dimen/vs_5"
-    android:background="@drawable/source_focus"
-    android:ellipsize="end"
+    android:background="@drawable/shape_user_focus"
+    android:ellipsize="marquee"
     android:focusable="true"
+    android:marqueeRepeatLimit="marquee_forever"
     android:padding="@dimen/vs_10"
     android:singleLine="true"
     android:textAlignment="center"
-    android:textColor="@android:color/white"
-    android:textSize="@dimen/ts_20" />
+    android:textColor="@color/color_FFFFFF"
+    android:textSize="@dimen/ts_22" />

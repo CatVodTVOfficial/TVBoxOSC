@@ -8,7 +8,7 @@
         android:layout_width="@dimen/vs_440"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@drawable/dialog_bg_01"
+        android:background="@drawable/shape_dialog_bg_main"
         android:orientation="vertical"
         android:padding="@dimen/vs_30">
 
@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginRight="@dimen/vs_5"
-                android:background="@drawable/dialog_button_01"
+                android:background="@drawable/button_dialog_main"
                 android:focusable="true"
                 android:gravity="center"
                 android:padding="@dimen/vs_10"
@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/vs_5"
-                android:background="@drawable/dialog_button_01"
+                android:background="@drawable/button_dialog_main"
                 android:focusable="true"
                 android:gravity="center"
                 android:padding="@dimen/vs_10"

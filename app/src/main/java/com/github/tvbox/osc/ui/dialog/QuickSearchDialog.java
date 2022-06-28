@@ -1,22 +1,19 @@
 package com.github.tvbox.osc.ui.dialog;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.view.LayoutInflater;
 import android.view.View;
 
-import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.github.tvbox.osc.R;
 import com.github.tvbox.osc.bean.Movie;
 import com.github.tvbox.osc.event.RefreshEvent;
+import com.github.tvbox.osc.ui.adapter.QuickSearchAdapter;
 import com.github.tvbox.osc.ui.adapter.SearchAdapter;
 import com.github.tvbox.osc.ui.adapter.SearchWordAdapter;
 import com.owen.tvrecyclerview.widget.TvRecyclerView;
-import com.owen.tvrecyclerview.widget.V7GridLayoutManager;
 import com.owen.tvrecyclerview.widget.V7LinearLayoutManager;
 
 import org.greenrobot.eventbus.EventBus;
@@ -29,12 +26,12 @@ import java.util.List;
 
 public class QuickSearchDialog extends BaseDialog {
     private SearchWordAdapter searchWordAdapter;
-    private SearchAdapter searchAdapter;
+    private QuickSearchAdapter searchAdapter;
     private TvRecyclerView mGridView;
     private TvRecyclerView mGridViewWord;
 
     public QuickSearchDialog(@NonNull @NotNull Context context) {
-        super(context);
+        super(context, R.style.CustomDialogStyleDim);
         setCanceledOnTouchOutside(false);
         setCancelable(true);
         setContentView(R.layout.dialog_quick_search);
@@ -65,9 +62,12 @@ public class QuickSearchDialog extends BaseDialog {
             }
         });
         mGridView = findViewById(R.id.mGridView);
-        searchAdapter = new SearchAdapter();
+        searchAdapter = new QuickSearchAdapter();
         mGridView.setHasFixedSize(true);
-        mGridView.setLayoutManager(new V7GridLayoutManager(getContext(), 3));
+        // lite
+        mGridView.setLayoutManager(new V7LinearLayoutManager(getContext(), 1, false));
+        // with preview
+        // mGridView.setLayoutManager(new V7GridLayoutManager(getContext(), 3));
         mGridView.setAdapter(searchAdapter);
         searchAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override

@@ -6,7 +6,7 @@
     android:orientation="horizontal">
 
     <LinearLayout
-        android:layout_width="@dimen/vs_400"
+        android:layout_width="@dimen/vs_440"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="@dimen/vs_20">
@@ -14,7 +14,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/vs_20"
+            android:layout_marginBottom="@dimen/vs_10"
             android:gravity="center_vertical"
             android:orientation="vertical">
 
@@ -22,7 +22,8 @@
                 android:id="@+id/etSearch"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/vs_50"
-                android:background="@drawable/search"
+                android:enabled="false"
+                android:background="@drawable/input_search"
                 android:hint="请输入要搜索的内容"
                 android:inputType="text"
                 android:maxLines="1"
@@ -43,7 +44,7 @@
                     android:layout_width="0mm"
                     android:layout_height="@dimen/vs_50"
                     android:layout_weight="1"
-                    android:background="@drawable/search_focus"
+                    android:background="@drawable/shape_user_focus"
                     android:focusable="true"
                     android:gravity="center"
                     android:text="搜索"
@@ -59,7 +60,7 @@
                     android:layout_width="0mm"
                     android:layout_height="@dimen/vs_50"
                     android:layout_weight="1"
-                    android:background="@drawable/search_focus"
+                    android:background="@drawable/shape_user_focus"
                     android:focusable="true"
                     android:gravity="center"
                     android:text="清空"
@@ -101,7 +102,7 @@
 
     <LinearLayout
         android:id="@+id/llWord"
-        android:layout_width="@dimen/vs_150"
+        android:layout_width="@dimen/vs_180"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:paddingTop="@dimen/vs_20"

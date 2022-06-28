@@ -4,11 +4,11 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/vs_5"
-    android:background="@drawable/source_focus"
+    android:background="@drawable/button_dialog_main"
     android:ellipsize="end"
     android:focusable="true"
     android:gravity="center_vertical"
     android:padding="@dimen/vs_8"
     android:singleLine="true"
-    android:textColor="@android:color/white"
-    android:textSize="@dimen/ts_20" />
+    android:textColor="@color/color_FFFFFF"
+    android:textSize="@dimen/ts_24" />
