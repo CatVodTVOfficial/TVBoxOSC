@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PaintFlagsDrawFilter;
+import android.graphics.Path;
 import android.graphics.RectF;
 import android.graphics.Shader;
 
@@ -25,7 +26,7 @@ import java.lang.annotation.Target;
  * @since 2020/12/22
  */
 public class RoundTransformation implements Transformation {
-    private int viewWidth, viewHeight;
+    private int viewWidth, viewHeight, bottomShapeHeight = 0;
     @RoundType
     private int mRoundType = RoundType.NONE;
     private int diameter;
@@ -45,6 +46,11 @@ public class RoundTransformation implements Transformation {
 
     public RoundTransformation centerCorp(boolean centerCorp) {
         this.isCenterCorp = centerCorp;
+        return this;
+    }
+
+    public RoundTransformation bottomShapeHeight(int shapeHeight) {
+        this.bottomShapeHeight = shapeHeight;
         return this;
     }
 
@@ -92,6 +98,63 @@ public class RoundTransformation implements Transformation {
         return bitmap;
     }
 
+    static Path RoundedRect(float left, float top, float right, float bottom, float rx, float ry, boolean tl, boolean tr, boolean br, boolean bl) {
+        Path path = new Path();
+        if (rx < 0) rx = 0;
+        if (ry < 0) ry = 0;
+        float width = right - left;
+        float height = bottom - top;
+        if (rx > width / 2) rx = width / 2;
+        if (ry > height / 2) ry = height / 2;
+        float widthMinusCorners = (width - (2 * rx));
+        float heightMinusCorners = (height - (2 * ry));
+
+        path.moveTo(right, top + ry);
+        if (tr)
+            path.rQuadTo(0, -ry, -rx, -ry);//top-right corner
+        else {
+            path.rLineTo(0, -ry);
+            path.rLineTo(-rx, 0);
+        }
+        path.rLineTo(-widthMinusCorners, 0);
+        if (tl)
+            path.rQuadTo(-rx, 0, -rx, ry); //top-left corner
+        else {
+            path.rLineTo(-rx, 0);
+            path.rLineTo(0, ry);
+        }
+        path.rLineTo(0, heightMinusCorners);
+
+        if (bl)
+            path.rQuadTo(0, ry, rx, ry);//bottom-left corner
+        else {
+            path.rLineTo(0, ry);
+            path.rLineTo(rx, 0);
+        }
+
+        path.rLineTo(widthMinusCorners, 0);
+        if (br)
+            path.rQuadTo(rx, 0, rx, -ry); //bottom-right corner
+        else {
+            path.rLineTo(rx, 0);
+            path.rLineTo(0, -ry);
+        }
+
+        path.rLineTo(0, -heightMinusCorners);
+
+        path.close();//Given close, last lineto can be removed.
+
+        return path;
+    }
+
+    private void drawBottomLabel(Canvas mCanvas, Paint mPaint, float left, float top, float right, float bottom) {
+        if (bottomShapeHeight <= 0)
+            return;
+        mPaint.setShader(null);
+        mPaint.setColor(0x99000000);
+        mCanvas.drawPath(RoundedRect(left, bottom - bottomShapeHeight * 2, right, bottom, radius, radius, false, false, true, true), mPaint);
+    }
+
     private void drawRoundRect(Canvas mCanvas, Paint mPaint, float width, float height) {
         switch (mRoundType) {
             case RoundType.NONE:
@@ -116,18 +179,22 @@ public class RoundTransformation implements Transformation {
             case RoundType.ALL:
                 if (viewWidth == width && viewHeight == height) {
                     mCanvas.drawRoundRect(new RectF(0, 0, viewWidth, viewHeight), radius, radius, mPaint);
+                    drawBottomLabel(mCanvas, mPaint, 0, 0, viewWidth, viewHeight);
                 } else if (viewWidth == width && viewHeight != height) {
                     float dis = (height - viewHeight) / 2f;
                     if (isCenterCorp) {
                         mCanvas.translate(0, -dis);
                         mCanvas.drawRoundRect(new RectF(0, dis, viewWidth, viewHeight + dis), radius, radius, mPaint);
+                        drawBottomLabel(mCanvas, mPaint, 0, dis, viewWidth, viewHeight + dis);
                     } else {
                         mCanvas.drawRoundRect(new RectF(0, 0, viewWidth, viewHeight), radius, radius, mPaint);
+                        drawBottomLabel(mCanvas, mPaint, 0, 0, viewWidth, viewHeight);
                     }
                 } else {
                     float dis = (width - viewWidth) / 2f;
                     mCanvas.translate(-dis, 0);
                     mCanvas.drawRoundRect(new RectF(dis, 0, viewWidth + dis, viewHeight), radius, radius, mPaint);
+                    drawBottomLabel(mCanvas, mPaint, dis, 0, viewWidth + dis, viewHeight);
                 }
                 break;
             case RoundType.TOP:

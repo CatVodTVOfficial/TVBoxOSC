@@ -71,7 +71,7 @@
                 android:id="@+id/tvName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/shape_thumb_buttom_name"
+                android:background="@drawable/shape_thumb_bottom_name"
                 android:ellipsize="marquee"
                 android:marqueeRepeatLimit="marquee_forever"
                 android:padding="@dimen/vs_5"

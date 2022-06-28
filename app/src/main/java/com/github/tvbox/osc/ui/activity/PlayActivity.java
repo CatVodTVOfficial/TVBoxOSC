@@ -13,14 +13,12 @@ import com.github.tvbox.osc.base.BaseActivity;
 import com.github.tvbox.osc.bean.VodInfo;
 import com.github.tvbox.osc.cache.CacheManager;
 import com.github.tvbox.osc.event.RefreshEvent;
-import com.github.tvbox.osc.player.controller.BoxVideoController;
 import com.github.tvbox.osc.player.controller.BoxVodControlView;
+import com.github.tvbox.osc.player.controller.VodController;
 import com.github.tvbox.osc.ui.dialog.ParseDialog;
-import com.github.tvbox.osc.util.HawkConfig;
 import com.github.tvbox.osc.util.MD5;
 import com.github.tvbox.osc.util.PlayerHelper;
 import com.github.tvbox.osc.viewmodel.SourceViewModel;
-import com.orhanobut.hawk.Hawk;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
@@ -38,7 +36,7 @@ import xyz.doikki.videoplayer.player.VideoView;
  */
 public class PlayActivity extends BaseActivity {
     private VideoView mVideoView;
-    private BoxVideoController controller;
+    private VodController controller;
     private SourceViewModel sourceViewModel;
 
     @Override
@@ -86,22 +84,7 @@ public class PlayActivity extends BaseActivity {
             }
         });
 
-        controller = new BoxVideoController(this);
-
-        controller.addControlComponent(new GestureView(this));
-        BoxVodControlView boxVodControlView = new BoxVodControlView(this);
-        controller.addControlComponent(boxVodControlView);
-        boxVodControlView.setVodControlListener(new BoxVodControlView.BoxVodControlListener() {
-            @Override
-            public void playNext() {
-                PlayActivity.this.playNext();
-            }
-
-            @Override
-            public void playPre() {
-                PlayActivity.this.playPrevious();
-            }
-        });
+        controller = new VodController(this);
         controller.setCanChangePosition(true);
         controller.setEnableInNormal(true);
         controller.setGestureEnabled(true);
@@ -174,37 +157,17 @@ public class PlayActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (controller.isBoxTVBottomShow()) {
-            controller.boxTVBottomToggle();
-        } else {
-            super.onBackPressed();
+        if (controller.onBackPressed()) {
+            return;
         }
+        super.onBackPressed();
     }
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
-        int keyCode = event.getKeyCode();
-        int action = event.getAction();
-
-        if (controller.isBoxTVBottomShow()) {
-            return super.dispatchKeyEvent(event);
-        }
-
-        if (action == KeyEvent.ACTION_DOWN) {
-            if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT || keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
-                controller.boxTVSlideStart(keyCode == KeyEvent.KEYCODE_DPAD_RIGHT ? 1 : -1);
-            } else if (keyCode == KeyEvent.KEYCODE_ENTER || keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_NUMPAD_ENTER || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || (Hawk.get(HawkConfig.DEBUG_OPEN, false) && keyCode == KeyEvent.KEYCODE_0)) {
-                controller.boxTVTogglePlay();
-            } else if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
-//                playPrevious();
-                controller.boxTVBottomToggle();
-            } else if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
-//                playNext();
-                controller.boxTVBottomToggle();
-            }
-        } else if (action == KeyEvent.ACTION_UP) {
-            if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT || keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
-                controller.boxTVSlideStop();
+        if (event != null) {
+            if (controller.onKeyEvent(event)) {
+                return true;
             }
         }
         return super.dispatchKeyEvent(event);
@@ -288,7 +251,7 @@ public class PlayActivity extends BaseActivity {
     public void play() {
         VodInfo.VodSeries vs = mVodInfo.seriesMap.get(mVodInfo.playFlag).get(mVodInfo.playIndex);
         EventBus.getDefault().post(new RefreshEvent(RefreshEvent.TYPE_REFRESH, mVodInfo.playIndex));
-        controller.boxTVRefreshInfo(mVodInfo.name + " " + vs.name + (Hawk.get(HawkConfig.DEBUG_OPEN, false) ? vs.url : ""));
+        // controller.boxTVRefreshInfo(mVodInfo.name + " " + vs.name + (Hawk.get(HawkConfig.DEBUG_OPEN, false) ? vs.url : ""));
 
         tryDismissParse();
 
