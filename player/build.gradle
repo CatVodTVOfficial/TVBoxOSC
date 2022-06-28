@@ -15,7 +15,7 @@ android {
     buildTypes {
         all {
             ndk {
-                abiFilters 'armeabi-v7a'
+                abiFilters 'armeabi-v7a', 'x86'
             }
         }
         release {
@@ -31,6 +31,8 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    buildToolsVersion '30.0.3'
+    ndkVersion '24.0.8215888'
 }
 
 dependencies {

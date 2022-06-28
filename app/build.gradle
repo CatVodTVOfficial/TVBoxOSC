@@ -28,7 +28,7 @@ android {
             minifyEnabled false
 
             ndk {
-                abiFilters 'armeabi-v7a'
+                abiFilters 'armeabi-v7a', 'x86'
             }
         }
         release {
@@ -36,7 +36,7 @@ android {
             minifyEnabled true
 
             ndk {
-                abiFilters 'armeabi-v7a'
+                abiFilters 'armeabi-v7a', 'x86'
             }
         }
     }
@@ -56,6 +56,8 @@ android {
         additionalParameters += '--set-max-idx-number=48000'
         additionalParameters += '--minimal-main-dex'
     }
+    buildToolsVersion '30.0.3'
+    ndkVersion '24.0.8215888'
 }
 
 dependencies {

@@ -130,6 +130,7 @@ public class HistoryActivity extends BaseActivity {
                     if (delMode) {
                         historyAdapter.remove(position);
                         RoomDataManger.deleteVodRecord(vodInfo.sourceKey, vodInfo);
+                        EventBus.getDefault().post(new RefreshEvent(RefreshEvent.TYPE_HISTORY_REFRESH));
                     } else {
                         Bundle bundle = new Bundle();
                         bundle.putString("id", vodInfo.id);

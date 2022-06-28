@@ -19,4 +19,6 @@ public class HawkConfig {
     public static final String PLAY_SCALE = "play_scale"; //0 texture 2
     public static final String PLAY_TIME_STEP = "play_time_step"; //0 texture 2
     public static final String DOH_URL = "doh_url";
+    // 0 historym 1 douban movie, 2 douban tv show
+    public static final String HOT_VOD_SOURCE = "hot_vod_source";
 }
