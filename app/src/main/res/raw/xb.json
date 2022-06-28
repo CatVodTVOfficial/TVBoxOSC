@@ -5,7 +5,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,viewport-fit=cover">
 	<meta name="wechat-enable-text-zoom-em" content="true">
-	<title>TVBox</title>
+	<title>✨TV</title>
 	<meta name="layoutmode" content="standard">
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<link rel="stylesheet" type="text/css" href="ui.css">
@@ -18,7 +18,7 @@
 				<div id="panel1" role="tabpanel" aria-labelledby="tab1" class="weui-tab__panel">
 					<div class="weui-form">
 						<div class="weui-form__text-area">
-							<h2 class="weui-form__title">TVBox . 搜索</h2>
+							<h2 class="weui-form__title">✨TV . 搜索</h2>
 						</div>
 						<div class="weui-form__control-area">
 							<div class="weui-cells__group weui-cells__group_form">
@@ -40,7 +40,7 @@
 				<div id="panel2" role="tabpanel" aria-labelledby="tab2" class="weui-tab__panel" style="display: none;">
 					<div class="weui-form">
 						<div class="weui-form__text-area">
-							<h2 class="weui-form__title">TVBox . 推送</h2>
+							<h2 class="weui-form__title">✨TV . 推送</h2>
 						</div>
 						<div class="weui-form__control-area">
 							<div class="weui-cells__group weui-cells__group_form">
@@ -62,7 +62,7 @@
 				<div id="panel3" role="tabpanel" aria-labelledby="tab3" class="weui-tab__panel" style="display: none;">
 					<div class="weui-form" style="min-height: 0;">
 						<div class="weui-form__text-area">
-							<h2 class="weui-form__title">TVBox . 接口</h2>
+							<h2 class="weui-form__title">✨TV . 接口</h2>
 						</div>
 						<div class="weui-form__control-area" style="margin-bottom: 0px !important;">
 							<div class="weui-cells__group weui-cells__group_form">
