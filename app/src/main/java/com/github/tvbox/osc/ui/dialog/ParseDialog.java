@@ -33,7 +33,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.github.tvbox.osc.R;
 import com.github.tvbox.osc.api.ApiConfig;
 import com.github.tvbox.osc.bean.ParseBean;
-import com.github.tvbox.osc.ui.adapter.ParseDialogAdapter;
+import com.github.tvbox.osc.ui.adapter.ParseAdapter;
 import com.github.tvbox.osc.util.AdBlocker;
 import com.github.tvbox.osc.util.DefaultConfig;
 import com.github.tvbox.osc.util.FastClickCheckUtil;
@@ -82,7 +82,7 @@ public class ParseDialog {
     private static final String ANDROID_UA = "Mozilla/5.0 (Linux; Android 5.0; SM-G900P Build/LRX21T) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Mobile Safari/537.36";
 
     private TvRecyclerView mGridView;
-    private ParseDialogAdapter parseAdapter;
+    private ParseAdapter parseAdapter;
     private List<ParseBean> parseBeans = new ArrayList<>();
     private Map<String, Boolean> loadedUrls = new HashMap<>();
     private Handler mHandler = new Handler();
@@ -464,7 +464,7 @@ public class ParseDialog {
     private void initParseBean(String flag, boolean userJx, String playUrl, final String url, ParseCallback callback) {
         if (mGridView == null) {
             mGridView = findViewById(R.id.mGridView);
-            parseAdapter = new ParseDialogAdapter();
+            parseAdapter = new ParseAdapter();
             mGridView.setAdapter(parseAdapter);
             mGridView.setLayoutManager(new V7GridLayoutManager(mContext, 6));
             parseAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {

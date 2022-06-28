@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Message;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
@@ -11,9 +12,19 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.github.tvbox.osc.R;
+import com.github.tvbox.osc.api.ApiConfig;
+import com.github.tvbox.osc.bean.ParseBean;
+import com.github.tvbox.osc.ui.adapter.ParseAdapter;
+import com.owen.tvrecyclerview.widget.TvRecyclerView;
+import com.owen.tvrecyclerview.widget.V7LinearLayoutManager;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Iterator;
 
 import xyz.doikki.videoplayer.player.VideoView;
 import xyz.doikki.videoplayer.util.PlayerUtils;
@@ -56,6 +67,17 @@ public class VodController extends BaseController {
     TextView mProgressText;
     ImageView mProgressIcon;
     LinearLayout mBottomRoot;
+    LinearLayout mParseRoot;
+    TvRecyclerView mGridView;
+    TextView mNextBtn;
+    TextView mPreBtn;
+    TextView mPlayerScaleBtn;
+    TextView mPlayerSpeedBtn;
+    TextView mPlayerBtn;
+    TextView mPlayerIJKBtn;
+    TextView mPlayerTimeStartBtn;
+    TextView mPlayerTimeSkipBtn;
+    TextView mPlayerTimeStepBtn;
 
     @Override
     protected void initView() {
@@ -67,10 +89,38 @@ public class VodController extends BaseController {
         mProgressIcon = findViewById(R.id.tv_progress_icon);
         mProgressText = findViewById(R.id.tv_progress_text);
         mBottomRoot = findViewById(R.id.bottom_container);
+        mParseRoot = findViewById(R.id.parse_root);
+        mGridView = findViewById(R.id.mGridView);
+        mNextBtn = findViewById(R.id.play_next);
+        mPreBtn = findViewById(R.id.play_pre);
+        mPlayerScaleBtn = findViewById(R.id.play_scale);
+        mPlayerSpeedBtn = findViewById(R.id.play_speed);
+        mPlayerBtn = findViewById(R.id.play_player);
+        mPlayerIJKBtn = findViewById(R.id.play_ijk);
+        mPlayerTimeStartBtn = findViewById(R.id.play_time_start);
+        mPlayerTimeSkipBtn = findViewById(R.id.play_time_end);
+        mPlayerTimeStepBtn = findViewById(R.id.play_time_step);
+
+        mGridView.setLayoutManager(new V7LinearLayoutManager(getContext(), 0, false));
+        ParseAdapter parseAdapter = new ParseAdapter();
+        parseAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                ParseBean parseBean = parseAdapter.getItem(position);
+                // 当前默认解析需要刷新
+                int currentDefault = parseAdapter.getData().indexOf(ApiConfig.get().getDefaultParse());
+                parseAdapter.notifyItemChanged(currentDefault);
+                ApiConfig.get().setDefaultParse(parseBean);
+                parseAdapter.notifyItemChanged(position);
+                listener.changeParse(parseBean);
+            }
+        });
+        mGridView.setAdapter(parseAdapter);
+        parseAdapter.setNewData(ApiConfig.get().getParseBeanList());
+
+        mParseRoot.setVisibility(VISIBLE);
 
         mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            int lastProgress = 0;
-
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (!fromUser) {
@@ -100,12 +150,85 @@ public class VodController extends BaseController {
                 mControlWrapper.startFadeOut();
             }
         });
+
+        mNextBtn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.playNext();
+            }
+        });
+        mPreBtn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.playPre();
+            }
+        });
+        mPlayerScaleBtn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        mPlayerSpeedBtn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        mPlayerBtn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        mPlayerIJKBtn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        mPlayerTimeStartBtn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        mPlayerTimeSkipBtn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        mPlayerTimeStepBtn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     @Override
     protected int getLayoutId() {
         return R.layout.player_vod_control_view;
     }
+
+    public void showParse(boolean userJxList) {
+        mParseRoot.setVisibility(userJxList ? VISIBLE : GONE);
+    }
+
+    public interface VodControlListener {
+        void playNext();
+
+        void playPre();
+
+        void changeParse(ParseBean pb);
+    }
+
+    public void setListener(VodControlListener listener) {
+        this.listener = listener;
+    }
+
+    private VodControlListener listener;
 
     @Override
     protected void setProgress(int duration, int position) {
@@ -203,7 +326,7 @@ public class VodController extends BaseController {
                     tvSlideStart(keyCode == KeyEvent.KEYCODE_DPAD_RIGHT ? 1 : -1);
                     return true;
                 }
-            } else if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) {
+            } else if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) {
                 if (isInPlayback) {
                     togglePlay();
                     return true;
