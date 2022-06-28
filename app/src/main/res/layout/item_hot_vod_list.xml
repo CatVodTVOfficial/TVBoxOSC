@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="com.github.tvbox.osc.ui.tv.widget.HotVodList">
+    <com.owen.tvrecyclerview.widget.TvRecyclerView
+        android:id="@+id/tvHotRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/vs_440"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/vs_0"
+        android:paddingTop="@dimen/vs_40"
+        android:paddingRight="@dimen/vs_0"
+        android:paddingBottom="@dimen/vs_40"
+        app:tv_horizontalSpacingWithMargins="@dimen/vs_10"
+        app:tv_layoutManager="V7LinearLayoutManager"
+        app:tv_selectedItemIsCentered="true"
+        app:tv_verticalSpacingWithMargins="@dimen/vs_10" />
+</FrameLayout>

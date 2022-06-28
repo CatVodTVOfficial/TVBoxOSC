@@ -516,5 +516,4 @@ public class HomeActivity extends BaseActivity {
         AppManager.getInstance().appExit(0);
         ControlManager.get().stopServer();
     }
-
 }

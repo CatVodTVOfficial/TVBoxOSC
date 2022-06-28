@@ -44,6 +44,7 @@ public class SettingActivity extends BaseActivity {
     private Handler mHandler = new Handler();
     private String homeSourceKey;
     private String currentApi;
+    private int currentHotVodSource;
 
     @Override
     protected int getLayoutResID() {
@@ -105,6 +106,7 @@ public class SettingActivity extends BaseActivity {
 
     private void initData() {
         currentApi = Hawk.get(HawkConfig.API_URL, "");
+        currentHotVodSource = Hawk.get(HawkConfig.HOT_VOD_SOURCE, 0);
         homeSourceKey = ApiConfig.get().getHomeSourceBean().getKey();
         List<String> sortList = new ArrayList<>();
         sortList.add("设置其他");
@@ -174,7 +176,8 @@ public class SettingActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         if ((homeSourceKey != null && !homeSourceKey.equals(Hawk.get(HawkConfig.HOME_API, ""))) ||
-                !currentApi.equals(Hawk.get(HawkConfig.API_URL, ""))) {
+                !currentApi.equals(Hawk.get(HawkConfig.API_URL, "")) ||
+                (currentHotVodSource != Hawk.get(HawkConfig.HOT_VOD_SOURCE, 0))) {
             AppManager.getInstance().finishAllActivity();
             if (currentApi.equals(Hawk.get(HawkConfig.API_URL, ""))) {
                 Bundle bundle = new Bundle();
