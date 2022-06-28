@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/vs_20"
-            android:background="@drawable/user_focus"
+            android:background="@drawable/shape_user_focus"
             android:focusable="true"
             android:gravity="center"
             android:padding="@dimen/vs_10"

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -14,138 +15,114 @@
             android:id="@+id/topLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/vs_10"
             android:orientation="horizontal"
-            android:paddingLeft="60mm"
-            android:paddingTop="40mm"
-            android:paddingRight="60mm">
+            android:paddingLeft="@dimen/vs_50"
+            android:paddingRight="@dimen/vs_50"
+            android:paddingBottom="@dimen/vs_10">
 
             <ImageView
                 android:id="@+id/ivThumb"
-                android:layout_width="224mm"
-                android:layout_height="315mm"
+                android:layout_width="@dimen/vs_240"
+                android:layout_height="@dimen/vs_320"
                 android:scaleType="fitXY" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="310mm"
-                android:layout_marginLeft="20mm"
+                android:layout_height="@dimen/vs_320"
+                android:layout_marginStart="@dimen/vs_20"
+                android:layout_marginLeft="@dimen/vs_20"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tvName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/vs_5"
                     android:textColor="@android:color/white"
-                    android:textSize="24mm" />
+                    android:textSize="@dimen/ts_28" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5mm"
+                    android:layout_marginBottom="@dimen/vs_5"
                     android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/tvSite"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/vs_10"
+                        android:layout_marginRight="@dimen/vs_10"
                         android:textColor="@color/color_CCFFFFFF"
-                        android:textSize="18mm" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5mm"
-                        android:layout_marginRight="5mm"
-                        android:text="丨"
-                        android:textColor="@color/color_CCFFFFFF"
-                        android:textSize="18mm" />
+                        android:textSize="@dimen/ts_20" />
 
                     <TextView
                         android:id="@+id/tvYear"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/vs_10"
+                        android:layout_marginRight="@dimen/vs_10"
                         android:textColor="@color/color_CCFFFFFF"
-                        android:textSize="18mm" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5mm"
-                        android:layout_marginRight="5mm"
-                        android:text="丨"
-                        android:textColor="@color/color_CCFFFFFF"
-                        android:textSize="18mm" />
+                        android:textSize="@dimen/ts_20" />
 
                     <TextView
                         android:id="@+id/tvArea"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/vs_10"
+                        android:layout_marginRight="@dimen/vs_10"
                         android:textColor="@color/color_CCFFFFFF"
-                        android:textSize="18mm" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5mm"
-                        android:layout_marginRight="5mm"
-                        android:text="丨"
-                        android:textColor="@color/color_CCFFFFFF"
-                        android:textSize="18mm" />
+                        android:textSize="@dimen/ts_20" />
 
                     <TextView
                         android:id="@+id/tvLang"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/vs_10"
+                        android:layout_marginRight="@dimen/vs_10"
                         android:textColor="@color/color_CCFFFFFF"
-                        android:textSize="18mm" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5mm"
-                        android:layout_marginRight="5mm"
-                        android:text="丨"
-                        android:textColor="@color/color_CCFFFFFF"
-                        android:textSize="18mm" />
+                        android:textSize="@dimen/ts_20" />
 
                     <TextView
                         android:id="@+id/tvType"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/vs_10"
+                        android:layout_marginRight="@dimen/vs_10"
                         android:textColor="@color/color_CCFFFFFF"
-                        android:textSize="18mm" />
+                        android:textSize="@dimen/ts_20" />
                 </LinearLayout>
 
                 <TextView
                     android:id="@+id/tvActor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5mm"
+                    android:layout_marginBottom="@dimen/vs_5"
                     android:ellipsize="end"
                     android:singleLine="true"
                     android:textColor="@color/color_CCFFFFFF"
-                    android:textSize="18mm" />
+                    android:textSize="@dimen/ts_20" />
 
                 <TextView
                     android:id="@+id/tvDirector"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5mm"
+                    android:layout_marginBottom="@dimen/vs_5"
                     android:ellipsize="end"
                     android:singleLine="true"
                     android:textColor="@color/color_CCFFFFFF"
-                    android:textSize="18mm" />
+                    android:textSize="@dimen/ts_20" />
 
                 <TextView
                     android:id="@+id/tvDes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5mm"
                     android:ellipsize="end"
                     android:lineSpacingMultiplier="1.2"
-                    android:maxLines="5"
+                    android:maxLines="4"
                     android:textColor="@color/color_CCFFFFFF"
-                    android:textSize="18mm" />
+                    android:textSize="@dimen/ts_20" />
 
                 <Space
                     android:layout_width="wrap_content"
@@ -159,29 +136,40 @@
 
                     <TextView
                         android:id="@+id/tvPlay"
-                        android:layout_width="120mm"
-                        android:layout_height="44mm"
-                        android:layout_marginEnd="10mm"
-                        android:layout_marginRight="10mm"
-                        android:background="@drawable/detail_play_focus"
+                        android:layout_width="@dimen/vs_120"
+                        android:layout_height="@dimen/vs_45"
+                        android:layout_marginEnd="@dimen/vs_10"
+                        android:layout_marginRight="@dimen/vs_10"
+                        android:background="@drawable/button_detail_play"
                         android:focusable="true"
-                        android:focusableInTouchMode="true"
                         android:gravity="center"
                         android:text="立即播放"
                         android:textColor="@android:color/white"
-                        android:textSize="20mm" />
+                        android:textSize="@dimen/vs_20" />
 
                     <TextView
                         android:id="@+id/tvQuickSearch"
-                        android:layout_width="120mm"
-                        android:layout_height="44mm"
-                        android:background="@drawable/detail_quick_search_focus"
+                        android:layout_width="@dimen/vs_120"
+                        android:layout_height="@dimen/vs_45"
+                        android:layout_marginEnd="@dimen/vs_10"
+                        android:layout_marginRight="@dimen/vs_10"
+                        android:background="@drawable/button_detail_quick_search"
                         android:focusable="true"
-                        android:focusableInTouchMode="true"
                         android:gravity="center"
                         android:text="快速搜索"
                         android:textColor="@android:color/white"
-                        android:textSize="20mm" />
+                        android:textSize="@dimen/vs_20" />
+
+                    <TextView
+                        android:id="@+id/tvCollect"
+                        android:layout_width="@dimen/vs_120"
+                        android:layout_height="@dimen/vs_45"
+                        android:background="@drawable/button_detail_collect"
+                        android:focusable="true"
+                        android:gravity="center"
+                        android:text="加入收藏"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/vs_20" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
@@ -193,50 +181,51 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:gravity="center_horizontal"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            tools:visibility="gone">
 
             <ImageView
-                android:layout_width="128mm"
-                android:layout_height="128mm"
+                android:layout_width="@dimen/vs_128"
+                android:layout_height="@dimen/vs_128"
                 android:layout_gravity="center"
-                android:src="@drawable/empty" />
+                android:src="@drawable/icon_empty" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginStart="20mm"
-                android:layout_marginLeft="20mm"
+                android:layout_marginStart="@dimen/vs_10"
+                android:layout_marginLeft="@dimen/vs_10"
                 android:gravity="center"
                 android:text="暂无播放数据"
                 android:textColor="@android:color/white"
-                android:textSize="24mm" />
+                android:textSize="@dimen/ts_24" />
         </LinearLayout>
 
         <com.owen.tvrecyclerview.widget.TvRecyclerView
             android:id="@+id/mGridViewFlag"
             android:layout_width="match_parent"
-            android:layout_height="40mm"
-            android:layout_marginLeft="60mm"
-            android:layout_marginTop="10mm"
-            android:layout_marginRight="60mm"
+            android:layout_height="@dimen/vs_45"
+            android:layout_marginLeft="@dimen/vs_50"
+            android:layout_marginTop="@dimen/vs_10"
+            android:layout_marginRight="@dimen/vs_50"
             android:clipChildren="false"
             android:clipToPadding="false"
-            app:tv_horizontalSpacingWithMargins="20mm"
+            app:tv_horizontalSpacingWithMargins="@dimen/vs_10"
             app:tv_selectedItemIsCentered="true" />
 
         <com.owen.tvrecyclerview.widget.TvRecyclerView
             android:id="@+id/mGridView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="60mm"
-            android:layout_marginTop="10mm"
-            android:layout_marginRight="60mm"
-            android:layout_marginBottom="30mm"
+            android:layout_marginLeft="@dimen/vs_50"
+            android:layout_marginTop="@dimen/vs_10"
+            android:layout_marginRight="@dimen/vs_50"
+            android:layout_marginBottom="@dimen/vs_30"
             android:clipChildren="false"
             android:clipToPadding="false"
-            app:tv_horizontalSpacingWithMargins="10mm"
+            app:tv_horizontalSpacingWithMargins="@dimen/vs_10"
             app:tv_selectedItemIsCentered="true"
-            app:tv_verticalSpacingWithMargins="10mm" />
+            app:tv_verticalSpacingWithMargins="@dimen/vs_10" />
     </LinearLayout>
 </FrameLayout>

@@ -155,13 +155,7 @@ public class DetailActivity extends BaseActivity {
             }
         });
         mGridViewFlag.setOnItemListener(new TvRecyclerView.OnItemListener() {
-            @Override
-            public void onItemPreSelected(TvRecyclerView parent, View itemView, int position) {
-
-            }
-
-            @Override
-            public void onItemSelected(TvRecyclerView parent, View itemView, int position) {
+            private void refresh(View itemView, int position) {
                 String newFlag = seriesFlagAdapter.getData().get(position).name;
                 if (vodInfo != null && !vodInfo.playFlag.equals(newFlag)) {
                     for (int i = 0; i < vodInfo.seriesFlags.size(); i++) {
@@ -182,14 +176,18 @@ public class DetailActivity extends BaseActivity {
             }
 
             @Override
-            public void onItemClick(TvRecyclerView parent, View itemView, int position) {
+            public void onItemPreSelected(TvRecyclerView parent, View itemView, int position) {
 
             }
-        });
-        seriesFlagAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+
             @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                FastClickCheckUtil.check(view);
+            public void onItemSelected(TvRecyclerView parent, View itemView, int position) {
+                refresh(itemView, position);
+            }
+
+            @Override
+            public void onItemClick(TvRecyclerView parent, View itemView, int position) {
+                refresh(itemView, position);
             }
         });
         seriesAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -242,6 +240,21 @@ public class DetailActivity extends BaseActivity {
         }, 100);
     }
 
+    private void setTextShow(TextView view, String tag, String info) {
+        if (info == null || info.trim().isEmpty()) {
+            view.setVisibility(View.GONE);
+            return;
+        }
+        view.setVisibility(View.VISIBLE);
+        view.setText(Html.fromHtml(getHtml(tag, info)));
+    }
+
+    private String removeHtmlTag(String info) {
+        if (info == null)
+            return "";
+        return info.replaceAll("\\<.*?\\>", "").replaceAll("\\s", "");
+    }
+
     private void initViewModel() {
         sourceViewModel = new ViewModelProvider(this).get(SourceViewModel.class);
         sourceViewModel.detailResult.observe(this, new Observer<AbsXml>() {
@@ -255,20 +268,14 @@ public class DetailActivity extends BaseActivity {
                     vodInfo.sourceKey = mVideo.sourceKey;
 
                     tvName.setText(mVideo.name);
-                    tvSite.setText(Html.fromHtml(getHtml("来源：", mVideo.sourceKey)));
-                    for (SourceBean sourceBean : ApiConfig.get().getSourceBeanList()) {
-                        if (sourceBean.getKey().equals(mVideo.sourceKey)) {
-                            tvSite.setText(Html.fromHtml(getHtml("来源：", sourceBean.getName())));
-                            break;
-                        }
-                    }
-                    tvYear.setText(Html.fromHtml(getHtml("年份：", String.valueOf(mVideo.year))));
-                    tvArea.setText(Html.fromHtml(getHtml("地区：", mVideo.area)));
-                    tvLang.setText(Html.fromHtml(getHtml("语言：", mVideo.lang)));
-                    tvType.setText(Html.fromHtml(getHtml("类型：", mVideo.type)));
-                    tvActor.setText(Html.fromHtml(getHtml("演员：", mVideo.actor)));
-                    tvDirector.setText(Html.fromHtml(getHtml("导演：", mVideo.director)));
-                    tvDes.setText(Html.fromHtml(getHtml("内容简介：", mVideo.des)));
+                    setTextShow(tvSite, "来源：", ApiConfig.get().getSource(mVideo.sourceKey).getName());
+                    setTextShow(tvYear, "年份：", mVideo.year == 0 ? "" : String.valueOf(mVideo.year));
+                    setTextShow(tvArea, "地区：", mVideo.area);
+                    setTextShow(tvLang, "语言：", mVideo.lang);
+                    setTextShow(tvType, "类型：", mVideo.type);
+                    setTextShow(tvActor, "演员：", mVideo.actor);
+                    setTextShow(tvDirector, "导演：", mVideo.director);
+                    setTextShow(tvDes, "内容简介：", removeHtmlTag(mVideo.des));
                     if (!TextUtils.isEmpty(mVideo.pic)) {
                         Picasso.get()
                                 .load(mVideo.pic)
@@ -276,11 +283,11 @@ public class DetailActivity extends BaseActivity {
                                         .centerCorp(true)
                                         .override(AutoSizeUtils.mm2px(mContext, 300), AutoSizeUtils.mm2px(mContext, 400))
                                         .roundRadius(AutoSizeUtils.mm2px(mContext, 10), RoundTransformation.RoundType.ALL))
-                                .placeholder(R.drawable.error_all_loading)
-                                .error(R.drawable.error_all_loading)
+                                .placeholder(R.drawable.img_loading_placeholder)
+                                .error(R.drawable.img_loading_placeholder)
                                 .into(ivThumb);
                     } else {
-                        ivThumb.setImageResource(R.drawable.error_all_loading);
+                        ivThumb.setImageResource(R.drawable.img_loading_placeholder);
                     }
 
                     if (vodInfo.seriesMap != null && vodInfo.seriesMap.size() > 0) {

@@ -10,6 +10,6 @@
         <bitmap
             android:antialias="true"
             android:gravity="center"
-            android:src="@drawable/error" />
+            android:src="@drawable/icon_img_placeholder" />
     </item>
 </layer-list>

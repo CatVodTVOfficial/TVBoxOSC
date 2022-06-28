@@ -104,7 +104,10 @@ public class SearchActivity extends BaseActivity {
             }
         });
         mGridView.setHasFixedSize(true);
-        mGridView.setLayoutManager(new V7GridLayoutManager(this.mContext, 3));
+        // lite
+        mGridView.setLayoutManager(new V7LinearLayoutManager(this.mContext, 1, false));
+        // with preview
+        // mGridView.setLayoutManager(new V7GridLayoutManager(this.mContext, 3));
         searchAdapter = new SearchAdapter();
         mGridView.setAdapter(searchAdapter);
         searchAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {

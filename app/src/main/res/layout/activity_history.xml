@@ -49,7 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:background="@drawable/source_focus"
+            android:background="@drawable/shape_user_focus"
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:gravity="center"
