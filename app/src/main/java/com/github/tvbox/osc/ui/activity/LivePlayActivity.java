@@ -64,6 +64,8 @@ public class LivePlayActivity extends BaseActivity {
 
     private List<ChannelGroup> channelGroupList = new ArrayList<>();
     private int selectedGroupIndex = 0;
+    private int focusedGroupIndex = 0;
+    private int focusedChannelIndex = 0;
     private int currentGroupIndex = 0;
     private int currentChannelIndex = 0;
     private LiveChannel currentChannel = null;
@@ -79,10 +81,7 @@ public class LivePlayActivity extends BaseActivity {
         setLoadSir(findViewById(R.id.live_root));
         mVideoView = findViewById(R.id.mVideoView);
         PlayerHelper.updateCfg(mVideoView);
-//        ViewGroup.LayoutParams layoutParams = mVideoView.getLayoutParams();
-//        layoutParams.width = 100;
-//        layoutParams.height = 50;
-//        mVideoView.setLayoutParams(layoutParams);
+
         tvLeftLinearLayout = findViewById(R.id.tvLeftLinearLayout);
         mGroupGridView = findViewById(R.id.mGroupGridView);
         mChannelGridView = findViewById(R.id.mChannelGridView);
@@ -117,16 +116,48 @@ public class LivePlayActivity extends BaseActivity {
                 mHandler.postDelayed(mHideChannelListRun, 5000);
             }
         });
+
+        //电视
+        mGroupGridView.setOnItemListener(new TvRecyclerView.OnItemListener() {
+            @Override
+            public void onItemPreSelected(TvRecyclerView parent, View itemView, int position) {
+            }
+
+            @Override
+            public void onItemSelected(TvRecyclerView parent, View itemView, int position) {
+                focusChannelGroup(position);
+                if (position == selectedGroupIndex) return;
+                selectChannelGroup(position);
+                channelAdapter.setNewData(channelGroupList.get(position).getLiveChannels());
+                if (position == currentGroupIndex)
+                    mChannelGridView.scrollToPosition(currentChannelIndex);
+                else
+                    mChannelGridView.scrollToPosition(0);
+                mHandler.removeCallbacks(mHideChannelListRun);
+                mHandler.postDelayed(mHideChannelListRun, 5000);
+            }
+
+            @Override
+            public void onItemClick(TvRecyclerView parent, View itemView, int position) {
+                channelAdapter.setNewData(channelGroupList.get(position).getLiveChannels());
+                mHandler.removeCallbacks(mHideChannelListRun);
+                mHandler.postDelayed(mHideChannelListRun, 5000);
+            }
+        });
+
+        //手机/模拟器
         groupAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 FastClickCheckUtil.check(view);
-                channelGroupList.get(selectedGroupIndex).setDefault(false);
-                groupAdapter.notifyItemChanged(selectedGroupIndex);
-                selectedGroupIndex = position;
-                channelGroupList.get(selectedGroupIndex).setDefault(true);
-                groupAdapter.notifyItemChanged(selectedGroupIndex);
+                selectChannelGroup(position);
                 channelAdapter.setNewData(channelGroupList.get(position).getLiveChannels());
+                if (position == currentGroupIndex)
+                    mChannelGridView.scrollToPosition(currentChannelIndex);
+                else
+                    mChannelGridView.scrollToPosition(0);
+                mHandler.removeCallbacks(mHideChannelListRun);
+                mHandler.postDelayed(mHideChannelListRun, 5000);
             }
         });
 
@@ -140,11 +171,38 @@ public class LivePlayActivity extends BaseActivity {
                 mHandler.postDelayed(mHideChannelListRun, 5000);
             }
         });
+
+        //电视
+        mChannelGridView.setOnItemListener(new TvRecyclerView.OnItemListener() {
+            @Override
+            public void onItemPreSelected(TvRecyclerView parent, View itemView, int position) {
+
+            }
+
+            @Override
+            public void onItemSelected(TvRecyclerView parent, View itemView, int position) {
+                if (position < 0) return;
+                focusLiveChannel(position);
+                mHandler.removeCallbacks(mHideChannelListRun);
+                mHandler.postDelayed(mHideChannelListRun, 5000);
+            }
+
+            @Override
+            public void onItemClick(TvRecyclerView parent, View itemView, int position) {
+                if (selectedGroupIndex == currentGroupIndex && position == currentChannelIndex) return;
+                if (playChannel(position, false)) {
+                    mHandler.post(mHideChannelListRun);
+                }
+            }
+        });
+
+        //手机/模拟器
         channelAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 FastClickCheckUtil.check(view);
-                if (playChannel(selectedGroupIndex, position, false)) {
+                if (selectedGroupIndex == currentGroupIndex && position == currentChannelIndex) return;
+                if (playChannel(position, false)) {
                     mHandler.post(mHideChannelListRun);
                 }
             }
@@ -212,7 +270,7 @@ public class LivePlayActivity extends BaseActivity {
             }
         } else if (event.getAction() == KeyEvent.ACTION_UP) {
             if (tvLeftLinearLayout.getVisibility() == View.VISIBLE) {
-                mHandler.postDelayed(mHideChannelListRun, 5000);
+//                mHandler.postDelayed(mHideChannelListRun, 5000);
             }
         }
         return super.dispatchKeyEvent(event);
@@ -302,7 +360,7 @@ public class LivePlayActivity extends BaseActivity {
                 liveChannel.setChannelName(obj.get("name").getAsString().trim());
                 liveChannel.setChannelNum(channelNum++);
                 ArrayList<String> urls = DefaultConfig.safeJsonStringList(obj, "urls");
-                liveChannel.setUrls(urls);
+                liveChannel.setChannelUrls(urls);
                 channelGroup.getLiveChannels().add(liveChannel);
             }
             channelGroupList.add(channelGroup);
@@ -328,6 +386,8 @@ public class LivePlayActivity extends BaseActivity {
                 selectedGroupIndex = groupIndex;
                 currentGroupIndex = groupIndex;
                 currentChannelIndex = channelIndex;
+                focusedGroupIndex = groupIndex;
+                focusedChannelIndex = channelIndex;
                 break;
             }
             groupIndex++;
@@ -340,7 +400,11 @@ public class LivePlayActivity extends BaseActivity {
 
         groupAdapter.setNewData(channelGroupList);
         channelAdapter.setNewData(channelGroupList.get(currentGroupIndex).getLiveChannels());
-        playChannel(currentGroupIndex, currentChannelIndex, false);
+        mGroupGridView.scrollToPosition(currentGroupIndex);
+        mChannelGridView.scrollToPosition(currentChannelIndex);
+        selectChannelGroup(currentGroupIndex);
+
+        playChannel(currentChannelIndex, false);
     }
 
     private void refreshTextInfo() {
@@ -359,6 +423,17 @@ public class LivePlayActivity extends BaseActivity {
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         super.onAnimationEnd(animation);
+                        if (channelGroupList.size() > 0) {                   //修复未配置接口，进入直播会导致崩溃
+                            deselectChannelGroup(selectedGroupIndex);
+                            if (focusedGroupIndex > -1) {
+                                defocusChannelGroup(focusedGroupIndex);
+                                focusedGroupIndex = -1;
+                            }
+                            if (focusedChannelIndex > -1) {
+                                defocusLiveChannel(focusedChannelIndex);
+                                focusedChannelIndex = -1;
+                            }
+                        }
                         tvLeftLinearLayout.setVisibility(View.INVISIBLE);
                         tvHint.setVisibility(View.INVISIBLE);
                     }
@@ -387,22 +462,25 @@ public class LivePlayActivity extends BaseActivity {
         }
     };
 
-    private Runnable showListAfterScrollOk = new Runnable() {
+    private Runnable mFocusCurrentChannelAndShowChannelList = new Runnable() {
         @Override
         public void run() {
             if (mGroupGridView.isScrolling() || mChannelGridView.isScrolling()) {
                 mHandler.postDelayed(this, 100);
             } else {
+                RecyclerView.ViewHolder holder = mChannelGridView.findViewHolderForAdapterPosition(currentChannelIndex);
+                if (holder != null)
+                    holder.itemView.requestFocus();
                 ViewObj viewObj = new ViewObj(tvLeftLinearLayout, (ViewGroup.MarginLayoutParams) tvLeftLinearLayout.getLayoutParams());
                 ObjectAnimator animator = ObjectAnimator.ofObject(viewObj, "marginLeft", new IntEvaluator(), -tvLeftLinearLayout.getLayoutParams().width, 0);
                 animator.setDuration(200);
-                animator.start();
                 animator.addListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         super.onAnimationEnd(animation);
                     }
                 });
+                animator.start();
                 mHandler.removeCallbacks(mHideChannelListRun);
                 mHandler.postDelayed(mHideChannelListRun, 5000);
             }
@@ -411,19 +489,18 @@ public class LivePlayActivity extends BaseActivity {
 
     private void showChannelList() {
         if (tvLeftLinearLayout.getVisibility() == View.INVISIBLE) {
-            if (selectedGroupIndex != currentGroupIndex) {
-                channelGroupList.get(selectedGroupIndex).setDefault(false);
-                groupAdapter.notifyItemChanged(selectedGroupIndex);
-                selectedGroupIndex = currentGroupIndex;
-                channelGroupList.get(selectedGroupIndex).setDefault(true);
-                groupAdapter.notifyItemChanged(selectedGroupIndex);
-            }
-            channelAdapter.setNewData(channelGroupList.get(currentGroupIndex).getLiveChannels());
-            mGroupGridView.setSelection(currentGroupIndex);
-            mChannelGridView.setSelection(currentChannelIndex);
             tvHint.setVisibility(View.VISIBLE);
             tvLeftLinearLayout.setVisibility(View.VISIBLE);
-            mHandler.postDelayed(showListAfterScrollOk, 100);
+
+            //重新载入上一次状态
+            channelAdapter.setNewData(channelGroupList.get(currentGroupIndex).getLiveChannels());
+            mGroupGridView.scrollToPosition(currentGroupIndex);
+            mChannelGridView.scrollToPosition(currentChannelIndex);
+            mGroupGridView.setSelection(currentGroupIndex);
+            mChannelGridView.setSelection(currentChannelIndex);
+            selectChannelGroup(currentGroupIndex);
+            selectLiveChannel(currentChannelIndex);
+            mHandler.postDelayed(mFocusCurrentChannelAndShowChannelList, 200);
         }
     }
 
@@ -446,38 +523,15 @@ public class LivePlayActivity extends BaseActivity {
         mHandler.postDelayed(mHideChannelNumRun, 4000);
     }
 
-    private boolean playChannel(int groupIndex, int channelIndex, boolean changeSource) {
-        if (groupIndex < 0 || groupIndex >= channelGroupList.size()
-                || channelIndex < 0 || channelIndex >= channelGroupList.get(groupIndex).getLiveChannels().size())
-            return false;
-
-        if (groupIndex != selectedGroupIndex) {
-            channelGroupList.get(selectedGroupIndex).setDefault(false);
-            groupAdapter.notifyItemChanged(selectedGroupIndex);
-        }
-        if (channelIndex != currentChannelIndex) {
-            channelGroupList.get(currentGroupIndex).getLiveChannels().get(currentChannelIndex).setDefault(false);
-            channelAdapter.notifyItemChanged(currentChannelIndex);
-        }
-
+    private boolean playChannel(int channelIndex, boolean changeSource) {
         if (!changeSource) {
-            LiveChannel liveChannel = channelGroupList.get(groupIndex).getLiveChannels().get(channelIndex);
-            if ((liveChannel == currentChannel))
-                return false;
-
-            currentGroupIndex = groupIndex;
-            currentChannelIndex = channelIndex;
-            currentChannel = liveChannel;
-            channelGroupList.get(currentGroupIndex).setDefault(true);
-            groupAdapter.notifyItemChanged(currentGroupIndex);
-            channelGroupList.get(currentGroupIndex).getLiveChannels().get(currentChannelIndex).setDefault(true);
-            channelAdapter.notifyItemChanged(currentChannelIndex);
-
+            selectLiveChannel(channelIndex);
+            currentChannel = channelGroupList.get(currentGroupIndex).getLiveChannels().get(currentChannelIndex);
             showChannelNum();
             Hawk.put(HawkConfig.LIVE_CHANNEL, currentChannel.getChannelName());
         }
         mVideoView.release();
-        mVideoView.setUrl(currentChannel.getUrls());
+        mVideoView.setUrl(currentChannel.getUrl());
         mVideoView.start();
         return true;
     }
@@ -489,7 +543,12 @@ public class LivePlayActivity extends BaseActivity {
         for (ChannelGroup channelGroup : channelGroupList) {
             for (LiveChannel liveChannel : channelGroup.getLiveChannels()) {
                 if (liveChannel.getChannelNum() == channelNum) {
-                    return playChannel(groupIndex, channelIndex, false);
+                    if (groupIndex == currentGroupIndex && channelIndex == currentChannelIndex)
+                        return true;
+                    else {
+                        selectChannelGroup(groupIndex);
+                        return playChannel(channelIndex, false);
+                    }
                 }
                 channelIndex++;
             }
@@ -500,29 +559,90 @@ public class LivePlayActivity extends BaseActivity {
     }
 
     private void playNext() {
-        currentChannelIndex++;
-        if (currentChannelIndex >= channelGroupList.get(currentGroupIndex).getLiveChannels().size()) {
-            currentChannelIndex = 0;
-        }
-        playChannel(currentGroupIndex, currentChannelIndex, false);
+        int newChannelIndex = currentChannelIndex;
+        newChannelIndex++;
+        if (newChannelIndex >= channelGroupList.get(currentGroupIndex).getLiveChannels().size())
+            newChannelIndex = 0;
+
+        playChannel(newChannelIndex, false);
     }
 
     private void playPrevious() {
-        int playIndex = channelGroupList.indexOf(currentChannel);
-            currentChannelIndex--;
-        if (currentChannelIndex < 0) {
-            currentChannelIndex = channelGroupList.get(currentGroupIndex).getLiveChannels().size() - 1;
-        }
-        playChannel(currentGroupIndex, currentChannelIndex, false);
+        int newChannelIndex = currentChannelIndex;
+        newChannelIndex--;
+        if (newChannelIndex < 0)
+            newChannelIndex = channelGroupList.get(currentGroupIndex).getLiveChannels().size() - 1;
+
+        playChannel(newChannelIndex, false);
     }
 
     public void preSourceUrl() {
-        currentChannel.sourceIdx--;
-        playChannel(currentGroupIndex, currentChannelIndex, true);
+        currentChannel.preSource();
+        playChannel(currentChannelIndex, true);
     }
 
     public void nextSourceUrl() {
-        currentChannel.sourceIdx++;
-        playChannel(currentGroupIndex, currentChannelIndex, true);
+        currentChannel.nextSource();
+        playChannel(currentChannelIndex, true);
+    }
+
+    public void selectChannelGroup(int groupIndex) {
+        channelGroupList.get(selectedGroupIndex).setSelected(false);
+        groupAdapter.notifyItemChanged(selectedGroupIndex);
+        selectedGroupIndex = groupIndex;
+        channelGroupList.get(selectedGroupIndex).setSelected(true);
+        groupAdapter.notifyItemChanged(selectedGroupIndex);
+    }
+
+    public void deselectChannelGroup(int groupIndex) {
+        channelGroupList.get(groupIndex).setSelected(false);
+        groupAdapter.notifyItemChanged(groupIndex);
+    }
+
+    public void selectLiveChannel(int channelIndex) {
+        channelGroupList.get(currentGroupIndex).getLiveChannels().get(currentChannelIndex).setSelected(false);
+        channelAdapter.notifyItemChanged(currentChannelIndex);
+        currentChannelIndex = channelIndex;
+        currentGroupIndex = selectedGroupIndex;
+        channelGroupList.get(currentGroupIndex).getLiveChannels().get(currentChannelIndex).setSelected(true);
+        channelAdapter.notifyItemChanged(currentChannelIndex);
+    }
+
+    public void focusChannelGroup(int groupIndex) {
+        if (focusedChannelIndex > -1) {
+            defocusLiveChannel(focusedChannelIndex);
+            focusedChannelIndex = -1;
+        }
+        if (focusedGroupIndex > -1) {
+            channelGroupList.get(focusedGroupIndex).setFocused(false);
+            groupAdapter.notifyItemChanged(focusedGroupIndex);
+        }
+        focusedGroupIndex = groupIndex;
+        channelGroupList.get(focusedGroupIndex).setFocused(true);
+        groupAdapter.notifyItemChanged(focusedGroupIndex);
+    }
+
+    public void defocusChannelGroup(int groupIndex) {
+        channelGroupList.get(groupIndex).setFocused(false);
+        groupAdapter.notifyItemChanged(groupIndex);
+    }
+
+    public void focusLiveChannel(int channelIndex) {
+        if (focusedGroupIndex > -1) {
+            defocusChannelGroup(focusedGroupIndex);
+            focusedGroupIndex = -1;
+        }
+        if (focusedChannelIndex > -1) {
+            channelGroupList.get(selectedGroupIndex).getLiveChannels().get(focusedChannelIndex).setFocused(false);
+            channelAdapter.notifyItemChanged(focusedChannelIndex);
+        }
+        focusedChannelIndex = channelIndex;
+        channelGroupList.get(selectedGroupIndex).getLiveChannels().get(focusedChannelIndex).setFocused(true);
+        channelAdapter.notifyItemChanged(focusedChannelIndex);
+    }
+
+    public void defocusLiveChannel(int channelIndex) {
+        channelGroupList.get(selectedGroupIndex).getLiveChannels().get(channelIndex).setFocused(false);
+        channelAdapter.notifyItemChanged(channelIndex);
     }
 }

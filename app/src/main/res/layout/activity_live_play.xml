@@ -23,10 +23,10 @@
             android:layout_width="180mm"
             android:layout_height="match_parent"
             android:background="@color/color_66000000"
-            android:paddingLeft="10mm"
-            android:paddingTop="20mm"
-            android:paddingRight="10mm"
-            android:paddingBottom="20mm"
+            android:paddingLeft="5mm"
+            android:paddingTop="10mm"
+            android:paddingRight="5mm"
+            android:paddingBottom="10mm"
             android:visibility="visible"
             app:tv_selectedItemIsCentered="true"
             app:tv_verticalSpacingWithMargins="10mm" />
@@ -38,17 +38,17 @@
             android:layout_gravity="center_horizontal" />
 
         <com.owen.tvrecyclerview.widget.TvRecyclerView
-        android:id="@+id/mChannelGridView"
-        android:layout_width="240mm"
-        android:layout_height="match_parent"
-        android:background="@color/color_66000000"
-        android:paddingLeft="10mm"
-        android:paddingTop="20mm"
-        android:paddingRight="10mm"
-        android:paddingBottom="20mm"
-        android:visibility="visible"
-        app:tv_selectedItemIsCentered="true"
-        app:tv_verticalSpacingWithMargins="10mm" />
+            android:id="@+id/mChannelGridView"
+            android:layout_width="240mm"
+            android:layout_height="match_parent"
+            android:background="@color/color_66000000"
+            android:paddingLeft="5mm"
+            android:paddingTop="10mm"
+            android:paddingRight="5mm"
+            android:paddingBottom="10mm"
+            android:visibility="visible"
+            app:tv_selectedItemIsCentered="true"
+            app:tv_verticalSpacingWithMargins="10mm" />
     </LinearLayout>
 
     <TextView

@@ -22,10 +22,10 @@ public class ChannelGroupAdapter extends BaseQuickAdapter<ChannelGroup, BaseView
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, ChannelGroup item) {
-        TextView tvGroupName = helper.getView(R.id.tvGroupName);
+    protected void convert(BaseViewHolder holder, ChannelGroup item) {
+        TextView tvGroupName = holder.getView(R.id.tvGroupName);
         tvGroupName.setText(item.getGroupName());
-        if (item.isDefault()) {
+        if (item.isSelected() && !item.isFocused()) {
             tvGroupName.setTextColor(mContext.getResources().getColor(R.color.color_1890FF));
         } else {
             tvGroupName.setTextColor(Color.WHITE);
