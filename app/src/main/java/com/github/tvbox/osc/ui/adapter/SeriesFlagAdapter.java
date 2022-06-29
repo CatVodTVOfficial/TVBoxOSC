@@ -17,7 +17,7 @@ import java.util.ArrayList;
  */
 public class SeriesFlagAdapter extends BaseQuickAdapter<VodInfo.VodSeriesFlag, BaseViewHolder> {
     public SeriesFlagAdapter() {
-        super(R.layout.item_series_flag_layout, new ArrayList<>());
+        super(R.layout.item_series_flag, new ArrayList<>());
     }
 
     @Override

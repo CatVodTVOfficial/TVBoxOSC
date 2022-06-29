@@ -8,7 +8,6 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.github.tvbox.osc.R;
 import com.github.tvbox.osc.bean.ChannelGroup;
 
-
 import java.util.ArrayList;
 
 
@@ -19,14 +18,14 @@ import java.util.ArrayList;
  */
 public class ChannelGroupAdapter extends BaseQuickAdapter<ChannelGroup, BaseViewHolder> {
     public ChannelGroupAdapter() {
-        super(R.layout.item_channel_group_layout, new ArrayList<>());
+        super(R.layout.item_channel_group, new ArrayList<>());
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, ChannelGroup item) {
-        TextView tvGroupName = helper.getView(R.id.tvGroupName);
+    protected void convert(BaseViewHolder holder, ChannelGroup item) {
+        TextView tvGroupName = holder.getView(R.id.tvGroupName);
         tvGroupName.setText(item.getGroupName());
-        if (item.isDefault()) {
+        if (item.isSelected() && !item.isFocused()) {
             tvGroupName.setTextColor(mContext.getResources().getColor(R.color.color_1890FF));
         } else {
             tvGroupName.setTextColor(Color.WHITE);

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_user_focus"
+    android:focusable="true"
+    android:padding="@dimen/vs_1">
+
+    <FrameLayout
+        android:layout_width="@dimen/vs_214"
+        android:layout_height="@dimen/vs_280">
+
+        <ImageView
+            android:id="@+id/ivThumb"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/vs_1"
+            android:scaleType="fitXY" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/vs_5"
+            android:layout_marginTop="@dimen/vs_5"
+            android:layout_marginRight="@dimen/vs_5"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvYear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/vs_5"
+                android:layout_marginRight="@dimen/vs_5"
+                android:background="@drawable/shape_thumb_year"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:paddingLeft="@dimen/vs_5"
+                android:paddingRight="@dimen/vs_5"
+                android:singleLine="true"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/ts_20" />
+
+            <TextView
+                android:id="@+id/tvArea"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/vs_5"
+                android:layout_marginRight="@dimen/vs_5"
+                android:background="@drawable/shape_thumb_lang"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:paddingLeft="@dimen/vs_5"
+                android:paddingRight="@dimen/vs_5"
+                android:singleLine="true"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/ts_20" />
+
+            <TextView
+                android:id="@+id/tvLang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/vs_5"
+                android:layout_marginRight="@dimen/vs_5"
+                android:background="@drawable/shape_thumb_year"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:paddingLeft="@dimen/vs_5"
+                android:paddingRight="@dimen/vs_5"
+                android:singleLine="true"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/ts_20" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:orientation="vertical"
+            android:padding="@dimen/vs_1">
+
+            <TextView
+                android:id="@+id/tvNote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="@dimen/vs_5"
+                android:layout_marginRight="@dimen/vs_5"
+                android:layout_marginBottom="@dimen/vs_5"
+                android:background="@drawable/shape_thumb_note"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:paddingLeft="@dimen/vs_5"
+                android:paddingRight="@dimen/vs_5"
+                android:singleLine="true"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/ts_20" />
+
+            <TextView
+                android:id="@+id/tvName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_thumb_bottom_name"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:padding="@dimen/vs_5"
+                android:singleLine="true"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/ts_22" />
+
+            <TextView
+                android:id="@+id/tvActor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_thumb_bottom_name"
+                android:ellipsize="end"
+                android:gravity="top"
+                android:padding="@dimen/vs_5"
+                android:singleLine="true"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/ts_16"
+                android:visibility="gone" />
+        </LinearLayout>
+    </FrameLayout>
+</FrameLayout>

@@ -17,10 +17,11 @@ import java.util.Map;
  * @description:
  */
 public class QRCodeGen {
-    public static Bitmap generateBitmap(String content, int width, int height) {
+    public static Bitmap generateBitmap(String content, int width, int height, int padding) {
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
         Map<EncodeHintType, String> hints = new HashMap<>();
         hints.put(EncodeHintType.CHARACTER_SET, "utf-8");
+        hints.put(EncodeHintType.MARGIN, padding + "");
         try {
             BitMatrix encode = qrCodeWriter.encode(content, BarcodeFormat.QR_CODE, width, height, hints);
             int[] pixels = new int[width * height];
@@ -38,5 +39,9 @@ public class QRCodeGen {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static Bitmap generateBitmap(String content, int width, int height) {
+        return generateBitmap(content, width, height, 0);
     }
 }

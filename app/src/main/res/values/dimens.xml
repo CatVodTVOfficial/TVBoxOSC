@@ -7,6 +7,7 @@
     <dimen name="ts_26">26mm</dimen>
     <dimen name="ts_28">28mm</dimen>
     <dimen name="ts_30">30mm</dimen>
+    <dimen name="ts_34">34mm</dimen>
     <dimen name="ts_40">40mm</dimen>
     <dimen name="ts_50">50mm</dimen>
     <dimen name="ts_100">100mm</dimen>
@@ -39,6 +40,7 @@
     <dimen name="vs_30">30mm</dimen>
     <dimen name="vs_35">35mm</dimen>
     <dimen name="vs_40">40mm</dimen>
+    <dimen name="vs_45">45mm</dimen>
     <dimen name="vs_48">48mm</dimen>
     <dimen name="vs_50">50mm</dimen>
     <dimen name="vs_60">60mm</dimen>
@@ -58,6 +60,7 @@
     <dimen name="vs_165">165mm</dimen>
     <dimen name="vs_170">170mm</dimen>
     <dimen name="vs_180">180mm</dimen>
+    <dimen name="vs_190">190mm</dimen>
     <dimen name="vs_200">200mm</dimen>
     <dimen name="vs_214">214mm</dimen>
     <dimen name="vs_220">220mm</dimen>
@@ -72,6 +75,7 @@
     <dimen name="vs_360">360mm</dimen>
     <dimen name="vs_390">390mm</dimen>
     <dimen name="vs_400">400mm</dimen>
+    <dimen name="vs_440">440mm</dimen>
     <dimen name="vs_410">410mm</dimen>
     <dimen name="vs_470">470mm</dimen>
     <dimen name="vs_480">480mm</dimen>

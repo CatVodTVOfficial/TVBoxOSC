@@ -15,10 +15,9 @@ import com.github.tvbox.osc.R;
 import com.github.tvbox.osc.api.ApiConfig;
 import com.github.tvbox.osc.base.BaseActivity;
 import com.github.tvbox.osc.base.BaseLazyFragment;
+import com.github.tvbox.osc.ui.adapter.SettingMenuAdapter;
 import com.github.tvbox.osc.ui.adapter.SettingPageAdapter;
-import com.github.tvbox.osc.ui.adapter.SettingSortAdapter;
 import com.github.tvbox.osc.ui.fragment.ModelSettingFragment;
-import com.github.tvbox.osc.ui.fragment.SourceSettingFragment;
 import com.github.tvbox.osc.util.AppManager;
 import com.github.tvbox.osc.util.HawkConfig;
 import com.orhanobut.hawk.Hawk;
@@ -36,7 +35,7 @@ import java.util.List;
 public class SettingActivity extends BaseActivity {
     private TvRecyclerView mGridView;
     private ViewPager mViewPager;
-    private SettingSortAdapter sortAdapter;
+    private SettingMenuAdapter sortAdapter;
     private SettingPageAdapter pageAdapter;
     private List<BaseLazyFragment> fragments = new ArrayList<>();
     private boolean sortChange = false;
@@ -45,7 +44,6 @@ public class SettingActivity extends BaseActivity {
     private Handler mHandler = new Handler();
     private String homeSourceKey;
     private String currentApi;
-    private String homeSourceSort;
 
     @Override
     protected int getLayoutResID() {
@@ -61,7 +59,7 @@ public class SettingActivity extends BaseActivity {
     private void initView() {
         mGridView = findViewById(R.id.mGridView);
         mViewPager = findViewById(R.id.mViewPager);
-        sortAdapter = new SettingSortAdapter();
+        sortAdapter = new SettingMenuAdapter();
         mGridView.setAdapter(sortAdapter);
         mGridView.setLayoutManager(new V7LinearLayoutManager(this.mContext, 1, false));
         sortAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
@@ -108,18 +106,13 @@ public class SettingActivity extends BaseActivity {
     private void initData() {
         currentApi = Hawk.get(HawkConfig.API_URL, "");
         homeSourceKey = ApiConfig.get().getHomeSourceBean().getKey();
-        homeSourceSort = ApiConfig.get().getHomeSourceBean().getState().tidSort;
-        if (homeSourceSort == null)
-            homeSourceSort = "";
         List<String> sortList = new ArrayList<>();
-        sortList.add("数据源");
         sortList.add("设置其他");
         sortAdapter.setNewData(sortList);
         initViewPager();
     }
 
     private void initViewPager() {
-        fragments.add(SourceSettingFragment.newInstance());
         fragments.add(ModelSettingFragment.newInstance());
         pageAdapter = new SettingPageAdapter(getSupportFragmentManager(), fragments);
         mViewPager.setAdapter(pageAdapter);
@@ -180,13 +173,8 @@ public class SettingActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        String newHomeSourceSort = ApiConfig.get().getHomeSourceBean().getState().tidSort;
-        if (newHomeSourceSort == null)
-            newHomeSourceSort = "";
-
         if ((homeSourceKey != null && !homeSourceKey.equals(ApiConfig.get().getHomeSourceBean().getKey())) ||
-                !currentApi.equals(Hawk.get(HawkConfig.API_URL, "")) ||
-                !homeSourceSort.equals(newHomeSourceSort)) {
+                !currentApi.equals(Hawk.get(HawkConfig.API_URL, ""))) {
             AppManager.getInstance().finishAllActivity();
             if (currentApi.equals(Hawk.get(HawkConfig.API_URL, ""))) {
                 Bundle bundle = new Bundle();

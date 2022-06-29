@@ -21,10 +21,7 @@ public class VodRecord implements Serializable {
     public long updateTime;
     @ColumnInfo(name = "sourceKey")
     public String sourceKey;
-    public byte[] data;
     public String dataJson;
-
-    public int testMigration;
 
     public int getId() {
         return id;

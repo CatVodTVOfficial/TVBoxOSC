@@ -90,6 +90,16 @@
     public <init>(android.content.Context, android.util.AttributeSet, int);
 }
 
+-keep public class * extends androidx.recyclerview.widget.RecyclerView$LayoutManager{
+    *** get*();
+    void set*(***);
+    public <init>(android.content.Context);
+    public <init>(android.content.Context, android.util.AttributeSet);
+    public <init>(android.content.Context, android.util.AttributeSet, int);
+}
+
+-keep class com.orhanobut.hawk.** { *; }
+
 # 保留Parcelable序列化类不被混淆
 -keep class * implements android.os.Parcelable {
     public static final android.os.Parcelable$Creator *;
