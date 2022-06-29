@@ -95,7 +95,6 @@ public class PlayActivity extends BaseActivity {
     private void initView() {
         setLoadSir(findViewById(R.id.rootLayout));
         mVideoView = findViewById(R.id.mVideoView);
-        PlayerHelper.updateCfg(mVideoView);
         controller = new VodController(this);
         controller.setCanChangePosition(true);
         controller.setEnableInNormal(true);
@@ -109,7 +108,13 @@ public class PlayActivity extends BaseActivity {
             @Override
             public long getSavedProgress(String url) {
                 if (CacheManager.getCache(MD5.string2MD5(url)) == null) {
-                    return 0;
+                    int st = 0;
+                    try {
+                        st = mVodPlayerCfg.getInt("st");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    return st * 1000;
                 }
                 return (long) CacheManager.getCache(MD5.string2MD5(url));
             }
@@ -128,6 +133,17 @@ public class PlayActivity extends BaseActivity {
             @Override
             public void changeParse(ParseBean pb) {
                 doParse(pb);
+            }
+
+            @Override
+            public void updatePlayerCfg() {
+                mVodInfo.playerCfg = mVodPlayerCfg.toString();
+                EventBus.getDefault().post(new RefreshEvent(RefreshEvent.TYPE_REFRESH, mVodPlayerCfg));
+            }
+
+            @Override
+            public void replay() {
+                play();
             }
         });
         mVideoView.setVideoController(controller);
@@ -158,6 +174,7 @@ public class PlayActivity extends BaseActivity {
             public void run() {
                 if (mVideoView != null) {
                     mVideoView.release();
+                    PlayerHelper.updateCfg(mVideoView, mVodPlayerCfg);
                     mVideoView.setProgressKey(progressKey);
                     if (headers != null) {
                         mVideoView.setUrl(url, headers);
@@ -223,8 +240,43 @@ public class PlayActivity extends BaseActivity {
             Bundle bundle = intent.getExtras();
             mVodInfo = (VodInfo) bundle.getSerializable("VodInfo");
             sourceKey = bundle.getString("sourceKey");
+            initPlayerCfg();
             play();
         }
+    }
+
+    void initPlayerCfg() {
+        try {
+            mVodPlayerCfg = new JSONObject(mVodInfo.playerCfg);
+        } catch (Throwable th) {
+            mVodPlayerCfg = new JSONObject();
+        }
+        try {
+            if (!mVodPlayerCfg.has("pl")) {
+                mVodPlayerCfg.put("pl", Hawk.get(HawkConfig.PLAY_TYPE, 1));
+            }
+            if (!mVodPlayerCfg.has("pr")) {
+                mVodPlayerCfg.put("pr", Hawk.get(HawkConfig.PLAY_RENDER, 0));
+            }
+            if (!mVodPlayerCfg.has("ijk")) {
+                mVodPlayerCfg.put("ijk", Hawk.get(HawkConfig.IJK_CODEC, ""));
+            }
+            if (!mVodPlayerCfg.has("sc")) {
+                mVodPlayerCfg.put("sc", Hawk.get(HawkConfig.PLAY_SCALE, 0));
+            }
+            if (!mVodPlayerCfg.has("sp")) {
+                mVodPlayerCfg.put("sp", 1.0f);
+            }
+            if (!mVodPlayerCfg.has("st")) {
+                mVodPlayerCfg.put("st", 0);
+            }
+            if (!mVodPlayerCfg.has("et")) {
+                mVodPlayerCfg.put("et", 0);
+            }
+        } catch (Throwable th) {
+
+        }
+        controller.setPlayerConfig(mVodPlayerCfg);
     }
 
     @Override
@@ -274,6 +326,7 @@ public class PlayActivity extends BaseActivity {
     }
 
     private VodInfo mVodInfo;
+    private JSONObject mVodPlayerCfg;
     private String sourceKey;
 
     private void playNext() {

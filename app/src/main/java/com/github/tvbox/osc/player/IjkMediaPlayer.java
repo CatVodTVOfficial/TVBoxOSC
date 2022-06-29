@@ -13,15 +13,18 @@ import xyz.doikki.videoplayer.ijk.IjkPlayer;
 
 public class IjkMediaPlayer extends IjkPlayer {
 
-    public IjkMediaPlayer(Context context) {
+    private IJKCode codec = null;
+
+    public IjkMediaPlayer(Context context, IJKCode codec) {
         super(context);
+        this.codec = codec;
     }
 
     @Override
     public void setOptions() {
         super.setOptions();
-        IJKCode codec = ApiConfig.get().getCurrentIJKCode();
-        LinkedHashMap<String, String> options = codec.getOption();
+        IJKCode codecTmp = this.codec == null ? ApiConfig.get().getCurrentIJKCode() : this.codec;
+        LinkedHashMap<String, String> options = codecTmp.getOption();
         if (options != null) {
             for (String key : options.keySet()) {
                 String value = options.get(key);

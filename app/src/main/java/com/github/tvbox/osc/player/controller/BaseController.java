@@ -90,10 +90,10 @@ public abstract class BaseController extends BaseVideoController implements Gest
         super(context, attrs, defStyleAttr);
     }
 
-    TextView mSlideInfo;
-    ProgressBar mLoading;
-    ViewGroup mPauseRoot;
-    TextView mPauseTime;
+    private TextView mSlideInfo;
+    private ProgressBar mLoading;
+    private ViewGroup mPauseRoot;
+    private TextView mPauseTime;
 
     @Override
     protected void initView() {
