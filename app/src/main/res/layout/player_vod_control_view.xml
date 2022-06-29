@@ -34,7 +34,7 @@
                 android:paddingRight="@dimen/vs_10"
                 android:text="播放"
                 android:textColor="@color/color_CC000000"
-                android:textSize="@dimen/ts_20" />
+                android:textSize="@dimen/ts_24" />
 
             <TextView
                 android:id="@+id/play_next"
@@ -47,7 +47,7 @@
                 android:padding="@dimen/vs_10"
                 android:text="下一集"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/ts_20" />
+                android:textSize="@dimen/ts_24" />
 
             <TextView
                 android:id="@+id/play_pre"
@@ -60,7 +60,7 @@
                 android:padding="@dimen/vs_10"
                 android:text="上一集"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/ts_20" />
+                android:textSize="@dimen/ts_24" />
 
             <TextView
                 android:id="@+id/play_retry"
@@ -73,7 +73,7 @@
                 android:padding="@dimen/vs_10"
                 android:text="重播本集"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/ts_20" />
+                android:textSize="@dimen/ts_24" />
 
             <TextView
                 android:id="@+id/play_scale"
@@ -86,7 +86,7 @@
                 android:padding="@dimen/vs_10"
                 android:text="16:9"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/ts_20" />
+                android:textSize="@dimen/ts_24" />
 
             <TextView
                 android:id="@+id/play_speed"
@@ -99,7 +99,7 @@
                 android:padding="@dimen/vs_10"
                 android:text="x1.0"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/ts_20" />
+                android:textSize="@dimen/ts_24" />
 
             <TextView
                 android:id="@+id/play_player"
@@ -112,7 +112,7 @@
                 android:padding="@dimen/vs_10"
                 android:text="系统播放器"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/ts_20" />
+                android:textSize="@dimen/ts_24" />
 
             <TextView
                 android:id="@+id/play_ijk"
@@ -125,7 +125,7 @@
                 android:padding="@dimen/vs_10"
                 android:text="硬解码"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/ts_20" />
+                android:textSize="@dimen/ts_24" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -135,7 +135,7 @@
                 android:padding="@dimen/vs_10"
                 android:text="片头片尾"
                 android:textColor="@color/color_CC000000"
-                android:textSize="@dimen/ts_20" />
+                android:textSize="@dimen/ts_24" />
 
             <TextView
                 android:id="@+id/play_time_start"
@@ -148,7 +148,7 @@
                 android:padding="@dimen/vs_10"
                 android:text="01:00"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/ts_20" />
+                android:textSize="@dimen/ts_24" />
 
             <TextView
                 android:id="@+id/play_time_end"
@@ -161,7 +161,7 @@
                 android:padding="@dimen/vs_10"
                 android:text="01:00"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/ts_20" />
+                android:textSize="@dimen/ts_24" />
 
             <TextView
                 android:id="@+id/play_time_step"
@@ -174,7 +174,7 @@
                 android:padding="@dimen/vs_10"
                 android:text="1S"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/ts_20" />
+                android:textSize="@dimen/ts_24" />
 
         </LinearLayout>
 
@@ -197,7 +197,7 @@
                 android:paddingRight="@dimen/vs_10"
                 android:text="解析"
                 android:textColor="@color/color_CC000000"
-                android:textSize="@dimen/ts_20" />
+                android:textSize="@dimen/ts_24" />
 
             <com.owen.tvrecyclerview.widget.TvRecyclerView
                 android:id="@+id/mGridView"
@@ -225,7 +225,7 @@
                 android:paddingRight="@dimen/vs_10"
                 android:text="00:00"
                 android:textColor="@color/color_CC000000"
-                android:textSize="@dimen/ts_20" />
+                android:textSize="@dimen/ts_24" />
 
             <SeekBar
                 android:id="@+id/seekBar"
@@ -254,7 +254,7 @@
                 android:paddingLeft="@dimen/vs_10"
                 android:text="00:00"
                 android:textColor="@color/color_CC000000"
-                android:textSize="@dimen/ts_20" />
+                android:textSize="@dimen/ts_24" />
         </LinearLayout>
 
 

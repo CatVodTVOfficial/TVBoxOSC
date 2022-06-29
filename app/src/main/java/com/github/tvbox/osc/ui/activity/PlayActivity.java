@@ -50,6 +50,7 @@ import com.github.tvbox.osc.util.XWalkUtils;
 import com.github.tvbox.osc.viewmodel.SourceViewModel;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.AbsCallback;
+import com.lzy.okgo.model.HttpHeaders;
 import com.lzy.okgo.model.Response;
 import com.orhanobut.hawk.Hawk;
 
@@ -439,9 +440,24 @@ public class PlayActivity extends BaseActivity {
         if (useParse) {
             parseBean = ApiConfig.get().getDefaultParse();
         } else {
-            parseBean = new ParseBean();
-            parseBean.setType(0);
-            parseBean.setUrl(playUrl);
+            if (playUrl.startsWith("json:")) {
+                parseBean = new ParseBean();
+                parseBean.setType(1);
+                parseBean.setUrl(playUrl.substring(5));
+            } else if (playUrl.startsWith("parse:")) {
+                String parseRedirect = playUrl.substring(6);
+                for (ParseBean pb : ApiConfig.get().getParseBeanList()) {
+                    if (pb.getName().equals(parseRedirect)) {
+                        parseBean = pb;
+                        break;
+                    }
+                }
+            }
+            if (parseBean == null) {
+                parseBean = new ParseBean();
+                parseBean.setType(0);
+                parseBean.setUrl(playUrl);
+            }
         }
         loadFound = false;
         doParse(parseBean);
@@ -498,8 +514,24 @@ public class PlayActivity extends BaseActivity {
             loadWebView(pb.getUrl() + webUrl);
         } else if (pb.getType() == 1) { // json 解析
             setTip("正在解析播放地址", true, false);
+            // 解析ext
+            HttpHeaders reqHeaders = new HttpHeaders();
+            try {
+                JSONObject jsonObject = new JSONObject(pb.getExt());
+                if (jsonObject.has("header")) {
+                    JSONObject headerJson = jsonObject.optJSONObject("header");
+                    Iterator<String> keys = headerJson.keys();
+                    while (keys.hasNext()) {
+                        String key = keys.next();
+                        reqHeaders.put(key, headerJson.optString(key, ""));
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             OkGo.<String>get(pb.getUrl() + webUrl)
                     .tag("json_jx")
+                    .headers(reqHeaders)
                     .execute(new AbsCallback<String>() {
                         @Override
                         public String convertResponse(okhttp3.Response response) throws Throwable {
@@ -576,6 +608,14 @@ public class PlayActivity extends BaseActivity {
 
                             }
                         }
+                        if (rs.has("jxFrom")) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(mContext, "解析来自:" + rs.optString("jxFrom"), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
                         boolean parseWV = rs.optInt("parse", 0) == 1;
                         if (parseWV) {
                             String wvUrl = DefaultConfig.checkReplaceProxy(rs.optString("url", ""));
@@ -625,6 +665,14 @@ public class PlayActivity extends BaseActivity {
 
                             }
                         }
+                        if (rs.has("jxFrom")) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(mContext, "解析来自:" + rs.optString("jxFrom"), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
                         playUrl(rs.optString("url", ""), headers);
                     }
                 }
@@ -653,14 +701,14 @@ public class PlayActivity extends BaseActivity {
 
                     @Override
                     public void fail() {
-                        Toast.makeText(mContext, "XWalkView不兼容，已替换为系统自带WebView", Toast.LENGTH_LONG).show();
+                        Toast.makeText(mContext, "XWalkView不兼容，已替换为系统自带WebView", Toast.LENGTH_SHORT).show();
                         initWebView(true);
                         loadUrl(url);
                     }
 
                     @Override
                     public void ignore() {
-                        Toast.makeText(mContext, "XWalkView运行组件未下载，已替换为系统自带WebView", Toast.LENGTH_LONG).show();
+                        Toast.makeText(mContext, "XWalkView运行组件未下载，已替换为系统自带WebView", Toast.LENGTH_SHORT).show();
                         initWebView(true);
                         loadUrl(url);
                     }

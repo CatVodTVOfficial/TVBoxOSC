@@ -11,4 +11,4 @@
     android:padding="@dimen/vs_10"
     android:singleLine="true"
     android:textColor="@android:color/white"
-    android:textSize="@dimen/ts_20" />
+    android:textSize="@dimen/ts_24" />
