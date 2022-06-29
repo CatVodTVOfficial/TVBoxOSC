@@ -74,6 +74,11 @@ public class ControlManager {
                     Hawk.put(HawkConfig.API_URL, url);
                     EventBus.getDefault().post(new RefreshEvent(RefreshEvent.TYPE_API_URL_CHANGE, url));
                 }
+
+                @Override
+                public void onPushReceived(String url) {
+                    EventBus.getDefault().post(new RefreshEvent(RefreshEvent.TYPE_PUSH_URL, url));
+                }
             });
             try {
                 mServer.start();

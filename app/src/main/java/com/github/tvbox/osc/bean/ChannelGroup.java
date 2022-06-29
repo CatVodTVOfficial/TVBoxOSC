@@ -12,7 +12,8 @@ public class ChannelGroup {
     private String groupName;
     private String groupPassword;
     private ArrayList<LiveChannel> liveChannels;
-    private boolean isDefault;
+    private boolean isSelected = false;
+    private boolean isFocused = false;
 
 
     public int getGroupNum() {
@@ -39,11 +40,19 @@ public class ChannelGroup {
         this.liveChannels = liveChannels;
     }
 
-    public boolean isDefault() {
-        return isDefault;
+    public boolean isSelected() {
+        return isSelected;
     }
 
-    public void setDefault(boolean aDefault) {
-        isDefault = aDefault;
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
+
+    public boolean isFocused() {
+        return isFocused;
+    }
+
+    public void setFocused(boolean focused) {
+        isFocused = focused;
     }
 }

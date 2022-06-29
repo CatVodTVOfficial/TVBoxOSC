@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="@dimen/vs_45"
+    android:background="@drawable/button_home_sort_focus"
+    android:clickable="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="horizontal"
+    android:paddingLeft="@dimen/vs_20"
+    android:paddingRight="@dimen/vs_20">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:focusable="false"
+        android:gravity="center"
+        android:textColor="@color/color_BBFFFFFF"
+        android:textSize="@dimen/ts_30" />
+
+    <ImageView
+        android:id="@+id/tvFilter"
+        android:layout_width="@dimen/vs_30"
+        android:layout_height="@dimen/vs_30"
+        android:layout_gravity="center"
+        android:layout_marginStart="@dimen/vs_3"
+        android:layout_marginLeft="@dimen/vs_3"
+        android:src="@drawable/icon_filter"
+        android:visibility="gone" />
+</LinearLayout>

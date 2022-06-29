@@ -12,8 +12,10 @@ import com.github.tvbox.osc.R;
 import com.github.tvbox.osc.base.BaseLazyFragment;
 import com.github.tvbox.osc.bean.AbsXml;
 import com.github.tvbox.osc.bean.Movie;
+import com.github.tvbox.osc.bean.MovieSort;
 import com.github.tvbox.osc.ui.activity.DetailActivity;
 import com.github.tvbox.osc.ui.adapter.GridAdapter;
+import com.github.tvbox.osc.ui.dialog.GridFilterDialog;
 import com.github.tvbox.osc.ui.tv.widget.LoadMoreView;
 import com.github.tvbox.osc.util.FastClickCheckUtil;
 import com.github.tvbox.osc.viewmodel.SourceViewModel;
@@ -26,21 +28,22 @@ import com.owen.tvrecyclerview.widget.V7GridLayoutManager;
  * @description:
  */
 public class GridFragment extends BaseLazyFragment {
-    private String sortId = "";
+    private MovieSort.SortData sortData = null;
     private TvRecyclerView mGridView;
     private SourceViewModel sourceViewModel;
+    private GridFilterDialog gridFilterDialog;
     private GridAdapter gridAdapter;
     private int page = 1;
     private int maxPage = 1;
     private boolean isLoad = false;
     private boolean isTop = true;
 
-    public static GridFragment newInstance(String id) {
-        return new GridFragment().setArguments(id);
+    public static GridFragment newInstance(MovieSort.SortData sortData) {
+        return new GridFragment().setArguments(sortData);
     }
 
-    public GridFragment setArguments(String id) {
-        sortId = id;
+    public GridFragment setArguments(MovieSort.SortData sortData) {
+        this.sortData = sortData;
         return this;
     }
 
@@ -66,7 +69,7 @@ public class GridFragment extends BaseLazyFragment {
             @Override
             public void onLoadMoreRequested() {
                 gridAdapter.setEnableLoadMore(true);
-                sourceViewModel.getList(sortId, page);
+                sourceViewModel.getList(sortData, page);
             }
         }, mGridView);
         mGridView.setOnItemListener(new TvRecyclerView.OnItemListener() {
@@ -146,7 +149,7 @@ public class GridFragment extends BaseLazyFragment {
     private void initData() {
         showLoading();
         isLoad = false;
-        sourceViewModel.getList(sortId, page);
+        sourceViewModel.getList(sortData, page);
     }
 
     public boolean isTop() {
@@ -156,5 +159,21 @@ public class GridFragment extends BaseLazyFragment {
     public void scrollTop() {
         isTop = true;
         mGridView.scrollToPosition(0);
+    }
+
+    public void showFilter() {
+        if (!sortData.filters.isEmpty() && gridFilterDialog == null) {
+            gridFilterDialog = new GridFilterDialog(mContext);
+            gridFilterDialog.setData(sortData);
+            gridFilterDialog.setOnDismiss(new GridFilterDialog.Callback() {
+                @Override
+                public void change() {
+                    page = 1;
+                    initData();
+                }
+            });
+        }
+        if (gridFilterDialog != null)
+            gridFilterDialog.show();
     }
 }

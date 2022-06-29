@@ -47,6 +47,7 @@ public class VodInfo implements Serializable {
     public String playFlag = null;
     public int playIndex = 0;
     public String sourceKey;
+    public String playerCfg = "";
 
     public void setVideo(Movie.Video video) {
         last = video.last;

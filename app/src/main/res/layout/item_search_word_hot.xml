@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tvSearchWord"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:background="@drawable/shape_user_focus"
+    android:ellipsize="marquee"
+    android:focusable="true"
+    android:marqueeRepeatLimit="marquee_forever"
+    android:padding="@dimen/vs_10"
+    android:singleLine="true"
+    android:textAlignment="center"
+    android:textColor="@color/color_FFFFFF"
+    android:textSize="@dimen/ts_22" />

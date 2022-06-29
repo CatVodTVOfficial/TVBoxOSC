@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="color_058AF4">#058AF4</color>
     <color name="color_6200EE">#6200EE</color>
     <color name="color_3700B3">#3700B3</color>
     <color name="color_03DAC5">#03DAC5</color>
@@ -8,6 +7,7 @@
     <color name="color_FFB800">#FF6600</color>
     <color name="color_00FF0A">#00FF0A</color>
     <color name="color_CBF46A">#CBF46A</color>
+    <color name="color_BD0CADE2">#BD0CADE2</color>
     <color name="color_FF0057">#FF0057</color>
     <color name="color_FF5F00">#FF5F00</color>
     <color name="color_3D3D3D">#3D3D3D</color>
@@ -16,10 +16,11 @@
     <color name="color_CCFFFFFF">#BBFFFFFF</color>
     <color name="color_0CADE2">#0CADE2</color>
     <color name="color_6CFFFFFF">#6CFFFFFF</color>
-    <color name="color_99000000">#99000000</color>
     <color name="color_66000000">#66000000</color>
+    <color name="color_99000000">#99000000</color>
     <color name="color_CC000000">#CC000000</color>
     <color name="color_02F8E1">#02F8E1</color>
+    <color name="color_353744">#353744</color>
     <color name="color_CC353744">#CC353744</color>
     <color name="color_6C3D3D3D">#6c3d3d3d</color>
     <color name="color_BBFFFFFF">#bbffffff</color>

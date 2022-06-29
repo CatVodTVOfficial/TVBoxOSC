@@ -17,9 +17,11 @@ public class LiveChannel {
 
     private int channelNum;
     private String channelName;
-    private ArrayList<String> urls;
-    private boolean isDefault;
-    public int sourceIdx = 0;
+    private ArrayList<String> channelUrls;
+    private boolean isSelected = false;
+    private boolean isFocused = false;
+    public int sourceIndex = 0;
+    public int sourceNum = 0;
 
     public void setChannelNum(int channelNum) {
         this.channelNum = channelNum;
@@ -37,21 +39,44 @@ public class LiveChannel {
         return channelName;
     }
 
-    public String getUrls() {
-        if (sourceIdx <= 0 || sourceIdx >= urls.size())
-            sourceIdx = 0;
-        return urls.get(sourceIdx);
+    public ArrayList<String> getChannelUrls() { return channelUrls; }
+
+    public void setChannelUrls(ArrayList<String> channelUrls) {
+        this.channelUrls = channelUrls;
+        sourceNum = channelUrls.size();
+    }
+    public void preSource() {
+        sourceIndex--;
+        if (sourceIndex < 0) sourceIndex = sourceNum - 1;
+    }
+    public void nextSource() {
+        sourceIndex++;
+        if (sourceIndex == sourceNum) sourceIndex = 0;
     }
 
-    public boolean isDefault() {
-        return isDefault;
+    public int getSourceIndex() {
+        return sourceIndex;
     }
 
-    public void setDefault(boolean b) {
-        isDefault = b;
+    public String getUrl() {
+        return channelUrls.get(sourceIndex);
     }
 
-    public void setUrls(ArrayList<String> urls) {
-        this.urls = urls;
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean b) {
+        isSelected = b;
+    }
+
+    public int getSourceNum() { return sourceNum; }
+
+    public boolean isFocused() {
+        return isFocused;
+    }
+
+    public void setFocused(boolean focused) {
+        isFocused = focused;
     }
 }

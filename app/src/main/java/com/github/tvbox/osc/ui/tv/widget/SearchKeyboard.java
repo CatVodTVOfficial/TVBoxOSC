@@ -56,7 +56,7 @@ public class SearchKeyboard extends FrameLayout {
     }
 
     private void initView() {
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.keyboard_layout, this);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.layout_keyborad, this);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.mRecyclerView);
         GridLayoutManager manager = new GridLayoutManager(getContext(), 6);
         mRecyclerView.setLayoutManager(manager);
@@ -128,19 +128,12 @@ public class SearchKeyboard extends FrameLayout {
 
         private KeyboardAdapter(List<Keyboard> data) {
             super(data);
-            addItemType(1, R.layout.item_keyboard_1);
-            addItemType(2, R.layout.item_keyboard_2);
+            addItemType(1, R.layout.item_keyboard);
         }
 
         @Override
         protected void convert(BaseViewHolder helper, Keyboard item) {
             switch (helper.getItemViewType()) {
-                case 2:
-                    if (helper.getAdapterPosition() == mData.size() - 2) {
-                        helper.setImageResource(R.id.img, R.drawable.delete);
-                    } else if (helper.getAdapterPosition() == mData.size() - 1) {
-                        helper.setImageResource(R.id.img, R.drawable.clear);
-                    }
                 case 1:
                     helper.setText(R.id.keyName, item.key);
                     break;

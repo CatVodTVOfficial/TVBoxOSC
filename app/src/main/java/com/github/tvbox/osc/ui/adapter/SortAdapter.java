@@ -14,12 +14,11 @@ import java.util.ArrayList;
  */
 public class SortAdapter extends BaseQuickAdapter<MovieSort.SortData, BaseViewHolder> {
     public SortAdapter() {
-        super(R.layout.item_home_sort_layout, new ArrayList<>());
+        super(R.layout.item_home_sort, new ArrayList<>());
     }
 
     @Override
     protected void convert(BaseViewHolder helper, MovieSort.SortData item) {
         helper.setText(R.id.tvTitle, item.name);
-        helper.addOnClickListener(R.id.tvTitle);
     }
 }

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tvSearchWord"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/vs_5"
+    android:background="@drawable/button_dialog_main"
+    android:ellipsize="end"
+    android:focusable="true"
+    android:gravity="center_vertical"
+    android:padding="@dimen/vs_8"
+    android:singleLine="true"
+    android:textColor="@color/color_FFFFFF"
+    android:textSize="@dimen/ts_20" />

@@ -7,7 +7,7 @@ public final class LoadMoreView extends com.chad.library.adapter.base.loadmore.L
 
     @Override
     public int getLayoutId() {
-        return R.layout.view_load_more;
+        return R.layout.item_view_load_more;
     }
 
     @Override
