@@ -10,6 +10,10 @@ import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.github.tvbox.osc.base.App;
+import com.github.tvbox.osc.util.FileUtils;
+
+import java.io.File;
+import java.io.IOException;
 
 
 /**
@@ -19,7 +23,8 @@ import com.github.tvbox.osc.base.App;
  * @since 2020/5/15
  */
 public class AppDataManager {
-    private static final String DB_NAME = "tvbox_v2.db";
+    private static final int DB_FILE_VERSION = 3;
+    private static final String DB_NAME = "tvbox";
     private static AppDataManager manager;
     private static AppDataBase dbInstance;
 
@@ -101,12 +106,17 @@ public class AppDataManager {
         }
     };
 
+    static String dbPath() {
+        return DB_NAME + ".v" + DB_FILE_VERSION + ".db";
+    }
+
     public static AppDataBase get() {
         if (manager == null) {
             throw new RuntimeException("AppDataManager is no init");
         }
         if (dbInstance == null)
-            dbInstance = Room.databaseBuilder(App.getInstance(), AppDataBase.class, DB_NAME)
+            dbInstance = Room.databaseBuilder(App.getInstance(), AppDataBase.class, dbPath())
+                    .setJournalMode(RoomDatabase.JournalMode.TRUNCATE)
                     //.addMigrations(MIGRATION_1_2)
                     //.addMigrations(MIGRATION_2_3)
                     //.addMigrations(MIGRATION_3_4)
@@ -126,5 +136,32 @@ public class AppDataManager {
                     }).allowMainThreadQueries()//可以在主线程操作
                     .build();
         return dbInstance;
+    }
+
+    public static boolean backup(File path) throws IOException {
+        if (dbInstance != null && dbInstance.isOpen()) {
+            dbInstance.close();
+        }
+        File db = App.getInstance().getDatabasePath(dbPath());
+        if (db.exists()) {
+            FileUtils.copyFile(db, path);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static boolean restore(File path) throws IOException {
+        if (dbInstance != null && dbInstance.isOpen()) {
+            dbInstance.close();
+        }
+        File db = App.getInstance().getDatabasePath(dbPath());
+        if (db.exists()) {
+            db.delete();
+        }
+        if (!db.getParentFile().exists())
+            db.getParentFile().mkdirs();
+        FileUtils.copyFile(path, db);
+        return true;
     }
 }

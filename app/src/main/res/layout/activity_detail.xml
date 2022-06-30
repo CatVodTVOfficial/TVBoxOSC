@@ -54,6 +54,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/vs_10"
                         android:layout_marginRight="@dimen/vs_10"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:singleLine="true"
                         android:textColor="@color/color_CCFFFFFF"
                         android:textSize="@dimen/ts_20" />
 
@@ -63,6 +66,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/vs_10"
                         android:layout_marginRight="@dimen/vs_10"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:singleLine="true"
                         android:textColor="@color/color_CCFFFFFF"
                         android:textSize="@dimen/ts_20" />
 
@@ -72,6 +78,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/vs_10"
                         android:layout_marginRight="@dimen/vs_10"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:singleLine="true"
                         android:textColor="@color/color_CCFFFFFF"
                         android:textSize="@dimen/ts_20" />
 
@@ -81,6 +90,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/vs_10"
                         android:layout_marginRight="@dimen/vs_10"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:singleLine="true"
                         android:textColor="@color/color_CCFFFFFF"
                         android:textSize="@dimen/ts_20" />
 
@@ -90,13 +102,16 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/vs_10"
                         android:layout_marginRight="@dimen/vs_10"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:singleLine="true"
                         android:textColor="@color/color_CCFFFFFF"
                         android:textSize="@dimen/ts_20" />
                 </LinearLayout>
 
                 <TextView
                     android:id="@+id/tvActor"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/vs_5"
                     android:ellipsize="end"
@@ -106,7 +121,7 @@
 
                 <TextView
                     android:id="@+id/tvDirector"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/vs_5"
                     android:ellipsize="end"
@@ -116,7 +131,7 @@
 
                 <TextView
                     android:id="@+id/tvDes"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:lineSpacingMultiplier="1.2"
@@ -137,7 +152,7 @@
                     <TextView
                         android:id="@+id/tvPlay"
                         android:layout_width="@dimen/vs_120"
-                        android:layout_height="@dimen/vs_45"
+                        android:layout_height="@dimen/vs_40"
                         android:layout_marginEnd="@dimen/vs_10"
                         android:layout_marginRight="@dimen/vs_10"
                         android:background="@drawable/button_detail_play"
@@ -150,7 +165,7 @@
                     <TextView
                         android:id="@+id/tvQuickSearch"
                         android:layout_width="@dimen/vs_120"
-                        android:layout_height="@dimen/vs_45"
+                        android:layout_height="@dimen/vs_40"
                         android:layout_marginEnd="@dimen/vs_10"
                         android:layout_marginRight="@dimen/vs_10"
                         android:background="@drawable/button_detail_quick_search"
@@ -161,9 +176,22 @@
                         android:textSize="@dimen/vs_20" />
 
                     <TextView
+                        android:id="@+id/tvSort"
+                        android:layout_width="@dimen/vs_120"
+                        android:layout_height="@dimen/vs_40"
+                        android:layout_marginEnd="@dimen/vs_10"
+                        android:layout_marginRight="@dimen/vs_10"
+                        android:background="@drawable/button_detail_sort"
+                        android:focusable="true"
+                        android:gravity="center"
+                        android:text="倒序"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/vs_20" />
+
+                    <TextView
                         android:id="@+id/tvCollect"
                         android:layout_width="@dimen/vs_120"
-                        android:layout_height="@dimen/vs_45"
+                        android:layout_height="@dimen/vs_40"
                         android:background="@drawable/button_detail_collect"
                         android:focusable="true"
                         android:gravity="center"

@@ -81,6 +81,22 @@ public class SearchActivity extends BaseActivity {
         initData();
     }
 
+    private List<Runnable> pauseRunnable = null;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (pauseRunnable != null && pauseRunnable.size() > 0) {
+            searchExecutorService = Executors.newFixedThreadPool(5);
+            allRunCount.set(pauseRunnable.size());
+            for (Runnable runnable : pauseRunnable) {
+                searchExecutorService.execute(runnable);
+            }
+            pauseRunnable.clear();
+            pauseRunnable = null;
+        }
+    }
+
     private void initView() {
         EventBus.getDefault().register(this);
         llLayout = findViewById(R.id.llLayout);
@@ -115,6 +131,14 @@ public class SearchActivity extends BaseActivity {
                 FastClickCheckUtil.check(view);
                 Movie.Video video = searchAdapter.getData().get(position);
                 if (video != null) {
+                    try {
+                        if (searchExecutorService != null) {
+                            pauseRunnable = searchExecutorService.shutdownNow();
+                            searchExecutorService = null;
+                        }
+                    } catch (Throwable th) {
+                        th.printStackTrace();
+                    }
                     Bundle bundle = new Bundle();
                     bundle.putString("id", video.id);
                     bundle.putString("sourceKey", video.sourceKey);
@@ -285,6 +309,7 @@ public class SearchActivity extends BaseActivity {
         try {
             if (searchExecutorService != null) {
                 searchExecutorService.shutdownNow();
+                searchExecutorService = null;
             }
         } catch (Throwable th) {
             th.printStackTrace();
@@ -353,6 +378,7 @@ public class SearchActivity extends BaseActivity {
         try {
             if (searchExecutorService != null) {
                 searchExecutorService.shutdownNow();
+                searchExecutorService = null;
             }
         } catch (Throwable th) {
             th.printStackTrace();

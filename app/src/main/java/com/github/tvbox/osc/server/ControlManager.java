@@ -15,6 +15,8 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
 
+import tv.danmaku.ijk.media.player.IjkMediaPlayer;
+
 /**
  * @author pj567
  * @date :2021/1/4
@@ -71,7 +73,6 @@ public class ControlManager {
 
                 @Override
                 public void onApiReceived(String url) {
-                    Hawk.put(HawkConfig.API_URL, url);
                     EventBus.getDefault().post(new RefreshEvent(RefreshEvent.TYPE_API_URL_CHANGE, url));
                 }
 
@@ -82,6 +83,7 @@ public class ControlManager {
             });
             try {
                 mServer.start();
+                IjkMediaPlayer.setDotPort(Hawk.get(HawkConfig.DOH_URL, 0) > 0, RemoteServer.serverPort);
                 break;
             } catch (IOException ex) {
                 RemoteServer.serverPort++;

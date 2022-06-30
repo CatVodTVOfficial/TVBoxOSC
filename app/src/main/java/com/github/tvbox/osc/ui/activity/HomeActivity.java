@@ -406,9 +406,7 @@ public class HomeActivity extends BaseActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void refresh(RefreshEvent event) {
-        if (event.type == RefreshEvent.TYPE_API_URL_CHANGE) {
-            Toast.makeText(mContext, "配置地址设置为" + (String) event.obj + ",重启应用生效!", Toast.LENGTH_SHORT).show();
-        } else if (event.type == RefreshEvent.TYPE_PUSH_URL) {
+        if (event.type == RefreshEvent.TYPE_PUSH_URL) {
             if (ApiConfig.get().getSource("push_agent") != null) {
                 Intent newIntent = new Intent(mContext, DetailActivity.class);
                 newIntent.putExtra("id", (String) event.obj);
