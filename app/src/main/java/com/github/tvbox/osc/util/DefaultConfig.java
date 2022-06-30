@@ -26,6 +26,8 @@ public class DefaultConfig {
         List<MovieSort.SortData> data = new ArrayList<>();
         if (sourceKey != null) {
             for (MovieSort.SortData sortData : list) {
+                if (sortData.filters == null)
+                    sortData.filters = new ArrayList<>();
                 data.add(sortData);
             }
         }

@@ -173,7 +173,7 @@ public class SettingActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if ((homeSourceKey != null && !homeSourceKey.equals(ApiConfig.get().getHomeSourceBean().getKey())) ||
+        if ((homeSourceKey != null && !homeSourceKey.equals(Hawk.get(HawkConfig.HOME_API, ""))) ||
                 !currentApi.equals(Hawk.get(HawkConfig.API_URL, ""))) {
             AppManager.getInstance().finishAllActivity();
             if (currentApi.equals(Hawk.get(HawkConfig.API_URL, ""))) {
