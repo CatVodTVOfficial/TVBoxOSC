@@ -38,7 +38,7 @@
                 android:paddingRight="@dimen/vs_5"
                 android:singleLine="true"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/ts_16" />
+                android:textSize="@dimen/ts_20" />
 
         </LinearLayout>
 
@@ -54,13 +54,13 @@
                 android:id="@+id/tvName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/shape_thumb_buttom_name"
+                android:background="@drawable/shape_thumb_bottom_name"
                 android:ellipsize="marquee"
                 android:marqueeRepeatLimit="marquee_forever"
                 android:padding="@dimen/vs_5"
                 android:singleLine="true"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/ts_20" />
+                android:textSize="@dimen/ts_22" />
         </LinearLayout>
     </FrameLayout>
 </FrameLayout>

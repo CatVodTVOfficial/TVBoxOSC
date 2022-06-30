@@ -11,14 +11,9 @@ import com.github.tvbox.osc.bean.ParseBean;
 
 import java.util.ArrayList;
 
-/**
- * @author pj567
- * @date :2021/3/9
- * @description:
- */
-public class ParseDialogAdapter extends BaseQuickAdapter<ParseBean, BaseViewHolder> {
-    public ParseDialogAdapter() {
-        super(R.layout.item_dialog_parse, new ArrayList<>());
+public class ParseAdapter extends BaseQuickAdapter<ParseBean, BaseViewHolder> {
+    public ParseAdapter() {
+        super(R.layout.item_play_parse, new ArrayList<>());
     }
 
     @Override

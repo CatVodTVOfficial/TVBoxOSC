@@ -8,12 +8,14 @@ import android.os.Environment;
 import com.github.tvbox.osc.R;
 import com.github.tvbox.osc.api.ApiConfig;
 import com.github.tvbox.osc.event.ServerEvent;
+import com.github.tvbox.osc.util.OkGoHelper;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -137,6 +139,15 @@ public class RemoteServer extends NanoHTTPD {
                     } catch (Throwable th) {
                         return NanoHTTPD.newFixedLengthResponse(NanoHTTPD.Response.Status.INTERNAL_ERROR, NanoHTTPD.MIME_PLAINTEXT, th.getMessage());
                     }
+                } else if (fileName.equals("/dns-query")) {
+                    String name = session.getParms().get("name");
+                    byte[] rs = null;
+                    try {
+                        rs = OkGoHelper.dnsOverHttps.lookupHttpsForwardSync(name);
+                    } catch (Throwable th) {
+                        rs = new byte[0];
+                    }
+                    return NanoHTTPD.newFixedLengthResponse(NanoHTTPD.Response.Status.OK, "application/dns-message", new ByteArrayInputStream(rs), rs.length);
                 }
             } else if (session.getMethod() == Method.POST) {
                 Map<String, String> files = new HashMap<String, String>();

@@ -430,7 +430,7 @@ public class SourceViewModel extends ViewModel {
                         sortFilters.put(key, sortFilter);
                     }
                     for (MovieSort.SortData sort : data.movieSort.sortList) {
-                        if (sortFilters.containsKey(sort.id)) {
+                        if (sortFilters.containsKey(sort.id) && sortFilters.get(sort.id) != null) {
                             sort.filters = sortFilters.get(sort.id);
                         }
                     }

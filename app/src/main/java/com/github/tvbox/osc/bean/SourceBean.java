@@ -1,11 +1,5 @@
 package com.github.tvbox.osc.bean;
 
-import com.github.tvbox.osc.cache.RoomDataManger;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.util.HashMap;
-
 /**
  * @author pj567
  * @date :2020/12/18

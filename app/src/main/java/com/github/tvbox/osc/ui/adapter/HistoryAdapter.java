@@ -1,7 +1,6 @@
 package com.github.tvbox.osc.ui.adapter;
 
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -38,7 +37,7 @@ public class HistoryAdapter extends BaseQuickAdapter<VodInfo, BaseViewHolder> {
             tvYear.setVisibility(View.VISIBLE);
         }*/
         tvYear.setText(ApiConfig.get().getSource(item.sourceKey).getName());
-        TextView tvLang = helper.getView(R.id.tvLang);
+        /*TextView tvLang = helper.getView(R.id.tvLang);
         if (TextUtils.isEmpty(item.lang)) {
             tvLang.setVisibility(View.GONE);
         } else {
@@ -59,9 +58,12 @@ public class HistoryAdapter extends BaseQuickAdapter<VodInfo, BaseViewHolder> {
         } else {
             tvNote.setText(item.note);
             tvNote.setVisibility(View.VISIBLE);
-        }
+        }*/
+        helper.setVisible(R.id.tvLang, false);
+        helper.setVisible(R.id.tvArea, false);
+        helper.setVisible(R.id.tvNote, false);
         helper.setText(R.id.tvName, item.name);
-        helper.setText(R.id.tvActor, item.actor);
+        // helper.setText(R.id.tvActor, item.actor);
         ImageView ivThumb = helper.getView(R.id.ivThumb);
         //由于部分电视机使用glide报错
         if (!TextUtils.isEmpty(item.pic)) {

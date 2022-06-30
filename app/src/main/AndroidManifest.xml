@@ -55,6 +55,9 @@
         <activity
             android:name=".ui.activity.HistoryActivity"
             android:screenOrientation="landscape" />
+        <activity
+            android:name=".ui.activity.CollectActivity"
+            android:screenOrientation="landscape" />
 
         <receiver android:name=".receiver.SearchReceiver">
             <intent-filter>

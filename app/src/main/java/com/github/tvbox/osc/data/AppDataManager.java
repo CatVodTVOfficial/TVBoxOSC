@@ -19,7 +19,7 @@ import com.github.tvbox.osc.base.App;
  * @since 2020/5/15
  */
 public class AppDataManager {
-    private static final String DB_NAME = "tvbox_v1.db";
+    private static final String DB_NAME = "tvbox_v2.db";
     private static AppDataManager manager;
     private static AppDataBase dbInstance;
 

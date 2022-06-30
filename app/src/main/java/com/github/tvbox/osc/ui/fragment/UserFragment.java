@@ -10,6 +10,7 @@ import com.github.tvbox.osc.R;
 import com.github.tvbox.osc.api.ApiConfig;
 import com.github.tvbox.osc.base.BaseLazyFragment;
 import com.github.tvbox.osc.event.ServerEvent;
+import com.github.tvbox.osc.ui.activity.CollectActivity;
 import com.github.tvbox.osc.ui.activity.HistoryActivity;
 import com.github.tvbox.osc.ui.activity.LivePlayActivity;
 import com.github.tvbox.osc.ui.activity.PushActivity;
@@ -32,6 +33,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * @author pj567
@@ -43,6 +45,7 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
     private LinearLayout tvSearch;
     private LinearLayout tvSetting;
     private LinearLayout tvHistory;
+    private LinearLayout tvCollect;
     private LinearLayout tvPush;
 
     public static UserFragment newInstance() {
@@ -60,6 +63,7 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
         tvLive = findViewById(R.id.tvLive);
         tvSearch = findViewById(R.id.tvSearch);
         tvSetting = findViewById(R.id.tvSetting);
+        tvCollect = findViewById(R.id.tvFavorite);
         tvHistory = findViewById(R.id.tvHistory);
         tvPush = findViewById(R.id.tvPush);
         tvLive.setOnClickListener(this);
@@ -67,11 +71,13 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
         tvSetting.setOnClickListener(this);
         tvHistory.setOnClickListener(this);
         tvPush.setOnClickListener(this);
+        tvCollect.setOnClickListener(this);
         tvLive.setOnFocusChangeListener(focusChangeListener);
         tvSearch.setOnFocusChangeListener(focusChangeListener);
         tvSetting.setOnFocusChangeListener(focusChangeListener);
         tvHistory.setOnFocusChangeListener(focusChangeListener);
         tvPush.setOnFocusChangeListener(focusChangeListener);
+        tvCollect.setOnFocusChangeListener(focusChangeListener);
         TvRecyclerView tvHotList = findViewById(R.id.tvHotList);
         HomeHotVodAdapter adapter = new HomeHotVodAdapter();
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -109,20 +115,25 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
 
     private void initHomeHotVod(HomeHotVodAdapter adapter) {
         try {
-            long time = Hawk.get("douban_hot_date", 0L);
-            if (System.currentTimeMillis() - time < 6 * 60 * 60 * 1000) {
-                String json = Hawk.get("douboan_hot", "");
+            Calendar cal = Calendar.getInstance();
+            int year = cal.get(Calendar.YEAR);
+            int month = cal.get(Calendar.MONTH) + 1;
+            int day = cal.get(Calendar.DATE);
+            String today = String.format("%d%d%d", year, month, day);
+            String requestDay = Hawk.get("home_hot_day", "");
+            if (requestDay.equals(today)) {
+                String json = Hawk.get("home_hot", "");
                 if (!json.isEmpty()) {
                     adapter.setNewData(loadHots(json));
                     return;
                 }
             }
-            OkGo.<String>get("https://movie.douban.com/j/new_search_subjects?sort=R&range=0,10&tags=&playable=1&start=0").execute(new AbsCallback<String>() {
+            OkGo.<String>get("https://movie.douban.com/j/new_search_subjects?sort=U&range=0,10&tags=&playable=1&start=0&year_range=" + year + "," + year).execute(new AbsCallback<String>() {
                 @Override
                 public void onSuccess(Response<String> response) {
                     String netJson = response.body();
-                    Hawk.put("douban_hot_date", System.currentTimeMillis());
-                    Hawk.put("douboan_hot", netJson);
+                    Hawk.put("home_hot_day", today);
+                    Hawk.put("home_hot", netJson);
                     mActivity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -179,6 +190,8 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
             jumpActivity(HistoryActivity.class);
         } else if (v.getId() == R.id.tvPush) {
             jumpActivity(PushActivity.class);
+        } else if (v.getId() == R.id.tvFavorite) {
+            jumpActivity(CollectActivity.class);
         }
     }
 

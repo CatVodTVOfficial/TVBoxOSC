@@ -13,7 +13,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -52,7 +51,6 @@ public class RoomDataManger {
         record.sourceKey = sourceKey;
         record.vodId = vodInfo.id;
         record.updateTime = System.currentTimeMillis();
-        record.data = null;
         record.dataJson = getVodInfoGson().toJson(vodInfo);
         AppDataManager.get().getVodRecordDao().insert(record);
     }
@@ -63,7 +61,7 @@ public class RoomDataManger {
             if (record != null && record.dataJson != null && !TextUtils.isEmpty(record.dataJson)) {
                 VodInfo vodInfo = getVodInfoGson().fromJson(record.dataJson, new TypeToken<VodInfo>() {
                 }.getType());
-                if (vodInfo.name == null || vodInfo.type == null)
+                if (vodInfo.name == null)
                     return null;
                 return vodInfo;
             }
@@ -92,7 +90,7 @@ public class RoomDataManger {
                         }.getType());
                         info.sourceKey = record.sourceKey;
                         SourceBean sourceBean = ApiConfig.get().getSource(info.sourceKey);
-                        if (sourceBean == null || info.name == null || info.type == null)
+                        if (sourceBean == null || info.name == null)
                             info = null;
                     }
                 } catch (Exception e) {
@@ -103,5 +101,27 @@ public class RoomDataManger {
             }
         }
         return vodInfoList;
+    }
+
+    public static void insertVodCollect(String sourceKey, VodInfo vodInfo) {
+        VodCollect record = AppDataManager.get().getVodCollectDao().getVodCollect(sourceKey, vodInfo.id);
+        if (record != null) {
+            return;
+        }
+        record = new VodCollect();
+        record.sourceKey = sourceKey;
+        record.vodId = vodInfo.id;
+        record.updateTime = System.currentTimeMillis();
+        record.name = vodInfo.name;
+        record.pic = vodInfo.pic;
+        AppDataManager.get().getVodCollectDao().insert(record);
+    }
+
+    public static void deleteVodCollect(int id) {
+        AppDataManager.get().getVodCollectDao().delete(id);
+    }
+
+    public static List<VodCollect> getAllVodCollect() {
+        return AppDataManager.get().getVodCollectDao().getAll();
     }
 }

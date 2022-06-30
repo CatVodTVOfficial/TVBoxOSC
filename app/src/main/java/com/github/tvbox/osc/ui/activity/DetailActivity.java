@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -42,6 +43,7 @@ import com.squareup.picasso.Picasso;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONObject;
 
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -69,7 +71,9 @@ public class DetailActivity extends BaseActivity {
     private TextView tvDirector;
     private TextView tvDes;
     private TextView tvPlay;
+    private TextView tvSort;
     private TextView tvQuickSearch;
+    private TextView tvCollect;
     private TvRecyclerView mGridViewFlag;
     private TvRecyclerView mGridView;
     private LinearLayout mEmptyPlayList;
@@ -109,6 +113,8 @@ public class DetailActivity extends BaseActivity {
         tvDirector = findViewById(R.id.tvDirector);
         tvDes = findViewById(R.id.tvDes);
         tvPlay = findViewById(R.id.tvPlay);
+        tvSort = findViewById(R.id.tvSort);
+        tvCollect = findViewById(R.id.tvCollect);
         tvQuickSearch = findViewById(R.id.tvQuickSearch);
         mEmptyPlayList = findViewById(R.id.mEmptyPlaylist);
         mGridView = findViewById(R.id.mGridView);
@@ -121,6 +127,17 @@ public class DetailActivity extends BaseActivity {
         mGridViewFlag.setLayoutManager(new V7LinearLayoutManager(this.mContext, 0, false));
         seriesFlagAdapter = new SeriesFlagAdapter();
         mGridViewFlag.setAdapter(seriesFlagAdapter);
+        tvSort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (vodInfo != null && vodInfo.seriesMap.size() > 0) {
+                    vodInfo.reverseSort = !vodInfo.reverseSort;
+                    vodInfo.reverse();
+                    insertVod(sourceKey, vodInfo);
+                    seriesAdapter.notifyDataSetChanged();
+                }
+            }
+        });
         tvPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -136,6 +153,13 @@ public class DetailActivity extends BaseActivity {
                 EventBus.getDefault().post(new RefreshEvent(RefreshEvent.TYPE_QUICK_SEARCH, quickSearchData));
                 EventBus.getDefault().post(new RefreshEvent(RefreshEvent.TYPE_QUICK_SEARCH_WORD, quickSearchWord));
                 quickSearchDialog.show();
+            }
+        });
+        tvCollect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RoomDataManger.insertVodCollect(sourceKey, vodInfo);
+                Toast.makeText(DetailActivity.this, "已加入收藏夹", Toast.LENGTH_SHORT).show();
             }
         });
         mGridView.setOnItemListener(new TvRecyclerView.OnItemListener() {
@@ -301,9 +325,17 @@ public class DetailActivity extends BaseActivity {
                         if (vodInfoRecord != null) {
                             vodInfo.playIndex = Math.max(vodInfoRecord.playIndex, 0);
                             vodInfo.playFlag = vodInfoRecord.playFlag;
+                            vodInfo.playerCfg = vodInfoRecord.playerCfg;
+                            vodInfo.reverseSort = vodInfoRecord.reverseSort;
                         } else {
                             vodInfo.playIndex = 0;
                             vodInfo.playFlag = null;
+                            vodInfo.playerCfg = "";
+                            vodInfo.reverseSort = false;
+                        }
+
+                        if (vodInfo.reverseSort) {
+                            vodInfo.reverse();
                         }
 
                         if (vodInfo.playFlag == null || !vodInfo.seriesMap.containsKey(vodInfo.playFlag))
@@ -365,17 +397,24 @@ public class DetailActivity extends BaseActivity {
     public void refresh(RefreshEvent event) {
         if (event.type == RefreshEvent.TYPE_REFRESH) {
             if (event.obj != null) {
-                int index = (int) event.obj;
-                if (index != vodInfo.playIndex) {
-                    seriesAdapter.getData().get(vodInfo.playIndex).selected = false;
-                    seriesAdapter.notifyItemChanged(vodInfo.playIndex);
-                    seriesAdapter.getData().get(index).selected = true;
-                    seriesAdapter.notifyItemChanged(index);
-                    mGridView.setSelection(index);
-                    vodInfo.playIndex = index;
+                if (event.obj instanceof Integer) {
+                    int index = (int) event.obj;
+                    if (index != vodInfo.playIndex) {
+                        seriesAdapter.getData().get(vodInfo.playIndex).selected = false;
+                        seriesAdapter.notifyItemChanged(vodInfo.playIndex);
+                        seriesAdapter.getData().get(index).selected = true;
+                        seriesAdapter.notifyItemChanged(index);
+                        mGridView.setSelection(index);
+                        vodInfo.playIndex = index;
+                        //保存历史
+                        insertVod(sourceKey, vodInfo);
+                    }
+                } else if (event.obj instanceof JSONObject) {
+                    vodInfo.playerCfg = ((JSONObject) event.obj).toString();
                     //保存历史
                     insertVod(sourceKey, vodInfo);
                 }
+
             }
         } else if (event.type == RefreshEvent.TYPE_QUICK_SEARCH_SELECT) {
             if (event.obj != null) {

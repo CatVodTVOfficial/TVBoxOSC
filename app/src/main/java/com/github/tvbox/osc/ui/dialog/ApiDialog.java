@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.github.tvbox.osc.R;
+import com.github.tvbox.osc.event.RefreshEvent;
 import com.github.tvbox.osc.server.ControlManager;
 import com.github.tvbox.osc.ui.adapter.ApiHistoryDialogAdapter;
 import com.github.tvbox.osc.ui.tv.QRCodeGen;
@@ -20,6 +21,8 @@ import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
 import com.orhanobut.hawk.Hawk;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -37,6 +40,13 @@ public class ApiDialog extends BaseDialog {
     private ImageView ivQRCode;
     private TextView tvAddress;
     private EditText inputApi;
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void refresh(RefreshEvent event) {
+        if (event.type == RefreshEvent.TYPE_API_URL_CHANGE) {
+            inputApi.setText((String) event.obj);
+        }
+    }
 
     public ApiDialog(@NonNull @NotNull Context context) {
         super(context);
