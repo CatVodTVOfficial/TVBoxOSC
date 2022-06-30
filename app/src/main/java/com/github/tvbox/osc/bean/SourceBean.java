@@ -69,8 +69,8 @@ public class SourceBean {
         this.searchable = searchable;
     }
 
-    public int getQuickSearch() {
-        return quickSearch;
+    public boolean isQuickSearch() {
+        return quickSearch != 0;
     }
 
     public void setQuickSearch(int quickSearch) {
