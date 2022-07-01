@@ -78,8 +78,8 @@ public class RoomDataManger {
         }
     }
 
-    public static List<VodInfo> getAllVodRecord() {
-        List<VodRecord> recordList = AppDataManager.get().getVodRecordDao().getAll();
+    public static List<VodInfo> getAllVodRecord(int limit) {
+        List<VodRecord> recordList = AppDataManager.get().getVodRecordDao().getAll(limit);
         List<VodInfo> vodInfoList = new ArrayList<>();
         if (recordList != null) {
             for (VodRecord record : recordList) {
