@@ -142,7 +142,7 @@ public class HistoryActivity extends BaseActivity {
     }
 
     private void initData() {
-        List<VodInfo> allVodRecord = RoomDataManger.getAllVodRecord();
+        List<VodInfo> allVodRecord = RoomDataManger.getAllVodRecord(100);
         List<VodInfo> vodInfoList = new ArrayList<>();
         for (VodInfo vodInfo : allVodRecord) {
             vodInfoList.add(vodInfo);

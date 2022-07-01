@@ -1,6 +1,7 @@
 package com.github.tvbox.osc.ui.fragment;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.view.animation.BounceInterpolator;
 import android.widget.LinearLayout;
@@ -9,8 +10,12 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.github.tvbox.osc.R;
 import com.github.tvbox.osc.api.ApiConfig;
 import com.github.tvbox.osc.base.BaseLazyFragment;
+import com.github.tvbox.osc.bean.Movie;
+import com.github.tvbox.osc.bean.VodInfo;
+import com.github.tvbox.osc.cache.RoomDataManger;
 import com.github.tvbox.osc.event.ServerEvent;
 import com.github.tvbox.osc.ui.activity.CollectActivity;
+import com.github.tvbox.osc.ui.activity.DetailActivity;
 import com.github.tvbox.osc.ui.activity.HistoryActivity;
 import com.github.tvbox.osc.ui.activity.LivePlayActivity;
 import com.github.tvbox.osc.ui.activity.PushActivity;
@@ -18,6 +23,7 @@ import com.github.tvbox.osc.ui.activity.SearchActivity;
 import com.github.tvbox.osc.ui.activity.SettingActivity;
 import com.github.tvbox.osc.ui.adapter.HomeHotVodAdapter;
 import com.github.tvbox.osc.util.FastClickCheckUtil;
+import com.github.tvbox.osc.util.HawkConfig;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -34,6 +40,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * @author pj567
@@ -47,9 +54,40 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
     private LinearLayout tvHistory;
     private LinearLayout tvCollect;
     private LinearLayout tvPush;
+    private HomeHotVodAdapter homeHotVodAdapter;
+    private List<Movie.Video> homeSourceRec;
 
     public static UserFragment newInstance() {
         return new UserFragment();
+    }
+
+    public static UserFragment newInstance(List<Movie.Video> recVod) {
+        return new UserFragment().setArguments(recVod);
+    }
+
+    public UserFragment setArguments(List<Movie.Video> recVod) {
+        this.homeSourceRec = recVod;
+        return this;
+    }
+
+    @Override
+    protected void onFragmentResume() {
+        super.onFragmentResume();
+        if (Hawk.get(HawkConfig.HOME_REC, 0) == 2) {
+            List<VodInfo> allVodRecord = RoomDataManger.getAllVodRecord(10);
+            List<Movie.Video> vodList = new ArrayList<>();
+            for (VodInfo vodInfo : allVodRecord) {
+                Movie.Video vod = new Movie.Video();
+                vod.id = vodInfo.id;
+                vod.sourceKey = vodInfo.sourceKey;
+                vod.name = vodInfo.name;
+                vod.pic = vodInfo.pic;
+                if (vodInfo.playNote != null && !vodInfo.playNote.isEmpty())
+                    vod.note = "上次看到" + vodInfo.playNote;
+                vodList.add(vod);
+            }
+            homeHotVodAdapter.setNewData(vodList);
+        }
     }
 
     @Override
@@ -79,17 +117,24 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
         tvPush.setOnFocusChangeListener(focusChangeListener);
         tvCollect.setOnFocusChangeListener(focusChangeListener);
         TvRecyclerView tvHotList = findViewById(R.id.tvHotList);
-        HomeHotVodAdapter adapter = new HomeHotVodAdapter();
-        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+        homeHotVodAdapter = new HomeHotVodAdapter();
+        homeHotVodAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (ApiConfig.get().getSourceBeanList().isEmpty())
                     return;
-                String title = ((HomeHotVodAdapter.HotVod) adapter.getItem(position)).getName();
-                Intent newIntent = new Intent(mContext, SearchActivity.class);
-                newIntent.putExtra("title", title);
-                newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                mActivity.startActivity(newIntent);
+                Movie.Video vod = ((Movie.Video) adapter.getItem(position));
+                if (vod.id != null && !vod.id.isEmpty()) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("id", vod.id);
+                    bundle.putString("sourceKey", vod.sourceKey);
+                    jumpActivity(DetailActivity.class, bundle);
+                } else {
+                    Intent newIntent = new Intent(mContext, SearchActivity.class);
+                    newIntent.putExtra("title", vod.name);
+                    newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    mActivity.startActivity(newIntent);
+                }
             }
         });
         tvHotList.setOnItemListener(new TvRecyclerView.OnItemListener() {
@@ -108,12 +153,20 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
 
             }
         });
-        tvHotList.setAdapter(adapter);
+        tvHotList.setAdapter(homeHotVodAdapter);
 
-        initHomeHotVod(adapter);
+        initHomeHotVod(homeHotVodAdapter);
     }
 
     private void initHomeHotVod(HomeHotVodAdapter adapter) {
+        if (Hawk.get(HawkConfig.HOME_REC, 0) == 1) {
+            if (homeSourceRec != null) {
+                adapter.setNewData(homeSourceRec);
+            }
+            return;
+        } else if (Hawk.get(HawkConfig.HOME_REC, 0) == 2) {
+            return;
+        }
         try {
             Calendar cal = Calendar.getInstance();
             int year = cal.get(Calendar.YEAR);
@@ -152,14 +205,18 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
         }
     }
 
-    private ArrayList<HomeHotVodAdapter.HotVod> loadHots(String json) {
-        ArrayList<HomeHotVodAdapter.HotVod> result = new ArrayList<>();
+    private ArrayList<Movie.Video> loadHots(String json) {
+        ArrayList<Movie.Video> result = new ArrayList<>();
         try {
             JsonObject infoJson = new Gson().fromJson(json, JsonObject.class);
             JsonArray array = infoJson.getAsJsonArray("data");
             for (JsonElement ele : array) {
                 JsonObject obj = (JsonObject) ele;
-                result.add(new HomeHotVodAdapter.HotVod(obj.get("title").getAsString(), obj.get("rate").getAsString(), obj.get("cover").getAsString()));
+                Movie.Video vod = new Movie.Video();
+                vod.name = obj.get("title").getAsString();
+                vod.note = obj.get("rate").getAsString();
+                vod.pic = obj.get("cover").getAsString();
+                result.add(vod);
             }
         } catch (Throwable th) {
 
