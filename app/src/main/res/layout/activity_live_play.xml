@@ -4,24 +4,52 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.dueeeke.videoplayer.player.VideoView
+    <xyz.doikki.videoplayer.player.VideoView
         android:id="@+id/mVideoView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.owen.tvrecyclerview.widget.TvRecyclerView
-        android:id="@+id/mGridView"
-        android:layout_width="220mm"
+    <LinearLayout
+        android:id="@+id/tvLeftLinearLayout"
+        android:layout_width="421mm"
         android:layout_height="match_parent"
-        android:layout_marginLeft="-220mm"
-        android:background="@color/color_66000000"
-        android:paddingLeft="10mm"
-        android:paddingTop="20mm"
-        android:paddingRight="10mm"
-        android:paddingBottom="20mm"
-        android:visibility="gone"
-        app:tv_selectedItemIsCentered="true"
-        app:tv_verticalSpacingWithMargins="20mm" />
+        android:layout_marginLeft="-421mm"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="visible" >
+
+        <com.owen.tvrecyclerview.widget.TvRecyclerView
+            android:id="@+id/mGroupGridView"
+            android:layout_width="180mm"
+            android:layout_height="match_parent"
+            android:background="@color/color_66000000"
+            android:paddingLeft="5mm"
+            android:paddingTop="10mm"
+            android:paddingRight="5mm"
+            android:paddingBottom="10mm"
+            android:visibility="visible"
+            app:tv_selectedItemIsCentered="true"
+            app:tv_verticalSpacingWithMargins="10mm" />
+
+        <View
+            android:layout_width="1mm"
+            android:layout_height="match_parent"
+            android:background="@color/color_FFFFFF"
+            android:layout_gravity="center_horizontal" />
+
+        <com.owen.tvrecyclerview.widget.TvRecyclerView
+            android:id="@+id/mChannelGridView"
+            android:layout_width="240mm"
+            android:layout_height="match_parent"
+            android:background="@color/color_66000000"
+            android:paddingLeft="5mm"
+            android:paddingTop="10mm"
+            android:paddingRight="5mm"
+            android:paddingBottom="10mm"
+            android:visibility="visible"
+            app:tv_selectedItemIsCentered="true"
+            app:tv_verticalSpacingWithMargins="10mm" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tvChannel"
@@ -30,7 +58,7 @@
         android:layout_gravity="right"
         android:layout_marginTop="30mm"
         android:layout_marginRight="60mm"
-        android:background="@drawable/channel_num_shape"
+        android:background="@drawable/shape_live_channel_num"
         android:gravity="center"
         android:paddingTop="5mm"
         android:paddingBottom="5mm"
@@ -40,31 +68,13 @@
         android:visibility="gone" />
 
     <TextView
-        android:id="@+id/tvUrl"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right|bottom"
-        android:layout_marginRight="30mm"
-        android:layout_marginBottom="90mm"
-        android:background="@drawable/channel_num_shape"
-        android:gravity="center"
-        android:paddingLeft="10mm"
-        android:paddingTop="5mm"
-        android:paddingRight="10mm"
-        android:paddingBottom="5mm"
-        android:singleLine="true"
-        android:text="http://"
-        android:textColor="@android:color/white"
-        android:textSize="24mm" />
-
-    <TextView
         android:id="@+id/tvHint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right|bottom"
         android:layout_marginRight="30mm"
         android:layout_marginBottom="30mm"
-        android:background="@drawable/channel_num_shape"
+        android:background="@drawable/shape_live_channel_num"
         android:gravity="center"
         android:paddingLeft="10mm"
         android:paddingTop="5mm"

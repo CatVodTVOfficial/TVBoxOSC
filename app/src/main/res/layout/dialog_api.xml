@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/vs_360"
+        android:layout_gravity="center"
+        android:background="@drawable/shape_dialog_bg_main"
+        android:orientation="horizontal"
+        android:padding="@dimen/vs_30">
+
+
+        <ImageView
+            android:id="@+id/ivQRCode"
+            android:layout_width="@dimen/vs_300"
+            android:layout_height="@dimen/vs_300"
+            android:layout_gravity="center"
+            android:focusable="false" />
+
+        <LinearLayout
+            android:layout_width="@dimen/vs_480"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/vs_20"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/tvAddress"
+                android:layout_width="@dimen/vs_480"
+                android:layout_height="wrap_content"
+                android:lineSpacingMultiplier="1.5"
+                android:textColor="@color/color_CC000000"
+                android:textSize="@dimen/ts_24"
+                tools:text="1111111111111111111111111111111111111111111111111111" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/vs_0"
+                android:layout_weight="1" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/vs_10"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/apiHistory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/vs_5"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_dialog_main"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:padding="@dimen/vs_10"
+                    android:text="配置历史"
+                    android:textColor="@color/color_FFFFFF"
+                    android:textSize="@dimen/ts_22" />
+
+                <TextView
+                android:id="@+id/storagePermission"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/vs_5"
+                android:layout_weight="1"
+                android:background="@drawable/button_dialog_main"
+                android:focusable="true"
+                android:gravity="center"
+                android:padding="@dimen/vs_10"
+                android:text="存储权限"
+                android:textColor="@color/color_FFFFFF"
+                android:textSize="@dimen/ts_22" />
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/vs_0"
+                android:layout_weight="1" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/input_dialog_api_input"
+                    android:hint="请输入配置地址"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:paddingLeft="@dimen/vs_2"
+                    android:paddingTop="@dimen/vs_10"
+                    android:paddingRight="@dimen/vs_2"
+                    android:paddingBottom="@dimen/vs_10"
+                    android:textColor="@color/color_CC000000"
+                    android:textColorHint="@color/color_6C3D3D3D"
+                    android:textSize="@dimen/ts_26" />
+
+                <TextView
+                    android:id="@+id/inputSubmit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/vs_5"
+                    android:background="@drawable/button_dialog_main"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:padding="@dimen/vs_10"
+                    android:text="确定"
+                    android:textColor="@color/color_FFFFFF"
+                    android:textSize="@dimen/ts_22" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

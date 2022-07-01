@@ -17,7 +17,7 @@ import java.util.ArrayList;
  */
 public class LiveChannelAdapter extends BaseQuickAdapter<LiveChannel, BaseViewHolder> {
     public LiveChannelAdapter() {
-        super(R.layout.item_live_channel_layout, new ArrayList<>());
+        super(R.layout.item_live_channel, new ArrayList<>());
     }
 
     @Override
@@ -25,11 +25,12 @@ public class LiveChannelAdapter extends BaseQuickAdapter<LiveChannel, BaseViewHo
         TextView tvChannelNum = helper.getView(R.id.tvChannelNum);
         TextView tvChannel = helper.getView(R.id.tvChannel);
         tvChannelNum.setText(String.format("%s", item.getChannelNum()));
-        tvChannel.setText(String.format("%s", item.getName()));
-        if (item.isDefault()) {
-            tvChannelNum.setTextColor(mContext.getResources().getColor(R.color.color_02F8E1));
-            tvChannel.setTextColor(mContext.getResources().getColor(R.color.color_02F8E1));
-        } else {
+        tvChannel.setText(item.getChannelName());
+        if (item.isSelected() && !item.isFocused()) {
+            tvChannelNum.setTextColor(mContext.getResources().getColor(R.color.color_1890FF));
+            tvChannel.setTextColor(mContext.getResources().getColor(R.color.color_1890FF));
+        }
+        else{
             tvChannelNum.setTextColor(Color.WHITE);
             tvChannel.setTextColor(Color.WHITE);
         }

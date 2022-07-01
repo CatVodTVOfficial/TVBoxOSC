@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <solid android:color="#36ffffff" />
+            <corners android:radius="10mm" />
+        </shape>
+    </item>
+    <item>
+        <bitmap
+            android:antialias="true"
+            android:gravity="center"
+            android:src="@drawable/icon_img_placeholder" />
+    </item>
+</layer-list>

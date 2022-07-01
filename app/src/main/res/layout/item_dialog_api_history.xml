@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="@dimen/vs_0"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:background="@drawable/button_dialog_main"
+        android:clickable="true"
+        android:ellipsize="middle"
+        android:focusable="true"
+        android:gravity="center"
+        android:padding="@dimen/vs_10"
+        android:singleLine="true"
+        android:text="@{name}"
+        android:textColor="@color/color_FFFFFF"
+        android:textSize="@dimen/ts_26"
+        tools:text="11111111111111" />
+
+    <ImageView
+        android:id="@+id/tvDel"
+        android:layout_width="@dimen/vs_50"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/vs_5"
+        android:layout_marginLeft="@dimen/vs_5"
+        android:background="@drawable/button_dialog_main"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="@dimen/vs_10"
+        android:src="@drawable/icon_delete" />
+
+</LinearLayout>
+

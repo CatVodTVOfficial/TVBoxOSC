@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/vod_pause" android:state_selected="true" />
-    <item android:drawable="@drawable/vod_play" android:state_selected="false" />
-</selector>

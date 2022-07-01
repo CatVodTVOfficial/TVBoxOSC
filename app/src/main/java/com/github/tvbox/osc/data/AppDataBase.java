@@ -5,8 +5,8 @@ import androidx.room.RoomDatabase;
 
 import com.github.tvbox.osc.cache.Cache;
 import com.github.tvbox.osc.cache.CacheDao;
-import com.github.tvbox.osc.cache.SourceState;
-import com.github.tvbox.osc.cache.SourceStateDao;
+import com.github.tvbox.osc.cache.VodCollect;
+import com.github.tvbox.osc.cache.VodCollectDao;
 import com.github.tvbox.osc.cache.VodRecord;
 import com.github.tvbox.osc.cache.VodRecordDao;
 
@@ -17,11 +17,11 @@ import com.github.tvbox.osc.cache.VodRecordDao;
  * @author pj567
  * @since 2020/5/15
  */
-@Database(entities = {Cache.class, VodRecord.class, SourceState.class}, version = 1)
+@Database(entities = {Cache.class, VodRecord.class, VodCollect.class}, version = 1)
 public abstract class AppDataBase extends RoomDatabase {
     public abstract CacheDao getCacheDao();
 
     public abstract VodRecordDao getVodRecordDao();
 
-    public abstract SourceStateDao getSourceStateDao();
+    public abstract VodCollectDao getVodCollectDao();
 }

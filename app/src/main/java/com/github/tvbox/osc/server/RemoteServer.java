@@ -8,18 +8,20 @@ import android.os.Environment;
 import com.github.tvbox.osc.R;
 import com.github.tvbox.osc.api.ApiConfig;
 import com.github.tvbox.osc.event.ServerEvent;
+import com.github.tvbox.osc.util.FileUtils;
+import com.github.tvbox.osc.util.OkGoHelper;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -137,6 +139,15 @@ public class RemoteServer extends NanoHTTPD {
                     } catch (Throwable th) {
                         return NanoHTTPD.newFixedLengthResponse(NanoHTTPD.Response.Status.INTERNAL_ERROR, NanoHTTPD.MIME_PLAINTEXT, th.getMessage());
                     }
+                } else if (fileName.equals("/dns-query")) {
+                    String name = session.getParms().get("name");
+                    byte[] rs = null;
+                    try {
+                        rs = OkGoHelper.dnsOverHttps.lookupHttpsForwardSync(name);
+                    } catch (Throwable th) {
+                        rs = new byte[0];
+                    }
+                    return NanoHTTPD.newFixedLengthResponse(NanoHTTPD.Response.Status.OK, "application/dns-message", new ByteArrayInputStream(rs), rs.length);
                 }
             } else if (session.getMethod() == Method.POST) {
                 Map<String, String> files = new HashMap<String, String>();
@@ -182,7 +193,7 @@ public class RemoteServer extends NanoHTTPD {
                                     if (fn.toLowerCase().endsWith(".zip")) {
                                         unzip(tmp, root + "/" + path);
                                     } else {
-                                        copyFile(tmp, file);
+                                        FileUtils.copyFile(tmp, file);
                                     }
                                 }
                                 if (tmp.exists())
@@ -207,7 +218,7 @@ public class RemoteServer extends NanoHTTPD {
                         String root = Environment.getExternalStorageDirectory().getAbsolutePath();
                         File file = new File(root + "/" + path);
                         if (file.exists()) {
-                            recursiveDelete(file);
+                            FileUtils.recursiveDelete(file);
                         }
                         return NanoHTTPD.newFixedLengthResponse(NanoHTTPD.Response.Status.OK, NanoHTTPD.MIME_PLAINTEXT, "OK");
                     } else if (fileName.equals("/delFile")) {
@@ -359,7 +370,7 @@ public class RemoteServer extends NanoHTTPD {
         }
     }
 
-    private void extractFile(InputStream inputStream, String destFilePath) throws Throwable {
+    void extractFile(InputStream inputStream, String destFilePath) throws Throwable {
         File dst = new File(destFilePath);
         if (dst.exists())
             dst.delete();
@@ -371,40 +382,6 @@ public class RemoteServer extends NanoHTTPD {
             len = inputStream.read(bytesIn);
         }
         bos.close();
-    }
-
-    private void copyFile(File source, File dest) throws IOException {
-        InputStream is = null;
-        OutputStream os = null;
-        try {
-            is = new FileInputStream(source);
-            os = new FileOutputStream(dest);
-            byte[] buffer = new byte[1024];
-            int length;
-            while ((length = is.read(buffer)) > 0) {
-                os.write(buffer, 0, length);
-            }
-        } finally {
-            is.close();
-            os.close();
-        }
-    }
-
-    public void recursiveDelete(File file) {
-        // 结束递归循环
-        if (!file.exists())
-            return;
-
-        // 如果是目录，请进入内部并递归调用
-        if (file.isDirectory()) {
-            for (File f : file.listFiles()) {
-                // 调用递归
-                recursiveDelete(f);
-            }
-        }
-        // 调用delete删除文件和空目录
-        file.delete();
-        System.out.println("Deleted file/folder: " + file.getAbsolutePath());
     }
 
 }

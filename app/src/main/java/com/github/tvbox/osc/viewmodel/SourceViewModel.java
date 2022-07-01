@@ -10,10 +10,15 @@ import com.github.tvbox.osc.bean.AbsSortJson;
 import com.github.tvbox.osc.bean.AbsSortXml;
 import com.github.tvbox.osc.bean.AbsXml;
 import com.github.tvbox.osc.bean.Movie;
+import com.github.tvbox.osc.bean.MovieSort;
 import com.github.tvbox.osc.bean.SourceBean;
 import com.github.tvbox.osc.event.RefreshEvent;
 import com.github.tvbox.osc.util.DefaultConfig;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.AbsCallback;
@@ -25,10 +30,15 @@ import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * @author pj567
@@ -52,7 +62,7 @@ public class SourceViewModel extends ViewModel {
         playResult = new MutableLiveData<>();
     }
 
-    public static final ExecutorService spThreadPool = Executors.newFixedThreadPool(3);
+    public static final ExecutorService spThreadPool = Executors.newSingleThreadExecutor();
 
     public void getSort(String sourceKey) {
         if (sourceKey == null) {
@@ -62,13 +72,40 @@ public class SourceViewModel extends ViewModel {
         SourceBean sourceBean = ApiConfig.get().getSource(sourceKey);
         int type = sourceBean.getType();
         if (type == 3) {
-            spThreadPool.execute(new Runnable() {
+            Runnable waitResponse = new Runnable() {
                 @Override
                 public void run() {
-                    Spider sp = ApiConfig.get().getCSP(sourceBean);
-                    sortJson(sortResult, sp.homeContent(false));
+                    ExecutorService executor = Executors.newSingleThreadExecutor();
+                    Future<String> future = executor.submit(new Callable<String>() {
+                        @Override
+                        public String call() throws Exception {
+                            Spider sp = ApiConfig.get().getCSP(sourceBean);
+                            return sp.homeContent(true);
+                        }
+                    });
+                    String sortJson = null;
+                    try {
+                        sortJson = future.get(15, TimeUnit.SECONDS);
+                    } catch (TimeoutException e) {
+                        e.printStackTrace();
+                        future.cancel(true);
+                    } catch (InterruptedException | ExecutionException e) {
+                        e.printStackTrace();
+                    } finally {
+                        if (sortJson != null) {
+                            sortJson(sortResult, sortJson);
+                        } else {
+                            sortResult.postValue(null);
+                        }
+                        try {
+                            executor.shutdown();
+                        } catch (Throwable th) {
+                            th.printStackTrace();
+                        }
+                    }
                 }
-            });
+            };
+            spThreadPool.execute(waitResponse);
         } else if (type == 0 || type == 1) {
             OkGo.<String>get(sourceBean.getApi())
                     .tag(sourceBean.getKey() + "_sort")
@@ -104,7 +141,7 @@ public class SourceViewModel extends ViewModel {
         }
     }
 
-    public void getList(String id, int page) {
+    public void getList(MovieSort.SortData sortData, int page) {
         SourceBean homeSourceBean = ApiConfig.get().getHomeSourceBean();
         int type = homeSourceBean.getType();
         if (type == 3) {
@@ -113,7 +150,7 @@ public class SourceViewModel extends ViewModel {
                 public void run() {
                     try {
                         Spider sp = ApiConfig.get().getCSP(homeSourceBean);
-                        json(listResult, sp.categoryContent(id, page + "", false, new HashMap<>()), homeSourceBean.getKey());
+                        json(listResult, sp.categoryContent(sortData.id, page + "", false, sortData.filterSelect), homeSourceBean.getKey());
                     } catch (Throwable th) {
                         th.printStackTrace();
                     }
@@ -123,7 +160,7 @@ public class SourceViewModel extends ViewModel {
             OkGo.<String>get(homeSourceBean.getApi())
                     .tag(homeSourceBean.getApi())
                     .params("ac", type == 0 ? "videolist" : "detail")
-                    .params("t", id)
+                    .params("t", sortData.id)
                     .params("pg", page)
                     .execute(new AbsCallback<String>() {
 
@@ -217,17 +254,12 @@ public class SourceViewModel extends ViewModel {
         SourceBean sourceBean = ApiConfig.get().getSource(sourceKey);
         int type = sourceBean.getType();
         if (type == 3) {
-            spThreadPool.execute(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        Spider sp = ApiConfig.get().getCSP(sourceBean);
-                        json(searchResult, sp.searchContent(wd, false), sourceBean.getKey());
-                    } catch (Throwable th) {
-                        th.printStackTrace();
-                    }
-                }
-            });
+            try {
+                Spider sp = ApiConfig.get().getCSP(sourceBean);
+                json(searchResult, sp.searchContent(wd, false), sourceBean.getKey());
+            } catch (Throwable th) {
+                th.printStackTrace();
+            }
         } else if (type == 0 || type == 1) {
             OkGo.<String>get(sourceBean.getApi())
                     .params("wd", wd)
@@ -270,17 +302,12 @@ public class SourceViewModel extends ViewModel {
         SourceBean sourceBean = ApiConfig.get().getSource(sourceKey);
         int type = sourceBean.getType();
         if (type == 3) {
-            spThreadPool.execute(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        Spider sp = ApiConfig.get().getCSP(sourceBean);
-                        json(quickSearchResult, sp.searchContent(wd, true), sourceBean.getKey());
-                    } catch (Throwable th) {
-                        th.printStackTrace();
-                    }
-                }
-            });
+            try {
+                Spider sp = ApiConfig.get().getCSP(sourceBean);
+                json(quickSearchResult, sp.searchContent(wd, true), sourceBean.getKey());
+            } catch (Throwable th) {
+                th.printStackTrace();
+            }
         } else if (type == 0 || type == 1) {
             OkGo.<String>get(sourceBean.getApi())
                     .params("wd", wd)
@@ -319,7 +346,7 @@ public class SourceViewModel extends ViewModel {
         }
     }
 
-    public void getPlay(String sourceKey, String playFlag, String url) {
+    public void getPlay(String sourceKey, String playFlag, String progressKey, String url) {
         SourceBean sourceBean = ApiConfig.get().getSource(sourceKey);
         int type = sourceBean.getType();
         if (type == 3) {
@@ -331,6 +358,7 @@ public class SourceViewModel extends ViewModel {
                     try {
                         JSONObject result = new JSONObject(json);
                         result.put("key", url);
+                        result.put("proKey", progressKey);
                         if (!result.has("flag"))
                             result.put("flag", playFlag);
                         playResult.postValue(result);
@@ -364,11 +392,52 @@ public class SourceViewModel extends ViewModel {
         }
     }
 
+    private MovieSort.SortFilter getSortFilter(JsonObject obj) {
+        String key = obj.get("key").getAsString();
+        String name = obj.get("name").getAsString();
+        JsonArray kv = obj.getAsJsonArray("value");
+        LinkedHashMap<String, String> values = new LinkedHashMap<>();
+        for (JsonElement ele : kv) {
+            values.put(ele.getAsJsonObject().get("n").getAsString(), ele.getAsJsonObject().get("v").getAsString());
+        }
+        MovieSort.SortFilter filter = new MovieSort.SortFilter();
+        filter.key = key;
+        filter.name = name;
+        filter.values = values;
+        return filter;
+    }
+
     private void sortJson(MutableLiveData<AbsSortXml> result, String json) {
         try {
-            AbsSortJson sortJson = new Gson().fromJson(json, new TypeToken<AbsSortJson>() {
+            JsonObject obj = JsonParser.parseString(json).getAsJsonObject();
+            AbsSortJson sortJson = new Gson().fromJson(obj, new TypeToken<AbsSortJson>() {
             }.getType());
             AbsSortXml data = sortJson.toAbsSortXml();
+            try {
+                if (obj.has("filters")) {
+                    LinkedHashMap<String, ArrayList<MovieSort.SortFilter>> sortFilters = new LinkedHashMap<>();
+                    JsonObject filters = obj.getAsJsonObject("filters");
+                    for (String key : filters.keySet()) {
+                        ArrayList<MovieSort.SortFilter> sortFilter = new ArrayList<>();
+                        JsonElement one = filters.get(key);
+                        if (one.isJsonObject()) {
+                            sortFilter.add(getSortFilter(one.getAsJsonObject()));
+                        } else {
+                            for (JsonElement ele : one.getAsJsonArray()) {
+                                sortFilter.add(getSortFilter(ele.getAsJsonObject()));
+                            }
+                        }
+                        sortFilters.put(key, sortFilter);
+                    }
+                    for (MovieSort.SortData sort : data.movieSort.sortList) {
+                        if (sortFilters.containsKey(sort.id) && sortFilters.get(sort.id) != null) {
+                            sort.filters = sortFilters.get(sort.id);
+                        }
+                    }
+                }
+            } catch (Throwable th) {
+
+            }
             result.postValue(data);
         } catch (Exception e) {
             result.postValue(null);

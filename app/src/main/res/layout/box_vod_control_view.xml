@@ -17,7 +17,7 @@
             android:id="@+id/video_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/play_mobile_center_shape"
+            android:background="@drawable/shape_play_mobile_center"
             android:gravity="center"
             android:minWidth="50dp"
             android:padding="5dp"
@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:background="@drawable/play_mobile_center_shape"
+            android:background="@drawable/shape_play_mobile_center"
             android:gravity="center"
             android:minWidth="50dp"
             android:padding="5dp"
@@ -162,7 +162,7 @@
         android:layout_width="320mm"
         android:layout_height="240mm"
         android:layout_gravity="center"
-        android:background="@drawable/model_dialog_bg"
+        android:background="@drawable/shape_dialog_bg_main"
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:gravity="center"
@@ -176,7 +176,7 @@
             android:layout_gravity="center"
             android:focusable="false"
             android:focusableInTouchMode="false"
-            android:src="@drawable/ic_play" />
+            android:src="@drawable/icon_play" />
 
         <TextView
             android:id="@+id/tv_pause_progress_text"
@@ -196,7 +196,7 @@
         android:layout_width="320mm"
         android:layout_height="240mm"
         android:layout_gravity="center"
-        android:background="@drawable/model_dialog_bg"
+        android:background="@drawable/shape_dialog_bg_main"
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:gravity="center"
@@ -210,7 +210,7 @@
             android:layout_height="120mm"
             android:focusable="false"
             android:focusableInTouchMode="false"
-            tools:src="@drawable/ic_back" />
+            tools:src="@drawable/icon_back" />
 
         <TextView
             android:id="@+id/tv_progress_text"
@@ -231,7 +231,7 @@
         android:layout_width="match_parent"
         android:layout_height="80mm"
         android:layout_gravity="bottom"
-        android:background="@drawable/play_bottom_shape"
+        android:background="@drawable/shape_play_bottom"
         android:orientation="horizontal"
         android:visibility="gone"
         tools:visibility="visible">
@@ -243,7 +243,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10mm"
             android:layout_marginRight="6mm"
-            android:background="@drawable/source_focus"
+            android:background="@drawable/shape_user_focus"
             android:ellipsize="end"
             android:focusable="true"
             android:focusableInTouchMode="true"
@@ -261,7 +261,7 @@
             android:layout_height="40mm"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="6mm"
-            android:background="@drawable/source_focus"
+            android:background="@drawable/shape_user_focus"
             android:ellipsize="end"
             android:focusable="true"
             android:focusableInTouchMode="true"
@@ -280,7 +280,7 @@
             android:layout_height="40mm"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="6mm"
-            android:background="@drawable/source_focus"
+            android:background="@drawable/shape_user_focus"
             android:ellipsize="end"
             android:focusable="true"
             android:focusableInTouchMode="true"
@@ -298,7 +298,7 @@
             android:layout_height="40mm"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="6mm"
-            android:background="@drawable/source_focus"
+            android:background="@drawable/shape_user_focus"
             android:ellipsize="end"
             android:focusable="true"
             android:focusableInTouchMode="true"

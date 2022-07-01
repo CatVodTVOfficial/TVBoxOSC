@@ -1,34 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:background="@drawable/model_dialog_bg"
-    android:orientation="vertical"
-    android:padding="30mm">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/downXWalkArch"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="@dimen/vs_440"
         android:layout_height="wrap_content"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:gravity="center"
-        android:text="下载XWalkView运行组件"
-        android:textColor="@android:color/white"
-        android:textSize="24mm" />
+        android:layout_gravity="center"
+        android:background="@drawable/shape_dialog_bg_main"
+        android:orientation="vertical"
+        android:padding="@dimen/vs_30">
 
-    <TextView
-        android:id="@+id/downXWalk"
-        android:layout_width="300mm"
-        android:layout_height="40mm"
-        android:layout_marginTop="30mm"
-        android:background="@drawable/splash_focus"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:gravity="center"
-        android:text="下载"
-        android:textColor="@android:color/black"
-        android:textSize="18mm" />
+        <TextView
+            android:id="@+id/downXWalkArch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:focusable="false"
+            android:gravity="center"
+            android:lineSpacingExtra="@dimen/ts_50"
+            android:lineSpacingMultiplier="0"
+            android:text="下载XWalkView运行组件"
+            android:textColor="@color/color_CC000000"
+            android:textSize="@dimen/ts_24" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/downXWalk"
+            android:layout_width="@dimen/vs_300"
+            android:layout_height="@dimen/vs_40"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/vs_30"
+            android:background="@drawable/button_dialog_main"
+            android:focusable="true"
+            android:gravity="center"
+            android:text="下载"
+            android:textColor="@color/color_FFFFFF"
+            android:textSize="@dimen/ts_26" />
+
+    </LinearLayout>
+</FrameLayout>
