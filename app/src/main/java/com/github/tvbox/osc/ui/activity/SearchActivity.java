@@ -28,6 +28,7 @@ import com.github.tvbox.osc.ui.dialog.RemoteDialog;
 import com.github.tvbox.osc.ui.tv.QRCodeGen;
 import com.github.tvbox.osc.ui.tv.widget.SearchKeyboard;
 import com.github.tvbox.osc.util.FastClickCheckUtil;
+import com.github.tvbox.osc.util.HawkConfig;
 import com.github.tvbox.osc.viewmodel.SourceViewModel;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -36,7 +37,9 @@ import com.google.gson.JsonParser;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.AbsCallback;
 import com.lzy.okgo.model.Response;
+import com.orhanobut.hawk.Hawk;
 import com.owen.tvrecyclerview.widget.TvRecyclerView;
+import com.owen.tvrecyclerview.widget.V7GridLayoutManager;
 import com.owen.tvrecyclerview.widget.V7LinearLayoutManager;
 
 import org.greenrobot.eventbus.EventBus;
@@ -81,6 +84,22 @@ public class SearchActivity extends BaseActivity {
         initData();
     }
 
+    private List<Runnable> pauseRunnable = null;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (pauseRunnable != null && pauseRunnable.size() > 0) {
+            searchExecutorService = Executors.newFixedThreadPool(5);
+            allRunCount.set(pauseRunnable.size());
+            for (Runnable runnable : pauseRunnable) {
+                searchExecutorService.execute(runnable);
+            }
+            pauseRunnable.clear();
+            pauseRunnable = null;
+        }
+    }
+
     private void initView() {
         EventBus.getDefault().register(this);
         llLayout = findViewById(R.id.llLayout);
@@ -104,9 +123,11 @@ public class SearchActivity extends BaseActivity {
         });
         mGridView.setHasFixedSize(true);
         // lite
-        mGridView.setLayoutManager(new V7LinearLayoutManager(this.mContext, 1, false));
-        // with preview
-        // mGridView.setLayoutManager(new V7GridLayoutManager(this.mContext, 3));
+        if (Hawk.get(HawkConfig.SEARCH_VIEW, 0) == 0)
+            mGridView.setLayoutManager(new V7LinearLayoutManager(this.mContext, 1, false));
+            // with preview
+        else
+            mGridView.setLayoutManager(new V7GridLayoutManager(this.mContext, 3));
         searchAdapter = new SearchAdapter();
         mGridView.setAdapter(searchAdapter);
         searchAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -115,6 +136,14 @@ public class SearchActivity extends BaseActivity {
                 FastClickCheckUtil.check(view);
                 Movie.Video video = searchAdapter.getData().get(position);
                 if (video != null) {
+                    try {
+                        if (searchExecutorService != null) {
+                            pauseRunnable = searchExecutorService.shutdownNow();
+                            searchExecutorService = null;
+                        }
+                    } catch (Throwable th) {
+                        th.printStackTrace();
+                    }
                     Bundle bundle = new Bundle();
                     bundle.putString("id", video.id);
                     bundle.putString("sourceKey", video.sourceKey);
@@ -285,6 +314,7 @@ public class SearchActivity extends BaseActivity {
         try {
             if (searchExecutorService != null) {
                 searchExecutorService.shutdownNow();
+                searchExecutorService = null;
             }
         } catch (Throwable th) {
             th.printStackTrace();
@@ -353,6 +383,7 @@ public class SearchActivity extends BaseActivity {
         try {
             if (searchExecutorService != null) {
                 searchExecutorService.shutdownNow();
+                searchExecutorService = null;
             }
         } catch (Throwable th) {
             th.printStackTrace();

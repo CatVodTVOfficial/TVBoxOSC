@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author pj567
@@ -46,8 +47,10 @@ public class VodInfo implements Serializable {
     public String des;// <![CDATA[权来]
     public String playFlag = null;
     public int playIndex = 0;
+    public String playNote = "";
     public String sourceKey;
     public String playerCfg = "";
+    public boolean reverseSort = false;
 
     public void setVideo(Movie.Video video) {
         last = video.last;
@@ -98,6 +101,13 @@ public class VodInfo implements Serializable {
             for (VodSeriesFlag flag : seriesFlags) {
                 seriesMap.put(flag.name, tempSeriesMap.get(flag.name));
             }
+        }
+    }
+
+    public void reverse() {
+        Set<String> flags = seriesMap.keySet();
+        for (String flag : flags) {
+            Collections.reverse(seriesMap.get(flag));
         }
     }
 

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="@dimen/vs_480"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/shape_dialog_bg_main">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="@dimen/ts_40"
+            android:lineSpacingMultiplier="0"
+            android:padding="@dimen/vs_20"
+            android:singleLine="true"
+            android:text="数据备份还原"
+            android:textColor="@color/color_CC000000"
+            android:textSize="@dimen/ts_26"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="11111111111111111111111" />
+
+        <LinearLayout
+            android:id="@+id/backup_buttons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/vs_30"
+            android:paddingRight="@dimen/vs_30"
+            app:layout_constraintTop_toBottomOf="@id/title">
+
+            <TextView
+                android:id="@+id/backupNow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="@dimen/vs_5"
+                android:layout_marginRight="@dimen/vs_5"
+                android:layout_weight="1"
+                android:background="@drawable/button_dialog_main"
+                android:focusable="true"
+                android:gravity="center"
+                android:padding="@dimen/vs_10"
+                android:text="立即备份"
+                android:textColor="@color/color_FFFFFF"
+                android:textSize="@dimen/ts_22" />
+
+            <TextView
+                android:id="@+id/storagePermission"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/vs_5"
+                android:layout_marginLeft="@dimen/vs_5"
+                android:layout_weight="1"
+                android:background="@drawable/button_dialog_main"
+                android:focusable="true"
+                android:gravity="center"
+                android:padding="@dimen/vs_10"
+                android:text="存储权限"
+                android:textColor="@color/color_FFFFFF"
+                android:textSize="@dimen/ts_22" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/restore_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="@dimen/ts_40"
+            android:lineSpacingMultiplier="0"
+            android:padding="@dimen/vs_20"
+            android:singleLine="true"
+            android:text="点击下方数据还原"
+            android:textColor="@color/color_CC000000"
+            android:textSize="@dimen/ts_26"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/backup_buttons"
+            tools:text="11111111111111111111111" />
+
+        <com.owen.tvrecyclerview.widget.TvRecyclerView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/vs_200"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/vs_30"
+            android:paddingRight="@dimen/vs_30"
+            app:layout_constrainedHeight="true"
+            app:layout_constraintHeight_max="@dimen/vs_480"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/restore_tip"
+            app:tv_layoutManager="V7LinearLayoutManager"
+            app:tv_selectedItemIsCentered="true"
+            app:tv_verticalSpacingWithMargins="@dimen/vs_10" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/vs_30"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/list" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

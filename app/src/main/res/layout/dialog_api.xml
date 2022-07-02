@@ -63,19 +63,19 @@
                     android:textSize="@dimen/ts_22" />
 
                 <TextView
-                    android:id="@+id/storagePermission"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/vs_5"
-                    android:layout_weight="1"
-                    android:background="@drawable/button_dialog_main"
-                    android:focusable="true"
-                    android:gravity="center"
-                    android:padding="@dimen/vs_10"
-                    android:text="存储权限"
-                    android:textColor="@color/color_FFFFFF"
-                    android:textSize="@dimen/ts_22" />
+                android:id="@+id/storagePermission"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/vs_5"
+                android:layout_weight="1"
+                android:background="@drawable/button_dialog_main"
+                android:focusable="true"
+                android:gravity="center"
+                android:padding="@dimen/vs_10"
+                android:text="存储权限"
+                android:textColor="@color/color_FFFFFF"
+                android:textSize="@dimen/ts_22" />
             </LinearLayout>
 
             <Space

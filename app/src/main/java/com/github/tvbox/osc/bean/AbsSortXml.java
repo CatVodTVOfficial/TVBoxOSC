@@ -3,6 +3,7 @@ package com.github.tvbox.osc.bean;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author pj567
@@ -12,5 +13,10 @@ import java.io.Serializable;
 @XStreamAlias("rss")
 public class AbsSortXml implements Serializable {
     @XStreamAlias("class")
-    public MovieSort movieSort;
+    public MovieSort classes;
+
+    @XStreamAlias("list")
+    public Movie list;
+
+    public List<Movie.Video> videoList;
 }
