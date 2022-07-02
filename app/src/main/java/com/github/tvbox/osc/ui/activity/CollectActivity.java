@@ -2,12 +2,14 @@ package com.github.tvbox.osc.ui.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.View;
 import android.view.animation.BounceInterpolator;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.github.tvbox.osc.R;
+import com.github.tvbox.osc.api.ApiConfig;
 import com.github.tvbox.osc.base.BaseActivity;
 import com.github.tvbox.osc.cache.RoomDataManger;
 import com.github.tvbox.osc.cache.VodCollect;
@@ -99,10 +101,17 @@ public class CollectActivity extends BaseActivity {
                         collectAdapter.remove(position);
                         RoomDataManger.deleteVodCollect(vodInfo.getId());
                     } else {
-                        Intent newIntent = new Intent(mContext, SearchActivity.class);
-                        newIntent.putExtra("title", vodInfo.name);
-                        newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(newIntent);
+                        if (ApiConfig.get().getSource(vodInfo.sourceKey) != null) {
+                            Bundle bundle = new Bundle();
+                            bundle.putString("id", vodInfo.vodId);
+                            bundle.putString("sourceKey", vodInfo.sourceKey);
+                            jumpActivity(DetailActivity.class, bundle);
+                        } else {
+                            Intent newIntent = new Intent(mContext, SearchActivity.class);
+                            newIntent.putExtra("title", vodInfo.name);
+                            newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(newIntent);
+                        }
                     }
                 }
             }

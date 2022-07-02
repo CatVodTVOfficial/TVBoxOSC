@@ -5,7 +5,9 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.text.TextUtils;
 
+import com.github.tvbox.osc.api.ApiConfig;
 import com.github.tvbox.osc.bean.MovieSort;
+import com.github.tvbox.osc.bean.SourceBean;
 import com.github.tvbox.osc.server.ControlManager;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -25,10 +27,24 @@ public class DefaultConfig {
     public static List<MovieSort.SortData> adjustSort(String sourceKey, List<MovieSort.SortData> list, boolean withMy) {
         List<MovieSort.SortData> data = new ArrayList<>();
         if (sourceKey != null) {
-            for (MovieSort.SortData sortData : list) {
-                if (sortData.filters == null)
-                    sortData.filters = new ArrayList<>();
-                data.add(sortData);
+            SourceBean sb = ApiConfig.get().getSource(sourceKey);
+            ArrayList<String> categories = sb.getCategories();
+            if (!categories.isEmpty()) {
+                for (String cate : categories) {
+                    for (MovieSort.SortData sortData : list) {
+                        if (sortData.name.equals(cate)) {
+                            if (sortData.filters == null)
+                                sortData.filters = new ArrayList<>();
+                            data.add(sortData);
+                        }
+                    }
+                }
+            } else {
+                for (MovieSort.SortData sortData : list) {
+                    if (sortData.filters == null)
+                        sortData.filters = new ArrayList<>();
+                    data.add(sortData);
+                }
             }
         }
         if (withMy)

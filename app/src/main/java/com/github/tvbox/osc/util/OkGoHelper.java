@@ -6,6 +6,8 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.https.HttpsUtils;
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 import com.orhanobut.hawk.Hawk;
+import com.squareup.picasso.OkHttp3Downloader;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.security.cert.CertificateException;
@@ -133,6 +135,13 @@ public class OkGoHelper {
         OkGo.getInstance().setRetryCount(2);
 
         initExoOkHttpClient();
+        initPicasso(okHttpClient);
+    }
+
+    static void initPicasso(OkHttpClient client) {
+        OkHttp3Downloader downloader = new OkHttp3Downloader(client);
+        Picasso picasso = new Picasso.Builder(App.getInstance()).downloader(downloader).build();
+        Picasso.setSingletonInstance(picasso);
     }
 
     private static synchronized void setOkHttpSsl(OkHttpClient.Builder builder) {
