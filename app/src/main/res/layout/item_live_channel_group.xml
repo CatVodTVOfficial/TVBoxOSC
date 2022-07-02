@@ -5,30 +5,17 @@
     android:layout_marginTop="10mm"
     android:layout_marginBottom="10mm"
     android:background="@drawable/shape_live_focus"
-    android:layout_marginLeft="10mm"
-    android:layout_marginRight="10mm"
     android:focusable="true"
     android:focusableInTouchMode="false"
     android:orientation="horizontal">
 
     <TextView
-        android:id="@+id/tvChannelNum"
-        android:layout_width="60mm"
-        android:layout_height="60mm"
-        android:ellipsize="marquee"
-        android:gravity="center"
-        android:marqueeRepeatLimit="marquee_forever"
-        android:singleLine="true"
-        android:textColor="@android:color/white"
-        android:textSize="22mm" />
-
-    <TextView
-        android:id="@+id/tvChannelName"
+        android:id="@+id/tvChannelGroupName"
         android:layout_width="0mm"
         android:layout_height="60mm"
         android:layout_weight="1"
         android:ellipsize="marquee"
-        android:gravity="left"
+        android:gravity="center"
         android:marqueeRepeatLimit="marquee_forever"
         android:singleLine="true"
         android:textColor="@android:color/white"

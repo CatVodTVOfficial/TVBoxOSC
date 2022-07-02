@@ -214,4 +214,21 @@ public class BoxVideoController extends GestureVideoController implements View.O
         }
         simSeekPosition = position;
     }
+
+    private OnScreenLongPressListener screenLongPressListener;
+
+    public interface OnScreenLongPressListener {
+        void longPress();
+    }
+
+    public void setScreenLongPressListener(OnScreenLongPressListener screenLongPressListener) {
+        this.screenLongPressListener = screenLongPressListener;
+    }
+
+    @Override
+    public void onLongPress(MotionEvent e) {
+        if (screenLongPressListener != null)
+            screenLongPressListener.longPress();
+        super.onLongPress(e);
+    }
 }
