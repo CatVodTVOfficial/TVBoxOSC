@@ -181,7 +181,7 @@ public class VodController extends BaseController {
         mNextBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.playNext();
+                listener.playNext(false);
                 hideBottom();
             }
         });
@@ -362,7 +362,7 @@ public class VodController extends BaseController {
     }
 
     public interface VodControlListener {
-        void playNext();
+        void playNext(boolean rmProgress);
 
         void playPre();
 
@@ -398,7 +398,7 @@ public class VodController extends BaseController {
             }
             if (et > 0 && position + (et * 1000) >= duration) {
                 skipEnd = false;
-                listener.playNext();
+                listener.playNext(true);
             }
         }
         mCurrentTime.setText(PlayerUtils.stringForTime(position));
@@ -485,7 +485,7 @@ public class VodController extends BaseController {
             case VideoView.STATE_BUFFERING:
                 break;
             case VideoView.STATE_PLAYBACK_COMPLETED:
-                listener.playNext();
+                listener.playNext(true);
                 break;
         }
     }
