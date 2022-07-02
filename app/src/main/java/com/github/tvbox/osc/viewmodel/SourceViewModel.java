@@ -188,7 +188,7 @@ public class SourceViewModel extends ViewModel {
                 public void run() {
                     try {
                         Spider sp = ApiConfig.get().getCSP(homeSourceBean);
-                        json(listResult, sp.categoryContent(sortData.id, page + "", false, sortData.filterSelect), homeSourceBean.getKey());
+                        json(listResult, sp.categoryContent(sortData.id, page + "", true, sortData.filterSelect), homeSourceBean.getKey());
                     } catch (Throwable th) {
                         th.printStackTrace();
                     }
@@ -500,7 +500,7 @@ public class SourceViewModel extends ViewModel {
             try {
                 result.put("key", url);
                 String playUrl = sourceBean.getPlayerUrl().trim();
-                if (DefaultConfig.isVideoFormat(url)) {
+                if (DefaultConfig.isVideoFormat(url) && playUrl.isEmpty()) {
                     result.put("parse", 0);
                     result.put("url", url);
                 } else {

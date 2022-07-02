@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.github.tvbox.osc.R;
 import com.github.tvbox.osc.api.ApiConfig;
+import com.github.tvbox.osc.base.App;
 import com.github.tvbox.osc.base.BaseActivity;
 import com.github.tvbox.osc.bean.ChannelGroup;
 import com.github.tvbox.osc.bean.LiveChannel;
@@ -189,7 +191,8 @@ public class LivePlayActivity extends BaseActivity {
 
             @Override
             public void onItemClick(TvRecyclerView parent, View itemView, int position) {
-                if (selectedGroupIndex == currentGroupIndex && position == currentChannelIndex) return;
+                if (selectedGroupIndex == currentGroupIndex && position == currentChannelIndex)
+                    return;
                 if (playChannel(position, false)) {
                     mHandler.post(mHideChannelListRun);
                 }
@@ -201,7 +204,8 @@ public class LivePlayActivity extends BaseActivity {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 FastClickCheckUtil.check(view);
-                if (selectedGroupIndex == currentGroupIndex && position == currentChannelIndex) return;
+                if (selectedGroupIndex == currentGroupIndex && position == currentChannelIndex)
+                    return;
                 if (playChannel(position, false)) {
                     mHandler.post(mHideChannelListRun);
                 }
@@ -312,8 +316,7 @@ public class LivePlayActivity extends BaseActivity {
         if (list.size() == 1 && list.get(0).getGroupName().startsWith("http://127.0.0.1")) {
             showLoading();
             loadProxyLives(list.get(0).getGroupName());
-        }
-        else {
+        } else {
             channelGroupList.clear();
             channelGroupList.addAll(list);
             showSuccess();
@@ -334,7 +337,11 @@ public class LivePlayActivity extends BaseActivity {
                 List<LiveChannel> list = new ArrayList<>();
                 JsonArray livesArray = new Gson().fromJson(response.body(), JsonArray.class);
                 loadLives(livesArray);
-
+                if (channelGroupList == null || channelGroupList.size() == 0) {
+                    Toast.makeText(App.getInstance(), "频道列表为空", Toast.LENGTH_SHORT).show();
+                    finish();
+                    return;
+                }
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
