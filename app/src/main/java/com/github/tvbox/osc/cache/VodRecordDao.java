@@ -18,8 +18,8 @@ public interface VodRecordDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insert(VodRecord record);
 
-    @Query("select * from vodRecord  order by updateTime desc")
-    List<VodRecord> getAll();
+    @Query("select * from vodRecord order by updateTime desc limit :size")
+    List<VodRecord> getAll(int size);
 
     @Query("select * from vodRecord where `sourceKey`=:sourceKey and `vodId`=:vodId")
     VodRecord getVodRecord(String sourceKey, String vodId);

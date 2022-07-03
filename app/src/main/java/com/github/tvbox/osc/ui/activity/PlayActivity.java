@@ -120,7 +120,7 @@ public class PlayActivity extends BaseActivity {
         mController.setCanChangePosition(true);
         mController.setEnableInNormal(true);
         mController.setGestureEnabled(true);
-        mVideoView.setProgressManager(new ProgressManager() {
+        ProgressManager progressManager = new ProgressManager() {
             @Override
             public void saveProgress(String url, long progress) {
                 CacheManager.save(MD5.string2MD5(url), progress);
@@ -143,11 +143,15 @@ public class PlayActivity extends BaseActivity {
                     return skip;
                 return rec;
             }
-        });
+        };
+        mVideoView.setProgressManager(progressManager);
         mController.setListener(new VodController.VodControlListener() {
             @Override
-            public void playNext() {
+            public void playNext(boolean rmProgress) {
+                String preProgressKey = progressKey;
                 PlayActivity.this.playNext();
+                if (rmProgress && preProgressKey != null)
+                    CacheManager.delete(MD5.string2MD5(preProgressKey), 0);
             }
 
             @Override
