@@ -319,6 +319,7 @@ public class ModelSettingFragment extends BaseLazyFragment {
                 players.add(0);
                 players.add(1);
                 players.add(2);
+                players.add(10);
                 SelectDialog<Integer> dialog = new SelectDialog<>(mActivity);
                 dialog.setTip("请选择默认播放器");
                 dialog.setAdapter(new SelectDialogAdapter.SelectDialogInterface<Integer>() {
