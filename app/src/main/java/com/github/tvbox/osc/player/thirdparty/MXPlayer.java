@@ -141,7 +141,7 @@ public class MXPlayer {
     /**
      * @return null if any MX Player packages not exist.
      */
-    private static MXPackageInfo getMXPackageInfo() {
+    public static MXPackageInfo getMXPackageInfo() {
         for (MXPackageInfo pkg : PACKAGES) {
             try {
                 ApplicationInfo info = App.getInstance().getPackageManager().getApplicationInfo(pkg.packageName, 0);
