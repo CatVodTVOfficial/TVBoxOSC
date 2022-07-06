@@ -17,6 +17,8 @@ import com.github.tvbox.osc.R;
 import com.github.tvbox.osc.api.ApiConfig;
 import com.github.tvbox.osc.bean.IJKCode;
 import com.github.tvbox.osc.bean.ParseBean;
+import com.github.tvbox.osc.player.thirdparty.MXPlayer;
+import com.github.tvbox.osc.player.thirdparty.ReexPlayer;
 import com.github.tvbox.osc.ui.adapter.ParseAdapter;
 import com.github.tvbox.osc.util.HawkConfig;
 import com.github.tvbox.osc.util.PlayerHelper;
@@ -231,14 +233,25 @@ public class VodController extends BaseController {
             public void onClick(View view) {
                 try {
                     int playerType = mPlayerConfig.getInt("pl");
-                    playerType++;
-                    if (playerType > 2)
-                        playerType = 0;
+                    boolean playerVail = false;
+                    do {
+                        playerType++;
+                        if (playerType <= 2) {
+                            playerVail = true;
+                        } else if (playerType == 10) {
+                            playerVail = mxPlayerExist;
+                        } else if (playerType == 11) {
+                            playerVail = reexPlayerExist;
+                        } else if (playerType > 11) {
+                            playerType = 0;
+                            playerVail = true;
+                        }
+                    } while (!playerVail);
                     mPlayerConfig.put("pl", playerType);
                     updatePlayerCfgView();
                     listener.updatePlayerCfg();
                     listener.replay();
-                    hideBottom();
+                    // hideBottom();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -329,9 +342,14 @@ public class VodController extends BaseController {
 
     private JSONObject mPlayerConfig = null;
 
+    private boolean mxPlayerExist = false;
+    private boolean reexPlayerExist = false;
+
     public void setPlayerConfig(JSONObject playerCfg) {
         this.mPlayerConfig = playerCfg;
         updatePlayerCfgView();
+        mxPlayerExist = MXPlayer.getPackageInfo() != null;
+        reexPlayerExist = ReexPlayer.getPackageInfo() != null;
     }
 
     void updatePlayerCfgView() {
