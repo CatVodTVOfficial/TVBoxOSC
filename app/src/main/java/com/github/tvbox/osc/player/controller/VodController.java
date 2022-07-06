@@ -287,7 +287,7 @@ public class VodController extends BaseController {
                     int step = Hawk.get(HawkConfig.PLAY_TIME_STEP, 5);
                     int st = mPlayerConfig.getInt("st");
                     st += step;
-                    if (st > 60 * 10)
+                    if (st > 60 * 3)
                         st = 0;
                     mPlayerConfig.put("st", st);
                     updatePlayerCfgView();
