@@ -10,7 +10,7 @@
         android:layout_height="match_parent" />
 
     <LinearLayout
-        android:id="@+id/tvLeftLinearLayout"
+        android:id="@+id/tvLeftChannnelListLayout"
         android:layout_width="421mm"
         android:layout_height="match_parent"
         android:layout_marginLeft="-421mm"
@@ -51,9 +51,54 @@
             app:tv_verticalSpacingWithMargins="10mm" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/tvRightSettingLayout"
+        android:layout_width="361mm"
+        android:layout_height="match_parent"
+        android:layout_marginRight="-361mm"
+        android:layout_gravity="right"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="visible" >
+
+        <com.owen.tvrecyclerview.widget.TvRecyclerView
+            android:id="@+id/mSettingItemView"
+            android:layout_width="180mm"
+            android:layout_height="match_parent"
+            android:background="@color/color_66000000"
+            android:paddingLeft="5mm"
+            android:paddingTop="10mm"
+            android:paddingRight="5mm"
+            android:paddingBottom="10mm"
+            android:visibility="visible"
+            android:gravity= "center"
+            app:tv_selectedItemIsCentered="true"
+            app:tv_verticalSpacingWithMargins="10mm" />
+
+        <View
+            android:layout_width="1mm"
+            android:layout_height="match_parent"
+            android:background="@color/color_FFFFFF"
+            android:layout_gravity="center_horizontal" />
+
+        <com.owen.tvrecyclerview.widget.TvRecyclerView
+            android:id="@+id/mSettingGroupView"
+            android:layout_width="180mm"
+            android:layout_height="match_parent"
+            android:background="@color/color_66000000"
+            android:paddingLeft="5mm"
+            android:paddingTop="10mm"
+            android:paddingRight="5mm"
+            android:paddingBottom="10mm"
+            android:visibility="visible"
+            android:gravity= "center"
+            app:tv_selectedItemIsCentered="true"
+            app:tv_verticalSpacingWithMargins="10mm" />
+    </LinearLayout>
+
     <TextView
         android:id="@+id/tvChannel"
-        android:layout_width="100mm"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
         android:layout_marginTop="30mm"
@@ -68,20 +113,27 @@
         android:visibility="gone" />
 
     <TextView
-        android:id="@+id/tvHint"
+        android:id="@+id/tvTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right|bottom"
-        android:layout_marginRight="30mm"
-        android:layout_marginBottom="30mm"
-        android:background="@drawable/shape_live_channel_num"
+        android:layout_gravity="right"
+        android:layout_marginTop="5mm"
+        android:layout_marginRight="5mm"
+        android:background="@android:color/transparent"
         android:gravity="center"
-        android:paddingLeft="10mm"
-        android:paddingTop="5mm"
-        android:paddingRight="10mm"
-        android:paddingBottom="5mm"
-        android:text="上下键换台,数字键跳台,左右键切换播放源"
         android:textColor="@android:color/white"
-        android:textSize="24mm"
-        android:textStyle="bold" />
+        android:textSize="22mm"
+        android:visibility="gone" />
+    <TextView
+        android:id="@+id/tvNetSpeed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="5mm"
+        android:layout_marginRight="5mm"
+        android:background="@android:color/transparent"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:textSize="22mm"
+        android:visibility="gone" />
 </FrameLayout>
