@@ -33,7 +33,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -79,7 +82,7 @@ public class ApiConfig {
     }
 
     public void loadConfig(boolean useCache, LoadConfigCallback callback, Activity activity) {
-        String apiUrl = Hawk.get(HawkConfig.API_URL, "");
+        String apiUrl = Hawk.get(HawkConfig.API_URL, "asset://cfg.json");
         if (apiUrl.isEmpty()) {
             callback.error("-1");
             return;
@@ -97,6 +100,16 @@ public class ApiConfig {
         String apiFix = apiUrl;
         if (apiUrl.startsWith("clan://")) {
             apiFix = clanToAddress(apiUrl);
+        } else if (apiUrl.startsWith("asset://")) {
+            try {
+                String config = readAssetsText(apiUrl.replace("asset://",""));
+                parseJson(apiUrl, config);
+                callback.success();
+            } catch (Throwable th) {
+                th.printStackTrace();
+                callback.error("解析配置失败");
+            }
+            return;
         }
         OkGo.<String>get(apiFix)
                 .execute(new AbsCallback<String>() {
@@ -155,11 +168,57 @@ public class ApiConfig {
                 });
     }
 
+    private void copyAssetsFile(String assetsName, String strOutFileName) throws IOException {
+        InputStream myInput;
+        OutputStream myOutput = new FileOutputStream(strOutFileName);
+        myInput = App.getInstance().getAssets().open(assetsName);
+        byte[] buffer = new byte[1024];
+        int length = myInput.read(buffer);
+        while(length > 0)
+        {
+            myOutput.write(buffer, 0, length);
+            length = myInput.read(buffer);
+        }
+        myOutput.flush();
+        myInput.close();
+        myOutput.close();
+    }
+
+    public String readAssetsText(String assetsName) throws IOException {
+        StringBuilder stringBuilder = new StringBuilder();
+        BufferedReader bf = new BufferedReader(new InputStreamReader(App.getInstance().getAssets().open(assetsName)));
+        String line;
+        while ((line = bf.readLine()) != null) {
+            stringBuilder.append(line);
+            stringBuilder.append("\n");
+        }
+        bf.close();
+        return stringBuilder.toString();
+    }
 
     public void loadJar(boolean useCache, String spider, LoadConfigCallback callback) {
         String[] urls = spider.split(";md5;");
         String jarUrl = urls[0];
         String md5 = urls.length > 1 ? urls[1].trim() : "";
+
+        if (jarUrl.startsWith("asset://")) {
+            String jarCachePath = App.getInstance().getCacheDir().getAbsolutePath() + "/cache.jar";
+            File jarCache = new File(jarCachePath);
+            if (!jarCache.exists()) {
+                try {
+                    copyAssetsFile(spider.replace("asset://", ""), jarCachePath);
+                } catch (Throwable th) {
+                    th.printStackTrace();
+                }
+            }
+            if (jarLoader.load(jarCache.getAbsolutePath())) {
+                callback.success();
+            } else {
+                callback.error("");
+            }
+            return;
+        }
+
         File cache = new File(App.getInstance().getFilesDir().getAbsolutePath() + "/csp.jar");
 
         if (!md5.isEmpty() || useCache) {
@@ -391,7 +450,15 @@ public class ApiConfig {
     }
 
     public Spider getCSP(SourceBean sourceBean) {
-        return jarLoader.getSpider(sourceBean.getKey(), sourceBean.getApi(), sourceBean.getExt());
+        String ext = sourceBean.getExt();
+        if (ext.startsWith("asset://")) {
+            try {
+                ext = readAssetsText(ext.replace("asset://",""));
+            } catch (IOException e) {
+                ext = null;
+            }
+        }
+        return jarLoader.getSpider(sourceBean.getKey(), sourceBean.getApi(), ext);
     }
 
     public Object[] proxyLocal(Map param) {
