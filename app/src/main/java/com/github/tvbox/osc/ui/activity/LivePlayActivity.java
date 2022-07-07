@@ -130,6 +130,8 @@ public class LivePlayActivity extends BaseActivity {
             mHandler.post(mHideSettingLayoutRun);
         }
         else {
+            mHandler.removeCallbacks(mConnectTimeoutChangeSourceRun);
+            mHandler.removeCallbacks(mUpdateNetSpeedRun);
             super.onBackPressed();
         }
     }
