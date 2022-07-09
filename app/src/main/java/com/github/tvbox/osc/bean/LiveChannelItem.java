@@ -7,21 +7,30 @@ import java.util.ArrayList;
  * @date :2021/1/12
  * @description:
  */
-public class LiveChannel {
+public class LiveChannelItem {
     /**
-     * channelNum : 1
-     * channelName : CCTV-1 综合
-     * channelUrl : http://117.148.187.37/PLTV/88888888/224/3221226154/index.m3u8
-     * channelLogo : https://upload.wikimedia.org/wikipedia/zh/6/65/CCTV-1_Logo.png
+     * channelIndex : 频道索引号
+     * channelNum : 频道名称
+     * channelSourceNames : 频道源名称
+     * channelUrls : 频道源地址
+     * sourceIndex : 频道源索引
+     * sourceNum : 频道源总数
      */
-
+    private int channelIndex;
     private int channelNum;
     private String channelName;
+    private ArrayList<String> channelSourceNames;
     private ArrayList<String> channelUrls;
-    private boolean isSelected = false;
-    private boolean isFocused = false;
     public int sourceIndex = 0;
     public int sourceNum = 0;
+
+    public void setChannelIndex(int channelIndex) {
+        this.channelIndex = channelIndex;
+    }
+
+    public int getChannelIndex() {
+        return channelIndex;
+    }
 
     public void setChannelNum(int channelNum) {
         this.channelNum = channelNum;
@@ -39,7 +48,9 @@ public class LiveChannel {
         return channelName;
     }
 
-    public ArrayList<String> getChannelUrls() { return channelUrls; }
+    public ArrayList<String> getChannelUrls() {
+        return channelUrls;
+    }
 
     public void setChannelUrls(ArrayList<String> channelUrls) {
         this.channelUrls = channelUrls;
@@ -54,6 +65,10 @@ public class LiveChannel {
         if (sourceIndex == sourceNum) sourceIndex = 0;
     }
 
+    public void setSourceIndex(int sourceIndex) {
+        this.sourceIndex = sourceIndex;
+    }
+
     public int getSourceIndex() {
         return sourceIndex;
     }
@@ -62,21 +77,19 @@ public class LiveChannel {
         return channelUrls.get(sourceIndex);
     }
 
-    public boolean isSelected() {
-        return isSelected;
+    public int getSourceNum() {
+        return sourceNum;
     }
 
-    public void setSelected(boolean b) {
-        isSelected = b;
+    public ArrayList<String> getChannelSourceNames() {
+        return channelSourceNames;
     }
 
-    public int getSourceNum() { return sourceNum; }
-
-    public boolean isFocused() {
-        return isFocused;
+    public void setChannelSourceNames(ArrayList<String> channelSourceNames) {
+        this.channelSourceNames = channelSourceNames;
     }
 
-    public void setFocused(boolean focused) {
-        isFocused = focused;
+    public String getSourceName() {
+        return channelSourceNames.get(sourceIndex);
     }
 }

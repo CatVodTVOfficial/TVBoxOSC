@@ -65,7 +65,7 @@ public abstract class BaseLazyFragment extends Fragment implements CustomAdapt {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        AutoSize.autoConvertDensity(getActivity(), getSizeInDp(), true);
+        AutoSize.autoConvertDensity(getActivity(), getSizeInDp(), isBaseOnWidth());
         if (null == rootView) {
             rootView = inflater.inflate(getLayoutResID(), container, false);
         }
@@ -198,7 +198,7 @@ public abstract class BaseLazyFragment extends Fragment implements CustomAdapt {
      */
     @Override
     public void onResume() {
-        AutoSize.autoConvertDensity(getActivity(), getSizeInDp(), true);
+        AutoSize.autoConvertDensity(getActivity(), getSizeInDp(), isBaseOnWidth());
         super.onResume();
         // 如果不是第一次可见
         if (!mIsFirstVisible) {
@@ -286,11 +286,15 @@ public abstract class BaseLazyFragment extends Fragment implements CustomAdapt {
 
     @Override
     public float getSizeInDp() {
-        return 1280;
+        if (getActivity() != null && getActivity() instanceof CustomAdapt)
+            return ((CustomAdapt) getActivity()).getSizeInDp();
+        return 0;
     }
 
     @Override
     public boolean isBaseOnWidth() {
+        if (getActivity() != null && getActivity() instanceof CustomAdapt)
+            return ((CustomAdapt) getActivity()).isBaseOnWidth();
         return true;
     }
 

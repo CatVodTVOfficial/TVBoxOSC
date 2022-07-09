@@ -1,5 +1,6 @@
 package com.github.tvbox.osc.ui.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
@@ -27,7 +28,9 @@ import com.github.tvbox.osc.picasso.RoundTransformation;
 import com.github.tvbox.osc.ui.adapter.SeriesAdapter;
 import com.github.tvbox.osc.ui.adapter.SeriesFlagAdapter;
 import com.github.tvbox.osc.ui.dialog.QuickSearchDialog;
+import com.github.tvbox.osc.util.DefaultConfig;
 import com.github.tvbox.osc.util.FastClickCheckUtil;
+import com.github.tvbox.osc.util.MD5;
 import com.github.tvbox.osc.viewmodel.SourceViewModel;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -119,7 +122,7 @@ public class DetailActivity extends BaseActivity {
         mEmptyPlayList = findViewById(R.id.mEmptyPlaylist);
         mGridView = findViewById(R.id.mGridView);
         mGridView.setHasFixedSize(true);
-        mGridView.setLayoutManager(new V7GridLayoutManager(this.mContext, 6));
+        mGridView.setLayoutManager(new V7GridLayoutManager(this.mContext, isBaseOnWidth() ? 6 : 7));
         seriesAdapter = new SeriesAdapter();
         mGridView.setAdapter(seriesAdapter);
         mGridViewFlag = findViewById(R.id.mGridViewFlag);
@@ -153,6 +156,27 @@ public class DetailActivity extends BaseActivity {
                 EventBus.getDefault().post(new RefreshEvent(RefreshEvent.TYPE_QUICK_SEARCH, quickSearchData));
                 EventBus.getDefault().post(new RefreshEvent(RefreshEvent.TYPE_QUICK_SEARCH_WORD, quickSearchWord));
                 quickSearchDialog.show();
+                if (pauseRunnable != null && pauseRunnable.size() > 0) {
+                    searchExecutorService = Executors.newFixedThreadPool(5);
+                    for (Runnable runnable : pauseRunnable) {
+                        searchExecutorService.execute(runnable);
+                    }
+                    pauseRunnable.clear();
+                    pauseRunnable = null;
+                }
+                quickSearchDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        try {
+                            if (searchExecutorService != null) {
+                                pauseRunnable = searchExecutorService.shutdownNow();
+                                searchExecutorService = null;
+                            }
+                        } catch (Throwable th) {
+                            th.printStackTrace();
+                        }
+                    }
+                });
             }
         });
         tvCollect.setOnClickListener(new View.OnClickListener() {
@@ -235,6 +259,8 @@ public class DetailActivity extends BaseActivity {
         setLoadSir(llLayout);
     }
 
+    private List<Runnable> pauseRunnable = null;
+
     private void jumpToPlay() {
         if (vodInfo != null && vodInfo.seriesMap.get(vodInfo.playFlag).size() > 0) {
             Bundle bundle = new Bundle();
@@ -302,8 +328,8 @@ public class DetailActivity extends BaseActivity {
                     setTextShow(tvDes, "内容简介：", removeHtmlTag(mVideo.des));
                     if (!TextUtils.isEmpty(mVideo.pic)) {
                         Picasso.get()
-                                .load(mVideo.pic)
-                                .transform(new RoundTransformation(mVideo.pic)
+                                .load(DefaultConfig.checkReplaceProxy(mVideo.pic))
+                                .transform(new RoundTransformation(MD5.string2MD5(mVideo.pic + mVideo.name))
                                         .centerCorp(true)
                                         .override(AutoSizeUtils.mm2px(mContext, 300), AutoSizeUtils.mm2px(mContext, 400))
                                         .roundRadius(AutoSizeUtils.mm2px(mContext, 10), RoundTransformation.RoundType.ALL))
@@ -427,9 +453,6 @@ public class DetailActivity extends BaseActivity {
                 switchSearchWord(word);
             }
         } else if (event.type == RefreshEvent.TYPE_QUICK_SEARCH_RESULT) {
-            synchronized (lockObj) {
-                threadRunCount--;
-            }
             try {
                 searchData(event.obj == null ? null : (AbsXml) event.obj);
             } catch (Exception e) {
@@ -442,10 +465,7 @@ public class DetailActivity extends BaseActivity {
     private boolean hadQuickStart = false;
     private List<Movie.Video> quickSearchData = new ArrayList<>();
     private List<String> quickSearchWord = new ArrayList<>();
-    private final ExecutorService searchExecutorService = Executors.newFixedThreadPool(5);
-    private static final int maxThreadRun = 5;
-    private int threadRunCount = 0;
-    private final Object lockObj = new Object();
+    private ExecutorService searchExecutorService = null;
 
     private void switchSearchWord(String word) {
         OkGo.getInstance().cancelTag("quick_search");
@@ -501,40 +521,32 @@ public class DetailActivity extends BaseActivity {
     }
 
     private void searchResult() {
-        synchronized (lockObj) {
-            threadRunCount = 0;
+        try {
+            if (searchExecutorService != null) {
+                searchExecutorService.shutdownNow();
+                searchExecutorService = null;
+            }
+        } catch (Throwable th) {
+            th.printStackTrace();
         }
+        searchExecutorService = Executors.newFixedThreadPool(5);
         List<SourceBean> searchRequestList = new ArrayList<>();
         searchRequestList.addAll(ApiConfig.get().getSourceBeanList());
         SourceBean home = ApiConfig.get().getHomeSourceBean();
         searchRequestList.remove(home);
         searchRequestList.add(0, home);
+
+        ArrayList<String> siteKey = new ArrayList<>();
         for (SourceBean bean : searchRequestList) {
-            if (!bean.isSearchable()) {
+            if (!bean.isSearchable() || !bean.isQuickSearch()) {
                 continue;
             }
-            String key = bean.getKey();
+            siteKey.add(bean.getKey());
+        }
+        for (String key : siteKey) {
             searchExecutorService.execute(new Runnable() {
                 @Override
                 public void run() {
-                    while (true) {
-                        int tempCount = 0;
-                        synchronized (lockObj) {
-                            tempCount = threadRunCount;
-                        }
-                        if (tempCount >= maxThreadRun) {
-                            try {
-                                Thread.sleep(1000);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            break;
-                        }
-                    }
-                    synchronized (lockObj) {
-                        threadRunCount++;
-                    }
                     sourceViewModel.getQuickSearch(key, searchTitle);
                 }
             });
@@ -546,7 +558,7 @@ public class DetailActivity extends BaseActivity {
             List<Movie.Video> data = new ArrayList<>();
             for (Movie.Video video : absXml.movie.videoList) {
                 // 去除当前相同的影片
-                if (video.sourceKey.equals(sourceKey) && video.id == vodId)
+                if (video.sourceKey.equals(sourceKey) && video.id.equals(vodId))
                     continue;
                 data.add(video);
             }
@@ -556,6 +568,11 @@ public class DetailActivity extends BaseActivity {
     }
 
     private void insertVod(String sourceKey, VodInfo vodInfo) {
+        try {
+            vodInfo.playNote = vodInfo.seriesMap.get(vodInfo.playFlag).get(vodInfo.playIndex).name;
+        } catch (Throwable th) {
+            vodInfo.playNote = "";
+        }
         RoomDataManger.insertVodRecord(sourceKey, vodInfo);
         EventBus.getDefault().post(new RefreshEvent(RefreshEvent.TYPE_HISTORY_REFRESH));
     }
@@ -563,6 +580,14 @@ public class DetailActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        try {
+            if (searchExecutorService != null) {
+                searchExecutorService.shutdownNow();
+                searchExecutorService = null;
+            }
+        } catch (Throwable th) {
+            th.printStackTrace();
+        }
         OkGo.getInstance().cancelTag("fenci");
         OkGo.getInstance().cancelTag("detail");
         OkGo.getInstance().cancelTag("quick_search");

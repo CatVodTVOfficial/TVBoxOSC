@@ -47,6 +47,7 @@ public class VodInfo implements Serializable {
     public String des;// <![CDATA[权来]
     public String playFlag = null;
     public int playIndex = 0;
+    public String playNote = "";
     public String sourceKey;
     public String playerCfg = "";
     public boolean reverseSort = false;

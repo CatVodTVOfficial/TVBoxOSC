@@ -59,7 +59,7 @@ public class HistoryActivity extends BaseActivity {
         tvDelTip = findViewById(R.id.tvDelTip);
         mGridView = findViewById(R.id.mGridView);
         mGridView.setHasFixedSize(true);
-        mGridView.setLayoutManager(new V7GridLayoutManager(this.mContext, 5));
+        mGridView.setLayoutManager(new V7GridLayoutManager(this.mContext, isBaseOnWidth() ? 5 : 6));
         historyAdapter = new HistoryAdapter();
         mGridView.setAdapter(historyAdapter);
         tvDel.setOnClickListener(new View.OnClickListener() {
@@ -142,7 +142,7 @@ public class HistoryActivity extends BaseActivity {
     }
 
     private void initData() {
-        List<VodInfo> allVodRecord = RoomDataManger.getAllVodRecord();
+        List<VodInfo> allVodRecord = RoomDataManger.getAllVodRecord(100);
         List<VodInfo> vodInfoList = new ArrayList<>();
         for (VodInfo vodInfo : allVodRecord) {
             vodInfoList.add(vodInfo);

@@ -12,6 +12,7 @@ import com.github.tvbox.osc.util.PlayerHelper;
 import com.kingja.loadsir.core.LoadSir;
 import com.orhanobut.hawk.Hawk;
 
+import me.jessyan.autosize.AutoSize;
 import me.jessyan.autosize.AutoSizeConfig;
 import me.jessyan.autosize.unit.Subunits;
 
@@ -38,7 +39,7 @@ public class App extends MultiDexApplication {
                 .addCallback(new EmptyCallback())
                 .addCallback(new LoadingCallback())
                 .commit();
-        AutoSizeConfig.getInstance().getUnitsManager()
+        AutoSizeConfig.getInstance().setCustomFragment(true).getUnitsManager()
                 .setSupportDP(false)
                 .setSupportSP(false)
                 .setSupportSubunits(Subunits.MM);

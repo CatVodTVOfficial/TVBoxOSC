@@ -10,6 +10,7 @@ import com.github.tvbox.osc.R;
 import com.github.tvbox.osc.api.ApiConfig;
 import com.github.tvbox.osc.bean.VodInfo;
 import com.github.tvbox.osc.picasso.RoundTransformation;
+import com.github.tvbox.osc.util.DefaultConfig;
 import com.github.tvbox.osc.util.MD5;
 import com.squareup.picasso.Picasso;
 
@@ -68,8 +69,8 @@ public class HistoryAdapter extends BaseQuickAdapter<VodInfo, BaseViewHolder> {
         //由于部分电视机使用glide报错
         if (!TextUtils.isEmpty(item.pic)) {
             Picasso.get()
-                    .load(item.pic)
-                    .transform(new RoundTransformation(MD5.string2MD5(item.pic + item.note))
+                    .load(DefaultConfig.checkReplaceProxy(item.pic))
+                    .transform(new RoundTransformation(MD5.string2MD5(item.pic + item.name))
                             .centerCorp(true)
                             .override(AutoSizeUtils.mm2px(mContext, 300), AutoSizeUtils.mm2px(mContext, 400))
                             .roundRadius(AutoSizeUtils.mm2px(mContext, 10), RoundTransformation.RoundType.ALL))
