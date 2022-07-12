@@ -2,6 +2,8 @@ package com.github.tvbox.osc.bean;
 
 import android.util.Base64;
 
+import com.github.tvbox.osc.util.DefaultConfig;
+
 /**
  * @author pj567
  * @date :2021/3/8
@@ -25,7 +27,7 @@ public class ParseBean {
     }
 
     public String getUrl() {
-        return url;
+        return DefaultConfig.checkReplaceProxy(url);
     }
 
     public void setUrl(String url) {
