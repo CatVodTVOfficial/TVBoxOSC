@@ -426,7 +426,11 @@ public class PlayActivity extends BaseActivity {
             Toast.makeText(this, "已经是最后一集了!", Toast.LENGTH_SHORT).show();
             return;
         }
-        mVodInfo.playIndex++;
+        if (mVodInfo.reverseSort){
+            mVodInfo.playIndex--;
+        } else {
+            mVodInfo.playIndex++;
+        }
         play();
     }
 
@@ -445,7 +449,11 @@ public class PlayActivity extends BaseActivity {
             Toast.makeText(this, "已经是第一集了!", Toast.LENGTH_SHORT).show();
             return;
         }
-        mVodInfo.playIndex--;
+        if (mVodInfo.reverseSort){
+            mVodInfo.playIndex++;
+        } else {
+            mVodInfo.playIndex--;
+        }
         play();
     }
 
