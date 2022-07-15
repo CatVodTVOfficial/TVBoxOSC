@@ -436,7 +436,7 @@ public class PlayActivity extends BaseActivity {
             hasPre = false;
         } else {
             if (mVodInfo.reverseSort){
-                hasNext = mVodInfo.playIndex + 1 < mVodInfo.seriesMap.get(mVodInfo.playFlag).size();
+                hasPre = mVodInfo.playIndex + 1 < mVodInfo.seriesMap.get(mVodInfo.playFlag).size();
             } else {
                 hasPre = mVodInfo.playIndex - 1 >= 0;
             }
