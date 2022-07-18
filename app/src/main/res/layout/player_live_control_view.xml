@@ -13,8 +13,8 @@
         tools:visibility="visible">
 
         <LinearLayout
-            android:layout_width="@dimen/vs_280"
-            android:layout_height="@dimen/vs_200"
+            android:layout_width="@dimen/vs_200"
+            android:layout_height="@dimen/vs_140"
             android:layout_gravity="center"
             android:background="@drawable/shape_user_focus"
             android:focusable="false"
@@ -39,6 +39,7 @@
                 android:focusable="false"
                 android:focusableInTouchMode="false"
                 android:tag="vod_control_pause_t"
+                android:visibility="gone"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/ts_30"
                 tools:text="100" />

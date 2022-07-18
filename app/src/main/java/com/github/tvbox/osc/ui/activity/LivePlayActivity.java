@@ -173,6 +173,23 @@ public class LivePlayActivity extends BaseActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (mVideoView != null) {
+            mVideoView.resume();
+        }
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mVideoView != null) {
+            mVideoView.pause();
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         if (mVideoView != null) {
@@ -384,6 +401,7 @@ public class LivePlayActivity extends BaseActivity {
                     public void onAnimationEnd(Animator animation) {
                         super.onAnimationEnd(animation);
                         tvRightSettingLayout.setVisibility(View.INVISIBLE);
+                        liveSettingGroupAdapter.setSelectedGroupIndex(-1);
                     }
                 });
                 animator.start();
